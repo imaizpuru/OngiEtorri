@@ -17,8 +17,8 @@ import javax.swing.border.EmptyBorder;
 public class vtInicio extends JFrame {
 
 	private JPanel contentPane;
-	private int pxlHorizontal;
-	private int pxlVertical;
+	private final int h;
+	private final int v;
 	private ImageIcon imageIcon = new ImageIcon("src/img/logo.png");
 	private JTextField usuario;
 	private JLabel lblNewLabel;
@@ -30,54 +30,49 @@ public class vtInicio extends JFrame {
 	 * Create the frame.
 	 */
 	public vtInicio() {
-		pxlHorizontal = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 100);
-		pxlVertical = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 100);
+		h = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 100);
+		v = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 100);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(pxlHorizontal * 35, pxlVertical * 20, pxlHorizontal * 30, pxlVertical * 60);
+		setBounds(h * 35, v * 20, h * 30, v * 60);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(240, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
-		System.out.println(pxlHorizontal);
-		System.out.println(pxlVertical);
+		System.out.println(h);
+		System.out.println(v);
 		this.setIconImage(imageIcon.getImage());
 		this.setResizable(false);
 
 		Image image = imageIcon.getImage();
-		Image newimg = image.getScaledInstance(pxlHorizontal * 12, pxlHorizontal * 12, java.awt.Image.SCALE_SMOOTH);
+		Image newimg = image.getScaledInstance(h * 12, h * 12, java.awt.Image.SCALE_SMOOTH);
 		imageIcon = new ImageIcon(newimg);
 		Icon Ilogo = imageIcon;
 		JLabel logo = new JLabel(Ilogo);
-		logo.setBounds(pxlHorizontal * 9, pxlVertical, pxlHorizontal * 12, pxlHorizontal * 12);
+		logo.setBounds(h * 9, v, h * 12, h * 12);
 		contentPane.add(logo);
 
 		lblNewLabel = new JLabel("Usuario");
 		lblNewLabel.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblNewLabel.setBounds((int) (pxlHorizontal * 13.52), pxlVertical * 26, (int) (pxlHorizontal * 2.95),
-				(int) (pxlVertical * 1.3));
+		lblNewLabel.setBounds((int) (h * 13.52), v * 26, (int) (h * 2.95), (int) (v * 1.3));
 		contentPane.add(lblNewLabel);
 
 		usuario = new JTextField();
-		usuario.setBounds((int) (pxlHorizontal * 11), pxlVertical * 28, (int) (pxlHorizontal * 8),
-				(int) (pxlVertical * 2.5));
+		usuario.setBounds((int) (h * 11), v * 28, (int) (h * 8), (int) (v * 2.5));
 		contentPane.add(usuario);
 
 		lblNewLabel1 = new JLabel("Contraseña");
 		lblNewLabel1.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblNewLabel1.setBounds((int) (pxlHorizontal * 12.85), pxlVertical * 33, (int) (pxlHorizontal * 4.3),
-				(int) (pxlVertical * 1.3));
+		lblNewLabel1.setBounds((int) (h * 12.85), v * 33, (int) (h * 4.3), (int) (v * 1.3));
 		contentPane.add(lblNewLabel1);
 
 		contrasenya = new JTextField();
-		contrasenya.setBounds((int) (pxlHorizontal * 11), pxlVertical * 35, (int) (pxlHorizontal * 8),
-				(int) (pxlVertical * 2.5));
+		contrasenya.setBounds((int) (h * 11), v * 35, (int) (h * 8), (int) (v * 2.5));
 		contentPane.add(contrasenya);
 
 		iniciaSesion = new JButton("Iniciar sesión");
 		iniciaSesion.setFont(new Font("Serif", Font.PLAIN, 18));
-		iniciaSesion.setBounds((int) (pxlHorizontal * 11), pxlVertical * 43, (int) (pxlHorizontal * 8),
-				(int) (pxlVertical * 2.5));
+		iniciaSesion.setBounds((int) (h * 11), v * 43, (int) (h * 8), (int) (v * 2.5));
 		contentPane.add(iniciaSesion);
 
 	}
