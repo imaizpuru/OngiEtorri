@@ -64,7 +64,7 @@ public class vtInicio extends JFrame {
 		usuario.setBounds((int) (h * 11), v * 28, (int) (h * 8), (int) (v * 2.5));
 		contentPane.add(usuario);
 
-		lblNewLabel1 = new JLabel("ContraseÃ±a");
+		lblNewLabel1 = new JLabel("Contrasena");
 		lblNewLabel1.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblNewLabel1.setBounds((int) (h * 12.85), v * 33, (int) (h * 4.3), (int) (v * 1.3));
 		contentPane.add(lblNewLabel1);
@@ -73,7 +73,7 @@ public class vtInicio extends JFrame {
 		contrasenya.setBounds((int) (h * 11), v * 35, (int) (h * 8), (int) (v * 2.5));
 		contentPane.add(contrasenya);
 
-		iniciaSesion = new JButton("Iniciar sesiÃ³n");
+		iniciaSesion = new JButton("Iniciar sesion");
 		iniciaSesion.setFont(new Font("Serif", Font.PLAIN, 18));
 		iniciaSesion.setBounds((int) (h * 11), v * 43, (int) (h * 8), (int) (v * 2.5));
 		contentPane.add(iniciaSesion);
@@ -94,7 +94,9 @@ public class vtInicio extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("jei");
 				vtCrear vt = new vtCrear();
+				vt.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				vt.setVisible(true);
+
 			}
 
 		});
