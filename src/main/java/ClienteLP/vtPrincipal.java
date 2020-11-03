@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -11,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -22,6 +27,7 @@ import com.toedter.calendar.JDateChooser;
 public class vtPrincipal extends JFrame {
 
 	private JPanel contentPane;
+	private JPanel panel;
 	private ImageIcon icon = new ImageIcon("src/img/logo.png");
 	private ImageIcon imageIcon = new ImageIcon("src/img/beltza.png");
 	private ImageIcon gorri = new ImageIcon("src/img/gorri.png");
@@ -31,6 +37,11 @@ public class vtPrincipal extends JFrame {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
+	private ArrayList<JButton> sillas;
+	private ArrayList<Integer> eleccion;
+	private JFrame esta;
+	private JButton b8;
+	private JDateChooser calendario;
 
 	/**
 	 * Create the frame.
@@ -52,20 +63,35 @@ public class vtPrincipal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
+		esta = this;
 		this.setIconImage(icon.getImage());
 		this.setResizable(false);
 
-		JDateChooser a = new JDateChooser();
-		a.getCalendar();
-		a.setBounds(10, 85, 100, 30);
-		contentPane.add(a);
+		sillas = new ArrayList<JButton>();
+		eleccion = new ArrayList<Integer>();
+
+		Date date = new Date();
+		calendario = new JDateChooser();
+		calendario.getCalendar();
+		calendario.setBounds(10, 85, 100, 30);
+		contentPane.add(calendario);
+		calendario.setDate(date);
+		calendario.addPropertyChangeListener(new PropertyChangeListener() {
+
+			public void propertyChange(PropertyChangeEvent evt) {
+				// Cargar rojos
+				rojos();
+				System.out.println("Cambio rojos");
+			}
+
+		});
 
 		JLabel lblFecha = new JLabel("Fecha:");
 		lblFecha.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblFecha.setBounds(10, 55, 69, 20);
 		contentPane.add(lblFecha);
 
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(30, 144, 255), 2));
 		panel.setBounds(125, 0, 669, 529);
 		contentPane.add(panel);
@@ -112,7 +138,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b1.getIcon() == imageIcon) {
 					b1.setIcon(gris);
-				} else {
+				} else if (b1.getIcon() == gris) {
 					b1.setIcon(imageIcon);
 				}
 			}
@@ -129,7 +155,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b2.getIcon() == imageIcon) {
 					b2.setIcon(gris);
-				} else {
+				} else if (b2.getIcon() == gris) {
 					b2.setIcon(imageIcon);
 				}
 			}
@@ -146,7 +172,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b3.getIcon() == imageIcon) {
 					b3.setIcon(gris);
-				} else {
+				} else if (b3.getIcon() == gris) {
 					b3.setIcon(imageIcon);
 				}
 			}
@@ -163,7 +189,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b4.getIcon() == imageIcon) {
 					b4.setIcon(gris);
-				} else {
+				} else if (b4.getIcon() == gris) {
 					b4.setIcon(imageIcon);
 				}
 			}
@@ -180,7 +206,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b5.getIcon() == imageIcon) {
 					b5.setIcon(gris);
-				} else {
+				} else if (b5.getIcon() == gris) {
 					b5.setIcon(imageIcon);
 				}
 			}
@@ -197,7 +223,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b6.getIcon() == imageIcon) {
 					b6.setIcon(gris);
-				} else {
+				} else if (b6.getIcon() == gris) {
 					b6.setIcon(imageIcon);
 				}
 			}
@@ -214,14 +240,14 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b7.getIcon() == imageIcon) {
 					b7.setIcon(gris);
-				} else {
+				} else if (b7.getIcon() == gris) {
 					b7.setIcon(imageIcon);
 				}
 			}
 
 		});
 
-		final JButton b8 = new JButton();
+		b8 = new JButton();
 		b8.setBorder(null);
 		b8.setIcon(imageIcon);
 		b8.setBounds(125, 137, 23, 25);
@@ -231,8 +257,9 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b8.getIcon() == imageIcon) {
 					b8.setIcon(gris);
-				} else {
+				} else if (b8.getIcon() == gris) {
 					b8.setIcon(imageIcon);
+
 				}
 			}
 
@@ -248,7 +275,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b9.getIcon() == imageIcon) {
 					b9.setIcon(gris);
-				} else {
+				} else if (b9.getIcon() == gris) {
 					b9.setIcon(imageIcon);
 				}
 			}
@@ -265,7 +292,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b10.getIcon() == imageIcon) {
 					b10.setIcon(gris);
-				} else {
+				} else if (b10.getIcon() == gris) {
 					b10.setIcon(imageIcon);
 				}
 			}
@@ -282,7 +309,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b11.getIcon() == imageIcon) {
 					b11.setIcon(gris);
-				} else {
+				} else if (b11.getIcon() == gris) {
 					b11.setIcon(imageIcon);
 				}
 			}
@@ -299,7 +326,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b12.getIcon() == imageIcon) {
 					b12.setIcon(gris);
-				} else {
+				} else if (b12.getIcon() == gris) {
 					b12.setIcon(imageIcon);
 				}
 			}
@@ -318,7 +345,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b13.getIcon() == imageIcon) {
 					b13.setIcon(gris);
-				} else {
+				} else if (b13.getIcon() == gris) {
 					b13.setIcon(imageIcon);
 				}
 			}
@@ -335,7 +362,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b14.getIcon() == imageIcon) {
 					b14.setIcon(gris);
-				} else {
+				} else if (b14.getIcon() == gris) {
 					b14.setIcon(imageIcon);
 				}
 			}
@@ -352,7 +379,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b15.getIcon() == imageIcon) {
 					b15.setIcon(gris);
-				} else {
+				} else if (b15.getIcon() == gris) {
 					b15.setIcon(imageIcon);
 				}
 			}
@@ -369,7 +396,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b16.getIcon() == imageIcon) {
 					b16.setIcon(gris);
-				} else {
+				} else if (b16.getIcon() == gris) {
 					b16.setIcon(imageIcon);
 				}
 			}
@@ -386,7 +413,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b17.getIcon() == imageIcon) {
 					b17.setIcon(gris);
-				} else {
+				} else if (b17.getIcon() == gris) {
 					b17.setIcon(imageIcon);
 				}
 			}
@@ -403,7 +430,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b18.getIcon() == imageIcon) {
 					b18.setIcon(gris);
-				} else {
+				} else if (b18.getIcon() == gris) {
 					b18.setIcon(imageIcon);
 				}
 			}
@@ -420,7 +447,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b19.getIcon() == imageIcon) {
 					b19.setIcon(gris);
-				} else {
+				} else if (b19.getIcon() == gris) {
 					b19.setIcon(imageIcon);
 				}
 			}
@@ -437,7 +464,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b20.getIcon() == imageIcon) {
 					b20.setIcon(gris);
-				} else {
+				} else if (b20.getIcon() == gris) {
 					b20.setIcon(imageIcon);
 				}
 			}
@@ -454,7 +481,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b21.getIcon() == imageIcon) {
 					b21.setIcon(gris);
-				} else {
+				} else if (b21.getIcon() == gris) {
 					b21.setIcon(imageIcon);
 				}
 			}
@@ -471,7 +498,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b22.getIcon() == imageIcon) {
 					b22.setIcon(gris);
-				} else {
+				} else if (b22.getIcon() == gris) {
 					b22.setIcon(imageIcon);
 				}
 			}
@@ -488,7 +515,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b23.getIcon() == imageIcon) {
 					b23.setIcon(gris);
-				} else {
+				} else if (b23.getIcon() == gris) {
 					b23.setIcon(imageIcon);
 				}
 			}
@@ -505,7 +532,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b24.getIcon() == imageIcon) {
 					b24.setIcon(gris);
-				} else {
+				} else if (b24.getIcon() == gris) {
 					b24.setIcon(imageIcon);
 				}
 			}
@@ -524,7 +551,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b25.getIcon() == imageIcon) {
 					b25.setIcon(gris);
-				} else {
+				} else if (b25.getIcon() == gris) {
 					b25.setIcon(imageIcon);
 				}
 			}
@@ -541,7 +568,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b26.getIcon() == imageIcon) {
 					b26.setIcon(gris);
-				} else {
+				} else if (b26.getIcon() == gris) {
 					b26.setIcon(imageIcon);
 				}
 			}
@@ -558,7 +585,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b27.getIcon() == imageIcon) {
 					b27.setIcon(gris);
-				} else {
+				} else if (b27.getIcon() == gris) {
 					b27.setIcon(imageIcon);
 				}
 			}
@@ -575,7 +602,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b28.getIcon() == imageIcon) {
 					b28.setIcon(gris);
-				} else {
+				} else if (b28.getIcon() == gris) {
 					b28.setIcon(imageIcon);
 				}
 			}
@@ -592,7 +619,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b29.getIcon() == imageIcon) {
 					b29.setIcon(gris);
-				} else {
+				} else if (b29.getIcon() == gris) {
 					b29.setIcon(imageIcon);
 				}
 			}
@@ -609,7 +636,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b30.getIcon() == imageIcon) {
 					b30.setIcon(gris);
-				} else {
+				} else if (b30.getIcon() == gris) {
 					b30.setIcon(imageIcon);
 				}
 			}
@@ -626,7 +653,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b31.getIcon() == imageIcon) {
 					b31.setIcon(gris);
-				} else {
+				} else if (b31.getIcon() == gris) {
 					b31.setIcon(imageIcon);
 				}
 			}
@@ -643,7 +670,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b32.getIcon() == imageIcon) {
 					b32.setIcon(gris);
-				} else {
+				} else if (b32.getIcon() == gris) {
 					b32.setIcon(imageIcon);
 				}
 			}
@@ -660,7 +687,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b33.getIcon() == imageIcon) {
 					b33.setIcon(gris);
-				} else {
+				} else if (b33.getIcon() == gris) {
 					b33.setIcon(imageIcon);
 				}
 			}
@@ -677,7 +704,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b34.getIcon() == imageIcon) {
 					b34.setIcon(gris);
-				} else {
+				} else if (b34.getIcon() == gris) {
 					b34.setIcon(imageIcon);
 				}
 			}
@@ -694,7 +721,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b35.getIcon() == imageIcon) {
 					b35.setIcon(gris);
-				} else {
+				} else if (b35.getIcon() == gris) {
 					b35.setIcon(imageIcon);
 				}
 			}
@@ -711,7 +738,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b36.getIcon() == imageIcon) {
 					b36.setIcon(gris);
-				} else {
+				} else if (b36.getIcon() == gris) {
 					b36.setIcon(imageIcon);
 				}
 			}
@@ -730,7 +757,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b37.getIcon() == imageIcon) {
 					b37.setIcon(gris);
-				} else {
+				} else if (b37.getIcon() == gris) {
 					b37.setIcon(imageIcon);
 				}
 			}
@@ -747,7 +774,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b38.getIcon() == imageIcon) {
 					b38.setIcon(gris);
-				} else {
+				} else if (b38.getIcon() == gris) {
 					b38.setIcon(imageIcon);
 				}
 			}
@@ -764,7 +791,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b39.getIcon() == imageIcon) {
 					b39.setIcon(gris);
-				} else {
+				} else if (b39.getIcon() == gris) {
 					b39.setIcon(imageIcon);
 				}
 			}
@@ -781,7 +808,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b40.getIcon() == imageIcon) {
 					b40.setIcon(gris);
-				} else {
+				} else if (b40.getIcon() == gris) {
 					b40.setIcon(imageIcon);
 				}
 			}
@@ -798,7 +825,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b41.getIcon() == imageIcon) {
 					b41.setIcon(gris);
-				} else {
+				} else if (b41.getIcon() == gris) {
 					b41.setIcon(imageIcon);
 				}
 			}
@@ -815,7 +842,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b42.getIcon() == imageIcon) {
 					b42.setIcon(gris);
-				} else {
+				} else if (b42.getIcon() == gris) {
 					b42.setIcon(imageIcon);
 				}
 			}
@@ -832,7 +859,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b43.getIcon() == imageIcon) {
 					b43.setIcon(gris);
-				} else {
+				} else if (b43.getIcon() == gris) {
 					b43.setIcon(imageIcon);
 				}
 			}
@@ -849,7 +876,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b44.getIcon() == imageIcon) {
 					b44.setIcon(gris);
-				} else {
+				} else if (b44.getIcon() == gris) {
 					b44.setIcon(imageIcon);
 				}
 			}
@@ -868,7 +895,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b45.getIcon() == imageIcon) {
 					b45.setIcon(gris);
-				} else {
+				} else if (b45.getIcon() == gris) {
 					b45.setIcon(imageIcon);
 				}
 			}
@@ -885,7 +912,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b46.getIcon() == imageIcon) {
 					b46.setIcon(gris);
-				} else {
+				} else if (b46.getIcon() == gris) {
 					b46.setIcon(imageIcon);
 				}
 			}
@@ -902,7 +929,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b47.getIcon() == imageIcon) {
 					b47.setIcon(gris);
-				} else {
+				} else if (b47.getIcon() == gris) {
 					b47.setIcon(imageIcon);
 				}
 			}
@@ -919,7 +946,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b48.getIcon() == imageIcon) {
 					b48.setIcon(gris);
-				} else {
+				} else if (b48.getIcon() == gris) {
 					b48.setIcon(imageIcon);
 				}
 			}
@@ -936,7 +963,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b49.getIcon() == imageIcon) {
 					b49.setIcon(gris);
-				} else {
+				} else if (b49.getIcon() == gris) {
 					b49.setIcon(imageIcon);
 				}
 			}
@@ -953,7 +980,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b50.getIcon() == imageIcon) {
 					b50.setIcon(gris);
-				} else {
+				} else if (b50.getIcon() == gris) {
 					b50.setIcon(imageIcon);
 				}
 			}
@@ -970,7 +997,7 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b51.getIcon() == imageIcon) {
 					b51.setIcon(gris);
-				} else {
+				} else if (b51.getIcon() == gris) {
 					b51.setIcon(imageIcon);
 				}
 			}
@@ -987,333 +1014,66 @@ public class vtPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (b52.getIcon() == imageIcon) {
 					b52.setIcon(gris);
-				} else {
+				} else if (b52.getIcon() == gris) {
 					b52.setIcon(imageIcon);
 				}
 			}
 
 		});
 
-		// Mesa 1
-		JButton gb1 = new JButton();
-		gb1.setBorder(null);
-		gb1.setIcon(gorri);
-		gb1.setBounds(43, 80, 23, 25);
-		panel.add(gb1);
-
-		JButton gb2 = new JButton();
-		gb2.setBounds(90, 27, 23, 25);
-		gb2.setIcon(gorri);
-		gb2.setBorder(null);
-		panel.add(gb2);
-
-		JButton gb3 = new JButton();
-		gb3.setBorder(null);
-		gb3.setIcon(gorri);
-		gb3.setBounds(125, 27, 23, 25);
-		panel.add(gb3);
-
-		JButton gb4 = new JButton();
-		gb4.setBorder(null);
-		gb4.setIcon(gorri);
-		gb4.setBounds(160, 27, 23, 25);
-		panel.add(gb4);
-
-		JButton gb5 = new JButton();
-		gb5.setBorder(null);
-		gb5.setIcon(gorri);
-		gb5.setBounds(195, 27, 23, 25);
-		panel.add(gb5);
-
-		JButton gb6 = new JButton();
-		gb6.setBorder(null);
-		gb6.setIcon(gorri);
-		gb6.setBounds(230, 27, 23, 25);
-		panel.add(gb6);
-
-		JButton gb7 = new JButton();
-		gb7.setBounds(90, 137, 23, 25);
-		gb7.setIcon(gorri);
-		gb7.setBorder(null);
-		panel.add(gb7);
-
-		JButton gb8 = new JButton();
-		gb8.setBorder(null);
-		gb8.setIcon(gorri);
-		gb8.setBounds(125, 137, 23, 25);
-		panel.add(gb8);
-
-		JButton gb9 = new JButton();
-		gb9.setBorder(null);
-		gb9.setIcon(gorri);
-		gb9.setBounds(160, 137, 23, 25);
-		panel.add(gb9);
-
-		JButton gb10 = new JButton();
-		gb10.setBorder(null);
-		gb10.setIcon(gorri);
-		gb10.setBounds(195, 137, 23, 25);
-		panel.add(gb10);
-
-		JButton gb11 = new JButton();
-		gb11.setBorder(null);
-		gb11.setIcon(gorri);
-		gb11.setBounds(230, 137, 23, 25);
-		panel.add(gb11);
-
-		JButton gb12 = new JButton();
-		gb12.setBorder(null);
-		gb12.setIcon(gorri);
-		gb12.setBounds(275, 80, 23, 25);
-		panel.add(gb12);
-
-		// Mesa 2
-
-		JButton gb13 = new JButton();
-		gb13.setBorder(null);
-		gb13.setIcon(gorri);
-		gb13.setBounds(43, 230, 23, 25);
-		panel.add(gb13);
-
-		JButton gb14 = new JButton();
-		gb14.setBounds(90, 177, 23, 25);
-		gb14.setIcon(gorri);
-		gb14.setBorder(null);
-		panel.add(gb14);
-
-		JButton gb15 = new JButton();
-		gb15.setBorder(null);
-		gb15.setIcon(gorri);
-		gb15.setBounds(125, 177, 23, 25);
-		panel.add(gb15);
-
-		JButton gb16 = new JButton();
-		gb16.setBorder(null);
-		gb16.setIcon(gorri);
-		gb16.setBounds(160, 177, 23, 25);
-		panel.add(gb16);
-
-		JButton gb17 = new JButton();
-		gb17.setBorder(null);
-		gb17.setIcon(gorri);
-		gb17.setBounds(195, 177, 23, 25);
-		panel.add(gb17);
-
-		JButton gb18 = new JButton();
-		gb18.setBorder(null);
-		gb18.setIcon(gorri);
-		gb18.setBounds(230, 177, 23, 25);
-		panel.add(gb18);
-
-		JButton gb19 = new JButton();
-		gb19.setBounds(90, 287, 23, 25);
-		gb19.setIcon(gorri);
-		gb19.setBorder(null);
-		panel.add(gb19);
-
-		JButton gb20 = new JButton();
-		gb20.setBorder(null);
-		gb20.setIcon(gorri);
-		gb20.setBounds(125, 287, 23, 25);
-		panel.add(gb20);
-
-		JButton gb21 = new JButton();
-		gb21.setBorder(null);
-		gb21.setIcon(gorri);
-		gb21.setBounds(160, 287, 23, 25);
-		panel.add(gb21);
-
-		JButton gb22 = new JButton();
-		gb22.setBorder(null);
-		gb22.setIcon(gorri);
-		gb22.setBounds(195, 287, 23, 25);
-		panel.add(gb22);
-
-		JButton gb23 = new JButton();
-		gb23.setBorder(null);
-		gb23.setIcon(gorri);
-		gb23.setBounds(230, 287, 23, 25);
-		panel.add(gb23);
-
-		JButton gb24 = new JButton();
-		gb24.setBorder(null);
-		gb24.setIcon(gorri);
-		gb24.setBounds(275, 230, 23, 25);
-		panel.add(gb24);
-
-		// Mesa 3
-
-		JButton gb25 = new JButton();
-		gb25.setBorder(null);
-		gb25.setIcon(gorri);
-		gb25.setBounds(43, 380, 23, 25);
-		panel.add(gb25);
-
-		JButton gb26 = new JButton();
-		gb26.setBounds(90, 327, 23, 25);
-		gb26.setIcon(gorri);
-		gb26.setBorder(null);
-		panel.add(gb26);
-
-		JButton gb27 = new JButton();
-		gb27.setBorder(null);
-		gb27.setIcon(gorri);
-		gb27.setBounds(125, 327, 23, 25);
-		panel.add(gb27);
-
-		JButton gb28 = new JButton();
-		gb28.setBorder(null);
-		gb28.setIcon(gorri);
-		gb28.setBounds(160, 327, 23, 25);
-		panel.add(gb28);
-
-		JButton gb29 = new JButton();
-		gb29.setBorder(null);
-		gb29.setIcon(gorri);
-		gb29.setBounds(195, 327, 23, 25);
-		panel.add(gb29);
-
-		JButton gb30 = new JButton();
-		gb30.setBorder(null);
-		gb30.setIcon(gorri);
-		gb30.setBounds(230, 327, 23, 25);
-		panel.add(gb30);
-
-		JButton gb31 = new JButton();
-		gb31.setBounds(90, 437, 23, 25);
-		gb31.setIcon(gorri);
-		gb31.setBorder(null);
-		panel.add(gb31);
-
-		JButton gb32 = new JButton();
-		gb32.setBorder(null);
-		gb32.setIcon(gorri);
-		gb32.setBounds(125, 437, 23, 25);
-		panel.add(gb32);
-
-		JButton gb33 = new JButton();
-		gb33.setBorder(null);
-		gb33.setIcon(gorri);
-		gb33.setBounds(160, 437, 23, 25);
-		panel.add(gb33);
-
-		JButton gb34 = new JButton();
-		gb34.setBorder(null);
-		gb34.setIcon(gorri);
-		gb34.setBounds(195, 437, 23, 25);
-		panel.add(gb34);
-
-		JButton gb35 = new JButton();
-		gb35.setBorder(null);
-		gb35.setIcon(gorri);
-		gb35.setBounds(230, 437, 23, 25);
-		panel.add(gb35);
-
-		JButton gb36 = new JButton();
-		gb36.setBorder(null);
-		gb36.setIcon(gorri);
-		gb36.setBounds(275, 380, 23, 25);
-		panel.add(gb36);
-
-		// Mesa 4
-
-		JButton gb37 = new JButton();
-		gb37.setBorder(null);
-		gb37.setIcon(gorri);
-		gb37.setBounds(525, 27, 23, 25);
-		panel.add(gb37);
-
-		JButton gb38 = new JButton();
-		gb38.setBorder(null);
-		gb38.setIcon(gorri);
-		gb38.setBounds(474, 65, 23, 25);
-		panel.add(gb38);
-
-		JButton gb39 = new JButton();
-		gb39.setBorder(null);
-		gb39.setIcon(gorri);
-		gb39.setBounds(474, 106, 23, 25);
-		panel.add(gb39);
-
-		JButton gb40 = new JButton();
-		gb40.setBorder(null);
-		gb40.setIcon(gorri);
-		gb40.setBounds(474, 147, 23, 25);
-		panel.add(gb40);
-
-		JButton gb41 = new JButton();
-		gb41.setBorder(null);
-		gb41.setIcon(gorri);
-		gb41.setBounds(580, 65, 23, 25);
-		panel.add(gb41);
-
-		JButton gb42 = new JButton();
-		gb42.setBorder(null);
-		gb42.setIcon(gorri);
-		gb42.setBounds(580, 105, 23, 25);
-		panel.add(gb42);
-
-		JButton gb43 = new JButton();
-		gb43.setBorder(null);
-		gb43.setIcon(gorri);
-		gb43.setBounds(580, 147, 23, 25);
-		panel.add(gb43);
-
-		JButton gb44 = new JButton();
-		gb44.setBorder(null);
-		gb44.setIcon(gorri);
-		gb44.setBounds(525, 189, 23, 25);
-		panel.add(gb44);
-
-		// Mesa 5
-
-		JButton gb45 = new JButton();
-		gb45.setBorder(null);
-		gb45.setIcon(gorri);
-		gb45.setBounds(525, 237, 23, 25);
-		panel.add(gb45);
-
-		JButton gb46 = new JButton();
-		gb46.setBorder(null);
-		gb46.setIcon(gorri);
-		gb46.setBounds(474, 275, 23, 25);
-		panel.add(gb46);
-
-		JButton gb47 = new JButton();
-		gb47.setBorder(null);
-		gb47.setIcon(gorri);
-		gb47.setBounds(474, 316, 23, 25);
-		panel.add(gb47);
-
-		JButton gb48 = new JButton();
-		gb48.setBorder(null);
-		gb48.setIcon(gorri);
-		gb48.setBounds(474, 357, 23, 25);
-		panel.add(gb48);
-
-		JButton gb49 = new JButton();
-		gb49.setBorder(null);
-		gb49.setIcon(gorri);
-		gb49.setBounds(580, 275, 23, 25);
-		panel.add(gb49);
-
-		JButton gb50 = new JButton();
-		gb50.setBorder(null);
-		gb50.setIcon(gorri);
-		gb50.setBounds(580, 315, 23, 25);
-		panel.add(gb50);
-
-		JButton gb51 = new JButton();
-		gb51.setBorder(null);
-		gb51.setIcon(gorri);
-		gb51.setBounds(580, 357, 23, 25);
-		panel.add(gb51);
-
-		JButton gb52 = new JButton();
-		gb52.setBorder(null);
-		gb52.setIcon(gorri);
-		gb52.setBounds(525, 399, 23, 25);
-		panel.add(gb52);
+		// Llenamos el array con los botones de las sillas
+		sillas.add(b1);
+		sillas.add(b2);
+		sillas.add(b3);
+		sillas.add(b4);
+		sillas.add(b5);
+		sillas.add(b6);
+		sillas.add(b7);
+		sillas.add(b8);
+		sillas.add(b9);
+		sillas.add(b10);
+		sillas.add(b11);
+		sillas.add(b12);
+		sillas.add(b13);
+		sillas.add(b14);
+		sillas.add(b15);
+		sillas.add(b16);
+		sillas.add(b17);
+		sillas.add(b18);
+		sillas.add(b19);
+		sillas.add(b20);
+		sillas.add(b21);
+		sillas.add(b22);
+		sillas.add(b23);
+		sillas.add(b24);
+		sillas.add(b25);
+		sillas.add(b26);
+		sillas.add(b27);
+		sillas.add(b28);
+		sillas.add(b29);
+		sillas.add(b30);
+		sillas.add(b31);
+		sillas.add(b32);
+		sillas.add(b33);
+		sillas.add(b34);
+		sillas.add(b35);
+		sillas.add(b36);
+		sillas.add(b37);
+		sillas.add(b38);
+		sillas.add(b39);
+		sillas.add(b40);
+		sillas.add(b41);
+		sillas.add(b42);
+		sillas.add(b43);
+		sillas.add(b44);
+		sillas.add(b45);
+		sillas.add(b46);
+		sillas.add(b47);
+		sillas.add(b48);
+		sillas.add(b49);
+		sillas.add(b50);
+		sillas.add(b51);
+		sillas.add(b52);
 
 		JButton button = new JButton();
 		button.setBorder(null);
@@ -1338,7 +1098,7 @@ public class vtPrincipal extends JFrame {
 		lblSillaLibre.setBounds(535, 439, 69, 20);
 		panel.add(lblSillaLibre);
 
-		JLabel lblTuEleccin = new JLabel("Tu elecciÃ³n");
+		JLabel lblTuEleccin = new JLabel("Tu eleccion");
 		lblTuEleccin.setFont(new Font("Serif", Font.PLAIN, 16));
 		lblTuEleccin.setBounds(534, 469, 69, 20);
 		panel.add(lblTuEleccin);
@@ -1351,12 +1111,26 @@ public class vtPrincipal extends JFrame {
 		JButton btnReservar = new JButton("Reservar");
 		btnReservar.setFont(new Font("Serif", Font.PLAIN, 16));
 		btnReservar.setBounds(10, 139, 105, 29);
+		btnReservar.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				reserva();
+			}
+
+		});
 		contentPane.add(btnReservar);
+		rojos();
 
 		JButton btnMisReservas = new JButton("Mis reservas");
 		btnMisReservas.setFont(new Font("Serif", Font.PLAIN, 16));
 		btnMisReservas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				vtMisReservas i = new vtMisReservas();
+				esta.add(i);
+				panel.setVisible(false);
+				i.setVisible(true);
+				System.out.println("d");
 			}
 		});
 		btnMisReservas.setBounds(5, 484, 115, 29);
@@ -1364,4 +1138,80 @@ public class vtPrincipal extends JFrame {
 
 	}
 
+	private void reserva() {
+		eleccion.clear();
+		for (int i = 1; i < 53; i++) {
+			if (sillas.get(i - 1).getIcon() == gris) {
+				eleccion.add(i);
+			}
+		}
+		for (Integer a : eleccion) {
+			System.out.println(a);
+		}
+		Date deleccion = calendario.getDate();
+		System.out.println(calendario.getDate());
+		String mensaje = "Seguro que quieres hacer la reserva de " + eleccion.size() + " sillas para el "
+				+ deleccion.getDate() + " de " + mes(deleccion.getMonth() + 1) + " del " + (1900 + deleccion.getYear());
+		if (eleccion.size() != 0) {
+			if (JOptionPane.showConfirmDialog(esta, mensaje, "Reserva", JOptionPane.YES_NO_OPTION,
+					JOptionPane.QUESTION_MESSAGE) == 0) {
+				// Seguir reserva
+				System.out.println("Seguimos");
+			} else {
+				for (JButton a : sillas) {
+					a.setIcon(imageIcon);
+				}
+				rojos();
+			}
+
+		} else {
+			JOptionPane.showMessageDialog(null, "Escoga las sillas que desee reservar.");
+		}
+	}
+
+	private void rojos() {
+		ArrayList<Integer> a = new ArrayList<Integer>();
+		a.add(1);
+		a.add(2);
+		a.add(3);
+		for (Integer e : a) {
+			sillas.get(e - 1).setIcon(gorri);
+		}
+		for (JButton b : sillas) {
+			if (b.getIcon() != gorri) {
+				b.setIcon(imageIcon);
+			}
+		}
+	}
+
+	private String mes(int mes) {
+		switch (mes) {
+		case 1:
+			return "enero";
+		case 2:
+			return "febrero";
+		case 3:
+			return "marzo";
+		case 4:
+			return "abril";
+		case 5:
+			return "mayo";
+		case 6:
+			return "junio";
+		case 7:
+			return "julio";
+		case 8:
+			return "agosto";
+		case 9:
+			return "septiembre";
+		case 10:
+			return "octubre";
+		case 11:
+			return "noviembre";
+		case 12:
+			return "diciembre";
+		default:
+			return "no hay mes";
+		}
+	}
 }
