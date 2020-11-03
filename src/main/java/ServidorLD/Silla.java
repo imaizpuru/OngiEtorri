@@ -9,11 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Usuario {
-	private String nombre;
-	private String apellido;
-	private int nsocio; // Numero de socio
-	private String email;
-	private String contrasenya;
-	
+public class Silla {
+	private int codigoSilla;
+	private int numMesa;
 }
