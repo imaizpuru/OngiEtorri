@@ -1251,8 +1251,8 @@ public class vtPrincipal extends JFrame {
 
 		reservas.add(b);
 
-		Date mañana = new Date(2020, 11, 06);
-		System.out.println("Mañana" + mañana.getDate());
+		Date manana = new Date(2020, 11, 06);
+		System.out.println("Mañana" + manana.getDate());
 
 		ArrayList<Silla> silla = new ArrayList<Silla>();
 
@@ -1268,7 +1268,7 @@ public class vtPrincipal extends JFrame {
 		silla.add(new Silla(22));
 		silla.add(new Silla(23));
 		silla.add(new Silla(24));
-		Reserva c = new Reserva(1, silla, mañana, 3);
+		Reserva c = new Reserva(1, silla, manana, 3);
 
 		reservas.add(c);
 	}
