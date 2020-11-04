@@ -24,6 +24,10 @@ import javax.swing.border.LineBorder;
 
 import com.toedter.calendar.JDateChooser;
 
+import ServidorLD.Reserva;
+import ServidorLD.Silla;
+import ServidorLD.Usuario;
+
 public class vtPrincipal extends JFrame {
 
 	private JPanel contentPane;
@@ -42,12 +46,14 @@ public class vtPrincipal extends JFrame {
 	private JFrame esta;
 	private JButton b8;
 	private JDateChooser calendario;
+	Usuario usuario = new Usuario();
+	ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 
 	/**
 	 * Create the frame.
 	 */
-	public vtPrincipal() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public vtPrincipal(Usuario u) {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(550, 200, 800, 600);
 
 		JMenuBar menuBar = new JMenuBar();
@@ -64,6 +70,9 @@ public class vtPrincipal extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		esta = this;
+		usuario = u;
+		llenarReservas();
+		this.setTitle(usuario.getNombre());
 		this.setIconImage(icon.getImage());
 		this.setResizable(false);
 
@@ -1155,7 +1164,7 @@ public class vtPrincipal extends JFrame {
 		if (eleccion.size() != 0) {
 			if (JOptionPane.showConfirmDialog(esta, mensaje, "Reserva", JOptionPane.YES_NO_OPTION,
 					JOptionPane.QUESTION_MESSAGE) == 0) {
-				// Seguir reserva
+				seguirReserva(deleccion, eleccion);
 				System.out.println("Seguimos");
 			} else {
 				for (JButton a : sillas) {
@@ -1171,16 +1180,22 @@ public class vtPrincipal extends JFrame {
 
 	private void rojos() {
 		ArrayList<Integer> a = new ArrayList<Integer>();
-		a.add(1);
-		a.add(2);
-		a.add(3);
+
+		for (Reserva r : reservas) {
+			System.out.println("Reserva:" + r.getFecha().getDate());
+			System.out.println("Calendario:" + calendario.getDate().getDate());
+
+			if (r.getFecha().getDate() == calendario.getDate().getDate()) {
+				for (Silla s : r.getSillas()) {
+					a.add(s.getCodigoSilla());
+				}
+			}
+		}
+		for (JButton s : sillas) {
+			s.setIcon(imageIcon);
+		}
 		for (Integer e : a) {
 			sillas.get(e - 1).setIcon(gorri);
-		}
-		for (JButton b : sillas) {
-			if (b.getIcon() != gorri) {
-				b.setIcon(imageIcon);
-			}
 		}
 	}
 
@@ -1213,5 +1228,57 @@ public class vtPrincipal extends JFrame {
 		default:
 			return "no hay mes";
 		}
+	}
+
+	private void llenarReservas() {
+		Date hoy = new Date(2020, 11, 05);
+		System.out.println("Hoy" + hoy.getDate());
+		ArrayList<Silla> sillas = new ArrayList<Silla>();
+		sillas.add(new Silla(1));
+		sillas.add(new Silla(2));
+		sillas.add(new Silla(3));
+		sillas.add(new Silla(7));
+		Reserva a = new Reserva(1, sillas, hoy, 1);
+		reservas.add(a);
+
+		ArrayList<Silla> sillas2 = new ArrayList<Silla>();
+
+		sillas2.add(new Silla(13));
+		sillas2.add(new Silla(14));
+		sillas2.add(new Silla(15));
+		sillas2.add(new Silla(19));
+		Reserva b = new Reserva(1, sillas2, hoy, 2);
+
+		reservas.add(b);
+
+		Date mañana = new Date(2020, 11, 06);
+		System.out.println("Mañana" + mañana.getDate());
+
+		ArrayList<Silla> silla = new ArrayList<Silla>();
+
+		silla.add(new Silla(13));
+		silla.add(new Silla(14));
+		silla.add(new Silla(15));
+		silla.add(new Silla(16));
+		silla.add(new Silla(17));
+		silla.add(new Silla(18));
+		silla.add(new Silla(19));
+		silla.add(new Silla(20));
+		silla.add(new Silla(21));
+		silla.add(new Silla(22));
+		silla.add(new Silla(23));
+		silla.add(new Silla(24));
+		Reserva c = new Reserva(1, silla, mañana, 3);
+
+		reservas.add(c);
+	}
+
+	private void seguirReserva(Date deleccion, ArrayList<Integer> eleccion) {
+		ArrayList<Silla> sillas = new ArrayList<Silla>();
+		for (Integer i : eleccion) {
+			sillas.add(new Silla(i));
+		}
+		reservas.add(new Reserva(1, sillas, deleccion, 4));
+		rojos();
 	}
 }

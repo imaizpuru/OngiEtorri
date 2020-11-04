@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Reserva {
-	private Usuario numSocio;
-	private ArrayList<Silla> mesas = new ArrayList<Silla>();
+	private int numSocio;
+	private ArrayList<Silla> sillas = new ArrayList<Silla>();
 	private Date fecha;
-	private String numReserva;
-	
+	private int numReserva;
+
 }
