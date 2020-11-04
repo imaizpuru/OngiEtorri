@@ -12,9 +12,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import ClienteLN.Controller;
 
 public class vtInicio extends JFrame {
 
@@ -28,6 +31,7 @@ public class vtInicio extends JFrame {
 	private JLabel lblNewLabel1;
 	private JButton iniciaSesion;
 	private JButton crear;
+	private Controller controller = new Controller();
 
 	/**
 	 * Create the frame.
@@ -79,9 +83,20 @@ public class vtInicio extends JFrame {
 		contentPane.add(iniciaSesion);
 		iniciaSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("ie");
-				vtPrincipal vt = new vtPrincipal();
+				int error = controller.iniciaSesion(usuario.getText(), contrasenya.getText());
+				if (error == 0) {
+					vtPrincipal vt = new vtPrincipal(controller.getUsuario());
+					vt.setVisible(true);
+				}
+				if (error == 1) {
+					JOptionPane.showMessageDialog(null, "Contrasena incorrecta!");
+				}
+				if (error == 2) {
+					JOptionPane.showMessageDialog(null, "No existe ninguna cuenta con este email!");
+				}
+				vtPrincipal vt = new vtPrincipal(controller.getUsuario());
 				vt.setVisible(true);
+
 			}
 
 		});
@@ -92,8 +107,7 @@ public class vtInicio extends JFrame {
 		contentPane.add(crear);
 		crear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("jei");
-				vtCrear vt = new vtCrear();
+				vtCrear vt = new vtCrear(controller);
 				vt.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				vt.setVisible(true);
 
