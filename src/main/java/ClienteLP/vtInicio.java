@@ -94,8 +94,8 @@ public class vtInicio extends JFrame {
 				if (error == 2) {
 					JOptionPane.showMessageDialog(null, "No existe ninguna cuenta con este email!");
 				}
-				vtPrincipal vt = new vtPrincipal(controller.getUsuario());
-				vt.setVisible(true);
+				// vtPrincipal vt = new vtPrincipal(controller.getUsuario());
+				// vt.setVisible(true);
 
 			}
 
