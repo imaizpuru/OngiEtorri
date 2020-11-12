@@ -72,7 +72,7 @@ public class vtPrincipal extends JFrame {
 		esta = this;
 		usuario = u;
 		llenarReservas();
-		this.setTitle(usuario.getNombre());
+		this.setTitle(usuario.getNombre() + " " + usuario.getApellido() + " - " + usuario.getNsocio());
 		this.setIconImage(icon.getImage());
 		this.setResizable(false);
 
@@ -1158,21 +1158,20 @@ public class vtPrincipal extends JFrame {
 			System.out.println(a);
 		}
 		Date deleccion = calendario.getDate();
-		System.out.println(calendario.getDate());
 		String mensaje = "Seguro que quieres hacer la reserva de " + eleccion.size() + " sillas para el "
 				+ deleccion.getDate() + " de " + mes(deleccion.getMonth() + 1) + " del " + (1900 + deleccion.getYear());
 		if (eleccion.size() != 0) {
-			if (JOptionPane.showConfirmDialog(esta, mensaje, "Reserva", JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE) == 0) {
-				seguirReserva(deleccion, eleccion);
-				System.out.println("Seguimos");
-			} else {
-				for (JButton a : sillas) {
-					a.setIcon(imageIcon);
-				}
-				rojos();
-			}
+			if (diferentesMesas(eleccion)) {
 
+				if (JOptionPane.showConfirmDialog(esta, mensaje, "Reserva", JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE) == 0) {
+					seguirReserva(deleccion, eleccion);
+					System.out.println("Seguimos");
+				} else {
+
+				}
+
+			}
 		} else {
 			JOptionPane.showMessageDialog(null, "Escoga las sillas que desee reservar.");
 		}
@@ -1231,7 +1230,7 @@ public class vtPrincipal extends JFrame {
 	}
 
 	private void llenarReservas() {
-		Date hoy = new Date(2020, 11, 05);
+		Date hoy = new Date(2020, 11, 06);
 		System.out.println("Hoy" + hoy.getDate());
 		ArrayList<Silla> sillas = new ArrayList<Silla>();
 		sillas.add(new Silla(1));
@@ -1251,11 +1250,23 @@ public class vtPrincipal extends JFrame {
 
 		reservas.add(b);
 
-		Date mañana = new Date(2020, 11, 06);
+		Date mañana = new Date(2020, 11, 07);
 		System.out.println("Mañana" + mañana.getDate());
 
 		ArrayList<Silla> silla = new ArrayList<Silla>();
 
+		silla.add(new Silla(1));
+		silla.add(new Silla(2));
+		silla.add(new Silla(3));
+		silla.add(new Silla(4));
+		silla.add(new Silla(5));
+		silla.add(new Silla(6));
+		silla.add(new Silla(7));
+		silla.add(new Silla(8));
+		silla.add(new Silla(9));
+		silla.add(new Silla(10));
+		silla.add(new Silla(11));
+		silla.add(new Silla(12));
 		silla.add(new Silla(13));
 		silla.add(new Silla(14));
 		silla.add(new Silla(15));
@@ -1278,7 +1289,34 @@ public class vtPrincipal extends JFrame {
 		for (Integer i : eleccion) {
 			sillas.add(new Silla(i));
 		}
+
 		reservas.add(new Reserva(1, sillas, deleccion, 4));
 		rojos();
+	}
+
+	private boolean diferentesMesas(ArrayList<Integer> eleccion) {
+		ArrayList<Silla> sillas = new ArrayList<Silla>();
+		boolean sigue = true;
+		for (Integer i : eleccion) {
+			sillas.add(new Silla(i));
+		}
+		boolean diferentesMesas = false;
+		for (int i = 0; i < sillas.size() - 1; i++) {
+			if (sillas.get(i + 1) != null) {
+				if (sillas.get(i).getNumMesa() != sillas.get(i + 1).getNumMesa()) {
+					diferentesMesas = true;
+					sigue = false;
+				}
+			} else {
+				break;
+			}
+		}
+		if (diferentesMesas) {
+			JOptionPane.showMessageDialog(null, "No se pueden reservar sillas de diferentes mesas.");
+
+		}
+
+		return sigue;
+
 	}
 }

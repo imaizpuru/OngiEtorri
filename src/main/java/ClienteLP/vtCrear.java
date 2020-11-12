@@ -22,12 +22,15 @@ public class vtCrear extends JFrame {
 
 	private JPanel contentPane;
 	private ImageIcon imageIcon = new ImageIcon("src/img/logo.png");
+	private ImageIcon ojo = new ImageIcon("src/img/ojo.png");
+	private ImageIcon ojono = new ImageIcon("src/img/ojono.jpg");
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JPasswordField textField_4;
 	private Controller controller;
+	private JButton btnNewButton_1;
 
 	/**
 	 * Create the frame.
@@ -41,6 +44,7 @@ public class vtCrear extends JFrame {
 		contentPane.setLayout(null);
 		this.setIconImage(imageIcon.getImage());
 		setContentPane(contentPane);
+		setTitle("Crear usuario");
 		controller = contro;
 
 		JLabel lblNewLabel = new JLabel("Nuevo usuario");
@@ -129,16 +133,19 @@ public class vtCrear extends JFrame {
 		});
 		contentPane.add(btnCancelar);
 
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setBounds(458, 384, 32, 26);
+		btnNewButton_1 = new JButton();
+		btnNewButton_1.setBounds(458, 384, 33, 26);
 		contentPane.add(btnNewButton_1);
+		btnNewButton_1.setIcon(ojo);
 		btnNewButton_1.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				if (textField_4.getEchoChar() == '*') {
 					textField_4.setEchoChar((char) 0);
+					btnNewButton_1.setIcon(ojono);
 				} else {
 					textField_4.setEchoChar('*');
+					btnNewButton_1.setIcon(ojo);
 
 				}
 
