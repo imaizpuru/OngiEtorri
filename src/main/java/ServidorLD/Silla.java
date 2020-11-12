@@ -1,5 +1,10 @@
 package ServidorLD;
 
+import java.io.Serializable;
+
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.PrimaryKey;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +12,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Silla {
+@PersistenceCapable
+public class Silla implements Serializable {
+	@PrimaryKey
 	private int codigoSilla;
 	private int numMesa;
 
