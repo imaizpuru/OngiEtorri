@@ -4,15 +4,20 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import ClienteLN.Controller;
 
 public class vtInicio extends JFrame {
 
@@ -25,6 +30,8 @@ public class vtInicio extends JFrame {
 	private JTextField contrasenya;
 	private JLabel lblNewLabel1;
 	private JButton iniciaSesion;
+	private JButton crear;
+	private Controller controller = new Controller();
 
 	/**
 	 * Create the frame.
@@ -52,7 +59,7 @@ public class vtInicio extends JFrame {
 		logo.setBounds(h * 9, v, h * 12, h * 12);
 		contentPane.add(logo);
 
-		lblNewLabel = new JLabel("Usuario");
+		lblNewLabel = new JLabel("Email");
 		lblNewLabel.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblNewLabel.setBounds((int) (h * 13.52), v * 26, (int) (h * 2.95), (int) (v * 1.3));
 		contentPane.add(lblNewLabel);
@@ -61,7 +68,7 @@ public class vtInicio extends JFrame {
 		usuario.setBounds((int) (h * 11), v * 28, (int) (h * 8), (int) (v * 2.5));
 		contentPane.add(usuario);
 
-		lblNewLabel1 = new JLabel("Contraseña");
+		lblNewLabel1 = new JLabel("Contrasena");
 		lblNewLabel1.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblNewLabel1.setBounds((int) (h * 12.85), v * 33, (int) (h * 4.3), (int) (v * 1.3));
 		contentPane.add(lblNewLabel1);
@@ -70,10 +77,44 @@ public class vtInicio extends JFrame {
 		contrasenya.setBounds((int) (h * 11), v * 35, (int) (h * 8), (int) (v * 2.5));
 		contentPane.add(contrasenya);
 
-		iniciaSesion = new JButton("Iniciar sesión");
+		iniciaSesion = new JButton("Iniciar sesion");
 		iniciaSesion.setFont(new Font("Serif", Font.PLAIN, 18));
 		iniciaSesion.setBounds((int) (h * 11), v * 43, (int) (h * 8), (int) (v * 2.5));
 		contentPane.add(iniciaSesion);
+		iniciaSesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int error = controller.iniciaSesion(usuario.getText(), contrasenya.getText());
+				if (error == 0) {
+					vtPrincipal vt = new vtPrincipal(controller.getUsuario());
+					vt.setVisible(true);
+				}
+				if (error == 1) {
+					JOptionPane.showMessageDialog(null, "Contrasena incorrecta!");
+				}
+				if (error == 2) {
+					JOptionPane.showMessageDialog(null, "No existe ninguna cuenta con este email!");
+				}
+				// vtPrincipal vt = new vtPrincipal(controller.getUsuario());
+				// vt.setVisible(true);
+
+			}
+
+		});
+
+		crear = new JButton("Crear usuario");
+		crear.setFont(new Font("Serif", Font.PLAIN, 18));
+		crear.setBounds((int) (h * 11), v * 47, (int) (h * 8), (int) (v * 2.5));
+		contentPane.add(crear);
+		crear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				vtCrear vt = new vtCrear(controller);
+				vt.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				vt.setVisible(true);
+
+			}
+
+		});
 
 	}
+
 }

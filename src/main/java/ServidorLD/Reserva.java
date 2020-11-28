@@ -1,7 +1,11 @@
 package ServidorLD;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.PrimaryKey;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,10 +14,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Reserva {
-	private Usuario numSocio;
-	private ArrayList<Silla> mesas = new ArrayList<Silla>();
+@PersistenceCapable
+public class Reserva implements Serializable{
+	private int numSocio;
+	private ArrayList<Silla> sillas = new ArrayList<Silla>();
 	private Date fecha;
-	private String numReserva;
-	
+	@PrimaryKey
+	private int numReserva;
+
 }
