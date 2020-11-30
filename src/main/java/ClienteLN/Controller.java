@@ -5,7 +5,13 @@ import ServidorLN.ongiEtorri;
 
 public class Controller {
 
-	private ongiEtorri stub = new ongiEtorri();
+	private ongiEtorri stub;
+	
+	public Controller(){
+		
+		stub = ongiEtorri.getInstance();
+	}
+	//private ongiEtorri stub = new ongiEtorri();
 
 	public int crearUsuario(int nsocio, String nombre, String apellidos, String email, String contrasenya) {
 		return stub.crearUsuario(nsocio, nombre, apellidos, email, contrasenya);
