@@ -17,6 +17,7 @@ public class UsuarioTest extends TestCase {
 		super.setUp();
 		
 		user= new Usuario();
+		controller = new Controller();
 		user.setNombre("Dani");
 		user.setApellido("Vallejo");
 		user.setEmail("danivallejo");
