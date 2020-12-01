@@ -13,14 +13,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
+import javax.swing.JList;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -46,33 +52,132 @@ public class vtPrincipal extends JFrame {
 	private JFrame esta;
 	private JButton b8;
 	private JDateChooser calendario;
-	Usuario usuario = new Usuario();
-	ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+	private JPanel panel_1;
+	private JMenuItem misReservas;
+	private JMenuItem usuarios;
+	private JMenuItem reserva;
+	private JMenuBar menuBar;
+	private JList listaReservas;
+	private JButton btnReservar;
+	private JButton btnPago;
+	private JButton btnEliminar;
+	private JLabel lblFecha;
+	private JTable list;
+	private DefaultTableModel table_model;
+	private Usuario usuario;
+	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel1;
+	private Date deleccion;
 
 	/**
 	 * Create the frame.
 	 */
-	public vtPrincipal(Usuario u) {
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+	public vtPrincipal(Usuario usuario) {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(550, 200, 800, 600);
 
-		JMenuBar menuBar = new JMenuBar();
-		JMenu reserva = new JMenu("Reserva");
-		reserva.setFont(new Font("Serif", Font.PLAIN, 20));
-		JMenu pago = new JMenu("Pago");
-		pago.setFont(new Font("Serif", Font.PLAIN, 20));
+		this.usuario = usuario;
+
+		table_model = new DefaultTableModel();
+		String[] col = { "Fecha", "Sillas" };
+		table_model.setColumnIdentifiers(col);
+		list = new JTable(table_model);
+		list.setBackground(new Color(240, 248, 255));
+		list.setFont(new Font("Serif", Font.PLAIN, 20));
+		list.setRowHeight(25);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		menuBar = new JMenuBar();
+		llenarReservas();
+
+		reserva = new JMenuItem("Reserva");
+		reserva.setFont(new Font("Serif", Font.BOLD, 20));
+		reserva.setSelected(true);
+		reserva.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				panel_1.setVisible(false);
+				reserva.setSelected(true);
+				misReservas.setSelected(false);
+				panel.setVisible(true);
+				calendario.setVisible(true);
+				btnReservar.setVisible(true);
+				lblFecha.setVisible(true);
+				table_model.getDataVector().removeAllElements();
+				rojos();
+				btnPago.setVisible(false);
+				btnEliminar.setVisible(false);
+			}
+		});
+
+		misReservas = new JMenuItem("Mis Reservas");
+		misReservas.setFont(new Font("Serif", Font.BOLD, 20));
+
+		usuarios = new JMenuItem("Gestion de usuarios");
+		usuarios.setFont(new Font("Serif", Font.BOLD, 20));
+
+		int u = 0;
+
 		menuBar.add(reserva);
-		menuBar.add(pago);
+		menuBar.add(misReservas);
+		if (u == 0)
+			menuBar.add(usuarios);
+
+		misReservas.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				panel_1.setVisible(true);
+				panel.setVisible(false);
+				misReservas.setSelected(true);
+				reserva.setSelected(false);
+				calendario.setVisible(false);
+				btnReservar.setVisible(false);
+				lblFecha.setVisible(false);
+				btnPago.setVisible(true);
+				btnEliminar.setVisible(true);
+
+				DefaultTableCellRenderer modelocentrar = new DefaultTableCellRenderer();
+				modelocentrar.setHorizontalAlignment(SwingConstants.CENTER);
+				list.getColumnModel().getColumn(0).setCellRenderer(modelocentrar);
+				list.getColumnModel().getColumn(1).setCellRenderer(modelocentrar);
+				// Llenar mis reservas
+				for (Reserva r : reservas) {
+					if (r.getNumSocio() == 1)// Socio pasado por parámetro
+					{
+						Object[] fila = new Object[2];
+						fila[0] = r.getFecha().getDate() + " de " + mes(r.getFecha().getMonth() + 1);
+						fila[1] = r.getSillas().size();
+						table_model.addRow(fila);
+					}
+				}
+
+				list.setBounds(2, 2, 540, 488);
+				list.repaint();
+				panel_1.add(list);
+
+			}
+		});
+
 		setJMenuBar(menuBar);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(240, 248, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
+
 		esta = this;
-		usuario = u;
 		llenarReservas();
 		this.setTitle(usuario.getNombre() + " " + usuario.getApellido() + " - " + usuario.getNsocio());
+
+		panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(30, 144, 255), 2));
+		panel_1.setBounds(125, 35, 544, 492);
+		panel_1.setLayout(null);
+		panel_1.setVisible(false);
+		contentPane.add(panel_1);
+
 		this.setIconImage(icon.getImage());
 		this.setResizable(false);
 
@@ -95,14 +200,14 @@ public class vtPrincipal extends JFrame {
 
 		});
 
-		JLabel lblFecha = new JLabel("Fecha:");
+		lblFecha = new JLabel("Fecha:");
 		lblFecha.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblFecha.setBounds(10, 55, 69, 20);
 		contentPane.add(lblFecha);
 
 		panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(30, 144, 255), 2));
-		panel.setBounds(125, 0, 669, 529);
+		panel.setBounds(125, 0, 669, 527);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -1117,7 +1222,17 @@ public class vtPrincipal extends JFrame {
 		lblSillaReservada.setBounds(534, 499, 88, 20);
 		panel.add(lblSillaReservada);
 
-		JButton btnReservar = new JButton("Reservar");
+		lblNewLabel = new JLabel("Fecha");
+		lblNewLabel.setFont(new Font("Serif", Font.BOLD, 25));
+		lblNewLabel.setBounds(230, 10, 69, 20);
+		contentPane.add(lblNewLabel);
+
+		lblNewLabel1 = new JLabel("Sillas");
+		lblNewLabel1.setFont(new Font("Serif", Font.BOLD, 25));
+		lblNewLabel1.setBounds(502, 10, 69, 20);
+		contentPane.add(lblNewLabel1);
+
+		btnReservar = new JButton("Reservar");
 		btnReservar.setFont(new Font("Serif", Font.PLAIN, 16));
 		btnReservar.setBounds(10, 139, 105, 29);
 		btnReservar.addActionListener(new ActionListener() {
@@ -1128,22 +1243,34 @@ public class vtPrincipal extends JFrame {
 
 		});
 		contentPane.add(btnReservar);
-		rojos();
 
-		JButton btnMisReservas = new JButton("Mis reservas");
-		btnMisReservas.setFont(new Font("Serif", Font.PLAIN, 16));
-		btnMisReservas.addActionListener(new ActionListener() {
+		btnPago = new JButton("Pagar");
+		btnPago.setFont(new Font("Serif", Font.PLAIN, 16));
+		btnPago.setBounds(10, 139, 105, 29);
+		btnPago.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
-
-				vtMisReservas i = new vtMisReservas();
-				esta.add(i);
-				panel.setVisible(false);
-				i.setVisible(true);
-				System.out.println("d");
+				vtPago p = new vtPago();
+				p.setVisible(true);
 			}
+
 		});
-		btnMisReservas.setBounds(5, 484, 115, 29);
-		contentPane.add(btnMisReservas);
+		btnPago.setVisible(false);
+		contentPane.add(btnPago);
+
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setFont(new Font("Serif", Font.PLAIN, 16));
+		btnEliminar.setBounds(677, 139, 105, 29);
+		btnEliminar.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+			}
+
+		});
+		btnEliminar.setVisible(false);
+		contentPane.add(btnEliminar);
+
+		rojos();
 
 	}
 
@@ -1157,7 +1284,8 @@ public class vtPrincipal extends JFrame {
 		for (Integer a : eleccion) {
 			System.out.println(a);
 		}
-		Date deleccion = calendario.getDate();
+		deleccion = new Date();
+		deleccion = calendario.getDate();
 		String mensaje = "Seguro que quieres hacer la reserva de " + eleccion.size() + " sillas para el "
 				+ deleccion.getDate() + " de " + mes(deleccion.getMonth() + 1) + " del " + (1900 + deleccion.getYear());
 		if (eleccion.size() != 0) {
@@ -1165,6 +1293,8 @@ public class vtPrincipal extends JFrame {
 
 				if (JOptionPane.showConfirmDialog(esta, mensaje, "Reserva", JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE) == 0) {
+
+					deleccion.setMonth(deleccion.getMonth());
 					seguirReserva(deleccion, eleccion);
 					System.out.println("Seguimos");
 				} else {
@@ -1227,10 +1357,11 @@ public class vtPrincipal extends JFrame {
 		default:
 			return "no hay mes";
 		}
+
 	}
 
 	private void llenarReservas() {
-		Date hoy = new Date(2020, 11, 06);
+		Date hoy = new Date(2020, 10, 06);
 		System.out.println("Hoy" + hoy.getDate());
 		ArrayList<Silla> sillas = new ArrayList<Silla>();
 		sillas.add(new Silla(1));
@@ -1250,9 +1381,7 @@ public class vtPrincipal extends JFrame {
 
 		reservas.add(b);
 
-		Date mañana = new Date(2020, 11, 07);
-		System.out.println("Mañana" + mañana.getDate());
-		Date manana = new Date(2020, 11, 06);
+		Date manana = new Date(2020, 10, 07);
 		System.out.println("Mañana" + manana.getDate());
 
 		ArrayList<Silla> silla = new ArrayList<Silla>();

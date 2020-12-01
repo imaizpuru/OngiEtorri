@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @PersistenceCapable
-public class Reserva implements Serializable{
+public class Reserva implements Serializable {
 	private int numSocio;
 	private ArrayList<Silla> sillas = new ArrayList<Silla>();
 	private Date fecha;

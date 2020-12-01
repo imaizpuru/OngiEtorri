@@ -80,6 +80,7 @@ public class vtInicio extends JFrame {
 		contrasenya.setBounds((int) (h * 11), v * 35, (int) (h * 8), (int) (v * 2.5));
 		contrasenya.setEchoChar('*');
 		contentPane.add(contrasenya);
+		contrasenya.setEchoChar('*');
 
 		iniciaSesion = new JButton("Iniciar sesion");
 		iniciaSesion.setFont(new Font("Serif", Font.PLAIN, 18));
@@ -100,6 +101,8 @@ public class vtInicio extends JFrame {
 				}
 				// vtPrincipal vt = new vtPrincipal(controller.getUsuario());
 				// vt.setVisible(true);
+				vtPrincipal vt = new vtPrincipal(controller.getUsuario());
+				vt.setVisible(true);
 
 			}
 
@@ -114,6 +117,24 @@ public class vtInicio extends JFrame {
 				vtCrear vt = new vtCrear(controller);
 				vt.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				vt.setVisible(true);
+
+			}
+
+		});
+		btnNewButton = new JButton();
+		btnNewButton.setBounds(367, 349, 33, 26);
+		contentPane.add(btnNewButton);
+		btnNewButton.setIcon(ojo);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (contrasenya.getEchoChar() == '*') {
+					contrasenya.setEchoChar((char) 0);
+					btnNewButton.setIcon(ojono);
+				} else {
+					contrasenya.setEchoChar('*');
+					btnNewButton.setIcon(ojo);
+
+				}
 
 			}
 
