@@ -12,9 +12,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import ClienteLN.Controller;
 
 public class vtInicio extends JFrame {
 
@@ -22,12 +26,16 @@ public class vtInicio extends JFrame {
 	private final int h;
 	private final int v;
 	private ImageIcon imageIcon = new ImageIcon("src/img/logo.png");
+	private ImageIcon ojo = new ImageIcon("src/img/ojo.png");
+	private ImageIcon ojono = new ImageIcon("src/img/ojono.jpg");
 	private JTextField usuario;
 	private JLabel lblNewLabel;
-	private JTextField contrasenya;
+	private JPasswordField contrasenya;
 	private JLabel lblNewLabel1;
 	private JButton iniciaSesion;
 	private JButton crear;
+	private Controller controller = new Controller();
+	private JButton btnNewButton;
 
 	/**
 	 * Create the frame.
@@ -69,9 +77,10 @@ public class vtInicio extends JFrame {
 		lblNewLabel1.setBounds((int) (h * 12.85), v * 33, (int) (h * 4.3), (int) (v * 1.3));
 		contentPane.add(lblNewLabel1);
 
-		contrasenya = new JTextField();
+		contrasenya = new JPasswordField();
 		contrasenya.setBounds((int) (h * 11), v * 35, (int) (h * 8), (int) (v * 2.5));
 		contentPane.add(contrasenya);
+		contrasenya.setEchoChar('*');
 
 		iniciaSesion = new JButton("Iniciar sesion");
 		iniciaSesion.setFont(new Font("Serif", Font.PLAIN, 18));
@@ -79,9 +88,20 @@ public class vtInicio extends JFrame {
 		contentPane.add(iniciaSesion);
 		iniciaSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("ie");
-				vtPrincipal vt = new vtPrincipal();
+				int error = controller.iniciaSesion(usuario.getText(), contrasenya.getText());
+				if (error == 0) {
+					vtPrincipal vt = new vtPrincipal(controller.getUsuario());
+					vt.setVisible(true);
+				}
+				if (error == 1) {
+					JOptionPane.showMessageDialog(null, "Contrasena incorrecta!");
+				}
+				if (error == 2) {
+					JOptionPane.showMessageDialog(null, "No existe ninguna cuenta con este email!");
+				}
+				vtPrincipal vt = new vtPrincipal(controller.getUsuario());
 				vt.setVisible(true);
+
 			}
 
 		});
@@ -92,10 +112,27 @@ public class vtInicio extends JFrame {
 		contentPane.add(crear);
 		crear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("jei");
-				vtCrear vt = new vtCrear();
+				vtCrear vt = new vtCrear(controller);
 				vt.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 				vt.setVisible(true);
+
+			}
+
+		});
+		btnNewButton = new JButton();
+		btnNewButton.setBounds(367, 349, 33, 26);
+		contentPane.add(btnNewButton);
+		btnNewButton.setIcon(ojo);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (contrasenya.getEchoChar() == '*') {
+					contrasenya.setEchoChar((char) 0);
+					btnNewButton.setIcon(ojono);
+				} else {
+					contrasenya.setEchoChar('*');
+					btnNewButton.setIcon(ojo);
+
+				}
 
 			}
 

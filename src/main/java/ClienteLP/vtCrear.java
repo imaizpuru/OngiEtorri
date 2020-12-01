@@ -9,25 +9,33 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
+
+import ClienteLN.Controller;
 
 public class vtCrear extends JFrame {
 
 	private JPanel contentPane;
 	private ImageIcon imageIcon = new ImageIcon("src/img/logo.png");
+	private ImageIcon ojo = new ImageIcon("src/img/ojo.png");
+	private ImageIcon ojono = new ImageIcon("src/img/ojono.jpg");
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
-	private JTextField textField_4;
+	private JPasswordField textField_4;
+	private Controller controller;
+	private JButton btnNewButton_1;
 
 	/**
 	 * Create the frame.
 	 */
-	public vtCrear() {
+	public vtCrear(Controller contro) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(665, 200, 570, 600);
 		contentPane = new JPanel();
@@ -36,6 +44,7 @@ public class vtCrear extends JFrame {
 		contentPane.setLayout(null);
 		this.setIconImage(imageIcon.getImage());
 		setContentPane(contentPane);
+		controller = contro;
 
 		JLabel lblNewLabel = new JLabel("Nuevo usuario");
 		lblNewLabel.setFont(new Font("Serif", Font.PLAIN, 46));
@@ -87,10 +96,11 @@ public class vtCrear extends JFrame {
 		textField_3.setBounds(300, 324, 146, 26);
 		contentPane.add(textField_3);
 
-		textField_4 = new JTextField();
+		textField_4 = new JPasswordField();
 		textField_4.setColumns(10);
 		textField_4.setBounds(300, 384, 146, 26);
 		contentPane.add(textField_4);
+		textField_4.setEchoChar('*');
 
 		JButton btnNewButton = new JButton("Crear usuario");
 		btnNewButton.setFont(new Font("Serif", Font.PLAIN, 18));
@@ -113,11 +123,31 @@ public class vtCrear extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setFont(new Font("Serif", Font.PLAIN, 18));
 		btnCancelar.setBounds(206, 493, 151, 29);
-		contentPane.add(btnCancelar);
 		btnCancelar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				dispose();
+			}
+
+		});
+		contentPane.add(btnCancelar);
+
+		btnNewButton_1 = new JButton();
+		btnNewButton_1.setBounds(458, 384, 33, 26);
+		contentPane.add(btnNewButton_1);
+		btnNewButton_1.setIcon(ojo);
+		btnNewButton_1.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				if (textField_4.getEchoChar() == '*') {
+					textField_4.setEchoChar((char) 0);
+					btnNewButton_1.setIcon(ojono);
+				} else {
+					textField_4.setEchoChar('*');
+					btnNewButton_1.setIcon(ojo);
+
+				}
+
 			}
 
 		});
@@ -126,13 +156,21 @@ public class vtCrear extends JFrame {
 		this.setResizable(false);
 	}
 
-	private boolean crearUsuario() {
+	private void crearUsuario() {
 		int nsocio = Integer.parseInt(textField.getText());
 		String nombre = textField_1.getText();
 		String apellidos = textField_2.getText();
 		String email = textField_3.getText();
 		String contrasenya = textField_4.getText();
 
-		return rootPaneCheckingEnabled;
+		int error = controller.crearUsuario(nsocio, nombre, apellidos, email, contrasenya);
+		if (error == 0) {
+			dispose();
+			JOptionPane.showMessageDialog(null, "Usuario creado exitosamente!");
+		}
+		if (error == 1) {
+			JOptionPane.showMessageDialog(null, "Este numero de socio ya tiene cuenta!");
+		}
+
 	}
 }
