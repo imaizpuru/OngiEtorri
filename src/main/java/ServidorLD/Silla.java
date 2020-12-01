@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @PersistenceCapable
 public class Silla implements Serializable {
+	
 	@PrimaryKey
 	private int codigoSilla;
 	private int numMesa;
@@ -35,5 +36,8 @@ public class Silla implements Serializable {
 		if ((codigoSilla > 44) && (codigoSilla < 53)) {
 			numMesa = 5;
 		}
+		
+		
 	}
+
 }

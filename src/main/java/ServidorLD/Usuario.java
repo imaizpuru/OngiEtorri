@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @PersistenceCapable
 public class Usuario implements Serializable {
+	
 	@PrimaryKey
 	private int nsocio; // Numero de socio
 	private String nombre;
@@ -21,5 +22,5 @@ public class Usuario implements Serializable {
 	private String email;
 	private String contrasenya;
 
-	// private boolean admin;
+	
 }
