@@ -156,7 +156,7 @@ public class vtPrincipal extends JFrame {
 				list.getColumnModel().getColumn(1).setCellRenderer(modelocentrar);
 				// Llenar mis reservas
 				for (Reserva r : reservas) {
-					if (r.getNumSocio() == 1)// Socio pasado por parámetro
+					if (r.getNumSocio() == 1)// Socio pasado por par�metro
 					{
 						Object[] fila = new Object[2];
 						fila[0] = r.getFecha().getDate() + " de " + mes(r.getFecha().getMonth() + 1);
@@ -1395,8 +1395,6 @@ public class vtPrincipal extends JFrame {
 //		reservas.add(b);
 //
 //		Date manana = new Date(2020, 10, 07);
-//		System.out.println("Mañana" + manana.getDate());
-//
 //		ArrayList<Silla> silla = new ArrayList<Silla>();
 //
 //		silla.add(new Silla(1));
