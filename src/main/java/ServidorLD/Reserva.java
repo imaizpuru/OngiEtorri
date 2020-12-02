@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.jdo.annotations.Element;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
 
@@ -20,12 +21,12 @@ import lombok.NoArgsConstructor;
 
 public class Reserva implements Serializable {
 
+
 	private int numSocio;
+	//@Element(column = "codigoSilla")
 	private ArrayList<Silla> sillas = new ArrayList<Silla>();
 	private Date fecha;
 	@PrimaryKey
 	private int numReserva;
-
-	
 	
 }
