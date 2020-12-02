@@ -1,5 +1,6 @@
 package ServidorLN;
 
+import java.util.Date;
 import java.util.List;
 
 import ServidorLD.Silla;
@@ -13,5 +14,9 @@ public interface IDAO
 	public boolean ComprobarUsuario(String email, String contrasena);
 	public boolean ReservarMesa(Reserva reserva);
 	//public Flight GetVuelo(int cod_vuelo);
-	public Usuario GetUsuario(String numSocio);
+	public Usuario GetUsuarioEmail(String email);
+	public Usuario GetUsuarioSocio(int socio);
+	public Reserva GetReservaUsuario(int numSocio);
+	public int GetLastReservas();
+	public Reserva GetReservaFecha(Date fecha);
 }

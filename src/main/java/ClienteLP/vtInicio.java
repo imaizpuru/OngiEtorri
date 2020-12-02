@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -25,12 +26,15 @@ public class vtInicio extends JFrame {
 	private final int h;
 	private final int v;
 	private ImageIcon imageIcon = new ImageIcon("src/img/logo.png");
+	private ImageIcon ojo = new ImageIcon("src/img/ojo.png");
+	private ImageIcon ojono = new ImageIcon("src/img/ojono.jpg");
 	private JTextField usuario;
 	private JLabel lblNewLabel;
-	private JTextField contrasenya;
+	private JPasswordField contrasenya;
 	private JLabel lblNewLabel1;
 	private JButton iniciaSesion;
 	private JButton crear;
+	private JButton btnNewButton;
 	private Controller controller = new Controller();
 
 	/**
@@ -46,8 +50,7 @@ public class vtInicio extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
-		System.out.println(h);
-		System.out.println(v);
+		setTitle("Iniciar sesion");
 		this.setIconImage(imageIcon.getImage());
 		this.setResizable(false);
 
@@ -73,9 +76,11 @@ public class vtInicio extends JFrame {
 		lblNewLabel1.setBounds((int) (h * 12.85), v * 33, (int) (h * 4.3), (int) (v * 1.3));
 		contentPane.add(lblNewLabel1);
 
-		contrasenya = new JTextField();
+		contrasenya = new JPasswordField();
 		contrasenya.setBounds((int) (h * 11), v * 35, (int) (h * 8), (int) (v * 2.5));
+		contrasenya.setEchoChar('*');
 		contentPane.add(contrasenya);
+		contrasenya.setEchoChar('*');
 
 		iniciaSesion = new JButton("Iniciar sesion");
 		iniciaSesion.setFont(new Font("Serif", Font.PLAIN, 18));
@@ -96,6 +101,8 @@ public class vtInicio extends JFrame {
 				}
 				// vtPrincipal vt = new vtPrincipal(controller.getUsuario());
 				// vt.setVisible(true);
+				vtPrincipal vt = new vtPrincipal(controller.getUsuario());
+				vt.setVisible(true);
 
 			}
 
@@ -114,7 +121,43 @@ public class vtInicio extends JFrame {
 			}
 
 		});
+		btnNewButton = new JButton();
+		btnNewButton.setBounds(367, 349, 33, 26);
+		contentPane.add(btnNewButton);
+		btnNewButton.setIcon(ojo);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (contrasenya.getEchoChar() == '*') {
+					contrasenya.setEchoChar((char) 0);
+					btnNewButton.setIcon(ojono);
+				} else {
+					contrasenya.setEchoChar('*');
+					btnNewButton.setIcon(ojo);
+
+				}
+
+			}
+
+		});
+
+		btnNewButton = new JButton();
+		btnNewButton.setBounds(367, 349, 33, 26);
+		contentPane.add(btnNewButton);
+		btnNewButton.setIcon(ojo);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (contrasenya.getEchoChar() == '*') {
+					contrasenya.setEchoChar((char) 0);
+					btnNewButton.setIcon(ojono);
+				} else {
+					contrasenya.setEchoChar('*');
+					btnNewButton.setIcon(ojo);
+
+				}
+
+			}
+
+		});
 
 	}
-
 }
