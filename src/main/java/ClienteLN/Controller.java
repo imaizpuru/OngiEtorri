@@ -2,6 +2,7 @@ package ClienteLN;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import ServidorLD.Silla;
 import ServidorLD.Usuario;
@@ -18,6 +19,9 @@ public class Controller {
 	//private ongiEtorri stub = new ongiEtorri();
 
 	public int crearUsuario(int nsocio, String nombre, String apellidos, String email, String contrasenya) {
+		
+		stub.getUsuarios();
+		
 		return stub.crearUsuario(nsocio, nombre, apellidos, email, contrasenya);
 	}
 
@@ -35,7 +39,12 @@ public class Controller {
 	
 	public int crearSillas(ArrayList <Silla> sillasGuardadas)
 	{	
+		
 		return stub.crearSillas(sillasGuardadas);
+	}
+	public List<Usuario> getUsuarios()
+	{
+		return stub.getUsuarios();
 	}
 	
 	public Usuario getUsuario() {

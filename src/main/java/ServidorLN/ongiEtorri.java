@@ -1,5 +1,6 @@
 package ServidorLN;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,7 +11,7 @@ import ServidorLD.Usuario;
 public class ongiEtorri {
 
 	private static ongiEtorri instance = new ongiEtorri();
-	private ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+	private List<Usuario> usuarios = new ArrayList<Usuario>();
 	private Usuario usuario = new Usuario();
 	private DAO dao;
 	//private static ongiEtorri
@@ -177,5 +178,12 @@ public class ongiEtorri {
 			return retorno;
 		}
 		
+	}
+	public List<Usuario> getUsuarios()
+	{
+		usuarios = dao.GetUsuariosList();
+		System.out.println(usuarios);
+		
+		return usuarios;
 	}
 }

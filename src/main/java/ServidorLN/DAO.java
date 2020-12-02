@@ -253,7 +253,6 @@ public class DAO implements IDAO {
 		}
 		return null;
 	}
-	
 	public Usuario GetUsuarioSocio(int nsocio) {
 		persistentManager = persistentManagerFactory.getPersistenceManager();
 		transaction = persistentManager.currentTransaction();
@@ -283,6 +282,43 @@ public class DAO implements IDAO {
 			if (transaction.isActive()) {
 				transaction.rollback();
 				System.out.println(user);
+			}
+
+			persistentManager.close();
+		}
+		return null;
+	}
+	public List <Usuario> GetUsuariosList() {
+		persistentManager = persistentManagerFactory.getPersistenceManager();
+		transaction = persistentManager.currentTransaction();
+		//Usuario user = new Usuario();
+		//System.out.println(nsocio);
+
+		try {
+			transaction.begin();
+			System.out.println("Hola");
+			Query<Usuario> query = persistentManager.newQuery(Usuario.class);
+			//query.setFilter("nsocio == " + nsocio);
+			System.out.println("hOLA");
+			@SuppressWarnings("unchecked")
+			List<Usuario> usuarios = (List<Usuario>) query.execute();
+			System.out.println(usuarios.size());
+			if (usuarios.size() > 0)
+			{	
+				System.out.println(usuarios);
+				return usuarios;
+			
+			}
+			transaction.commit();
+		} catch (Exception ex) {
+			System.err.println("* Exception executing a query: " + ex.getMessage());
+			return null;
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+				Query<Usuario> query = persistentManager.newQuery(Usuario.class);
+				List<Usuario> usuarios = (List<Usuario>) query.execute();
+				System.out.println(usuarios);
 			}
 
 			persistentManager.close();
