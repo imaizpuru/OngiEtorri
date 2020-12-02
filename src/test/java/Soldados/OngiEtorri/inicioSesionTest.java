@@ -3,6 +3,7 @@ package Soldados.OngiEtorri;
 import org.junit.Before;
 import org.junit.Test;
 
+import ClienteLP.vtInicio;
 import ServidorLD.Usuario;
 import ServidorLN.DAO;
 import junit.framework.TestCase;
@@ -11,6 +12,7 @@ public class inicioSesionTest extends TestCase{
 	
 	Usuario user;
 	Usuario usuario;
+	vtInicio ventana;
 	
 	//private Controller controller;
 	private DAO dao;
@@ -19,12 +21,21 @@ public class inicioSesionTest extends TestCase{
 	@Before
 	public void setUp() throws Exception {
 		
+		
+		ventana= new vtInicio ();
+		
+		
+		ventana.getUsuario().setText("danivallejo");
+		ventana.getContrasenya().setText("qwerty");
+		
+		
 		usuario = new Usuario();
 		user= new Usuario();
 		dao = DAO.getInstance();
 		user.setNombre("Dani");
 		user.setApellido("Vallejo");
 		user.setEmail("danivallejo");
+		
 		user.setContrasenya("qwerty");
 		user.setNsocio(101);
 	}
@@ -37,6 +48,7 @@ public class inicioSesionTest extends TestCase{
 		//System.out.println(dao.GetUsuarioEmail(user.getEmail()));
 		
 		usuario = dao.GetUsuarioEmail(user.getEmail());
+		ventana.getIniciaSesion().doClick();
 		
 		
 		
@@ -51,9 +63,10 @@ public class inicioSesionTest extends TestCase{
 			
 			//System.out.println();
 			
-			if(usuario.getContrasenya().equals(user.getContrasenya()))
+			if(usuario.getContrasenya().equals(user.getContrasenya()) && (!ventana.isActive()))
 			{
 				assertEquals(retorno, true);
+				
 			}
 			else
 			{

@@ -22,5 +22,12 @@ public class Usuario implements Serializable {
 	private String email;
 	private String contrasenya;
 
+	public String nombreApellido (String nom, String ape){
+		
+		if (nom.equals(this.nombre) && ape.equals(this.apellido)){
+			
+			return this.nombre;}return " ";
+		
+	} 
 	
 }

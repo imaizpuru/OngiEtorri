@@ -32,7 +32,7 @@ public class AppTest
      * Rigourous Test :-)
      */
     @Test
-    @PerfTest(invocations = 100000,threads = 1000)
+    @PerfTest(invocations = 10000,threads = 10000)
     public void testApp()
     {
         assertTrue( true );

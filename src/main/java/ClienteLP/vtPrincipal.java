@@ -55,6 +55,14 @@ public class vtPrincipal extends JFrame {
 	private JDateChooser calendario;
 	private JPanel panel_1;
 	private JMenuItem misReservas;
+	public JMenuItem getMisReservas() {
+		return misReservas;
+	}
+
+	public void setMisReservas(JMenuItem misReservas) {
+		this.misReservas = misReservas;
+	}
+
 	private JMenuItem usuarios;
 	private JMenuItem reserva;
 	private JMenuBar menuBar;
@@ -72,6 +80,14 @@ public class vtPrincipal extends JFrame {
 	private Date deleccion;
 	private Controller controller = new Controller();
 	private int contReserva;
+	public int getContReserva() {
+		return contReserva;
+	}
+
+	public void setContReserva(int contReserva) {
+		this.contReserva = contReserva;
+	}
+
 	private ArrayList<Silla> sillasGuardadas = new ArrayList<Silla>();
 	/**
 	 * Create the frame.
@@ -156,7 +172,7 @@ public class vtPrincipal extends JFrame {
 				list.getColumnModel().getColumn(1).setCellRenderer(modelocentrar);
 				// Llenar mis reservas
 				for (Reserva r : reservas) {
-					if (r.getNumSocio() == 1)// Socio pasado por parámetro
+					if (r.getNumSocio() == 1)// Socio pasado por parï¿½metro
 					{
 						Object[] fila = new Object[2];
 						fila[0] = r.getFecha().getDate() + " de " + mes(r.getFecha().getMonth() + 1);
@@ -1426,7 +1442,7 @@ public class vtPrincipal extends JFrame {
 //		reservas.add(c);
 	}
 
-	private void seguirReserva(Date deleccion, ArrayList<Integer> eleccion) {
+	public void seguirReserva(Date deleccion, ArrayList<Integer> eleccion) {
 		
 		
 		

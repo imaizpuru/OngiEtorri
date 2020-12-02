@@ -30,9 +30,17 @@ public class vtInicio extends JFrame {
 	private ImageIcon ojono = new ImageIcon("src/img/ojono.jpg");
 	private JTextField usuario;
 	private JLabel lblNewLabel;
+
+
 	private JPasswordField contrasenya;
-	private JLabel lblNewLabel1;
 	private JButton iniciaSesion;
+	
+	public void setIniciaSesion(JButton iniciaSesion) {
+		this.iniciaSesion = iniciaSesion;
+	}
+
+	private JLabel lblNewLabel1;
+
 	private JButton crear;
 	private JButton btnNewButton;
 	private Controller controller = new Controller();
@@ -41,6 +49,7 @@ public class vtInicio extends JFrame {
 	 * Create the frame.
 	 */
 	public vtInicio() {
+		
 		h = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 100);
 		v = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 100);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -92,6 +101,7 @@ public class vtInicio extends JFrame {
 				if (error == 0) {
 					vtPrincipal vt = new vtPrincipal(controller.getUsuario());
 					vt.setVisible(true);
+					dispose();
 				}
 				if (error == 1) {
 					JOptionPane.showMessageDialog(null, "Contrasena incorrecta!");
@@ -101,8 +111,10 @@ public class vtInicio extends JFrame {
 				}
 				// vtPrincipal vt = new vtPrincipal(controller.getUsuario());
 				// vt.setVisible(true);
-				vtPrincipal vt = new vtPrincipal(controller.getUsuario());
-				vt.setVisible(true);
+				
+				
+
+				
 
 			}
 
@@ -159,5 +171,23 @@ public class vtInicio extends JFrame {
 
 		});
 
+	}
+	public JTextField getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(JTextField usuario) {
+		this.usuario = usuario;
+	}
+
+	public JPasswordField getContrasenya() {
+		return contrasenya;
+	}
+
+	public void setContrasenya(JPasswordField contrasenya) {
+		this.contrasenya = contrasenya;
+	}
+	public JButton getIniciaSesion() {
+		return iniciaSesion;
 	}
 }
