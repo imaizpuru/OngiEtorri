@@ -17,5 +17,6 @@ public interface IDAO
 	public Usuario GetUsuarioEmail(String email);
 	public Usuario GetUsuarioSocio(int socio);
 	public Reserva GetReservaUsuario(int numSocio);
+	public int GetLastReservas();
 	public Reserva GetReservaFecha(Date fecha);
 }

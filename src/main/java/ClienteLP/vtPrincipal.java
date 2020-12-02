@@ -30,6 +30,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JDateChooser;
 
+import ClienteLN.Controller;
 import ServidorLD.Reserva;
 import ServidorLD.Silla;
 import ServidorLD.Usuario;
@@ -69,7 +70,9 @@ public class vtPrincipal extends JFrame {
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel1;
 	private Date deleccion;
-
+	private Controller controller = new Controller();
+	private int contReserva;
+	private ArrayList<Silla> sillasGuardadas = new ArrayList<Silla>();
 	/**
 	 * Create the frame.
 	 */
@@ -79,7 +82,16 @@ public class vtPrincipal extends JFrame {
 		setBounds(550, 200, 800, 600);
 
 		this.usuario = usuario;
-
+		
+		contReserva = controller.initContReserva();
+		
+//		for(int i = 0; i<52; i++)
+//		{
+//			sillasGuardadas.add(new Silla(i));
+//		}
+		
+//		controller.crearSillas(sillasGuardadas);
+		
 		table_model = new DefaultTableModel();
 		String[] col = { "Fecha", "Sillas" };
 		table_model.setColumnIdentifiers(col);
@@ -1238,6 +1250,7 @@ public class vtPrincipal extends JFrame {
 		btnReservar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				
 				reserva();
 			}
 
@@ -1289,8 +1302,8 @@ public class vtPrincipal extends JFrame {
 		String mensaje = "Seguro que quieres hacer la reserva de " + eleccion.size() + " sillas para el "
 				+ deleccion.getDate() + " de " + mes(deleccion.getMonth() + 1) + " del " + (1900 + deleccion.getYear());
 		if (eleccion.size() != 0) {
-			if (diferentesMesas(eleccion)) {
-
+			if (diferentesMesas(deleccion, eleccion)) {
+				
 				if (JOptionPane.showConfirmDialog(esta, mensaje, "Reserva", JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE) == 0) {
 
@@ -1361,75 +1374,82 @@ public class vtPrincipal extends JFrame {
 	}
 
 	private void llenarReservas() {
-		Date hoy = new Date(2020, 10, 06);
-		System.out.println("Hoy" + hoy.getDate());
-		ArrayList<Silla> sillas = new ArrayList<Silla>();
-		sillas.add(new Silla(1));
-		sillas.add(new Silla(2));
-		sillas.add(new Silla(3));
-		sillas.add(new Silla(7));
-		Reserva a = new Reserva(1, sillas, hoy, 1);
-		reservas.add(a);
-
-		ArrayList<Silla> sillas2 = new ArrayList<Silla>();
-
-		sillas2.add(new Silla(13));
-		sillas2.add(new Silla(14));
-		sillas2.add(new Silla(15));
-		sillas2.add(new Silla(19));
-		Reserva b = new Reserva(1, sillas2, hoy, 2);
-
-		reservas.add(b);
-
-		Date manana = new Date(2020, 10, 07);
-		System.out.println("Mañana" + manana.getDate());
-
-		ArrayList<Silla> silla = new ArrayList<Silla>();
-
-		silla.add(new Silla(1));
-		silla.add(new Silla(2));
-		silla.add(new Silla(3));
-		silla.add(new Silla(4));
-		silla.add(new Silla(5));
-		silla.add(new Silla(6));
-		silla.add(new Silla(7));
-		silla.add(new Silla(8));
-		silla.add(new Silla(9));
-		silla.add(new Silla(10));
-		silla.add(new Silla(11));
-		silla.add(new Silla(12));
-		silla.add(new Silla(13));
-		silla.add(new Silla(14));
-		silla.add(new Silla(15));
-		silla.add(new Silla(16));
-		silla.add(new Silla(17));
-		silla.add(new Silla(18));
-		silla.add(new Silla(19));
-		silla.add(new Silla(20));
-		silla.add(new Silla(21));
-		silla.add(new Silla(22));
-		silla.add(new Silla(23));
-		silla.add(new Silla(24));
-		Reserva c = new Reserva(1, silla, manana, 3);
-
-		reservas.add(c);
+//		Date hoy = new Date(2020, 10, 06);
+//		System.out.println("Hoy" + hoy.getDate());
+//		ArrayList<Silla> sillas = new ArrayList<Silla>();
+//		sillas.add(new Silla(1));
+//		sillas.add(new Silla(2));
+//		sillas.add(new Silla(3));
+//		sillas.add(new Silla(7));
+//		Reserva a = new Reserva(1, sillas, hoy, 1);
+//		reservas.add(a);
+//
+//		ArrayList<Silla> sillas2 = new ArrayList<Silla>();
+//
+//		sillas2.add(new Silla(13));
+//		sillas2.add(new Silla(14));
+//		sillas2.add(new Silla(15));
+//		sillas2.add(new Silla(19));
+//		Reserva b = new Reserva(1, sillas2, hoy, 2);
+//
+//		reservas.add(b);
+//
+//		Date manana = new Date(2020, 10, 07);
+//		System.out.println("Mañana" + manana.getDate());
+//
+//		ArrayList<Silla> silla = new ArrayList<Silla>();
+//
+//		silla.add(new Silla(1));
+//		silla.add(new Silla(2));
+//		silla.add(new Silla(3));
+//		silla.add(new Silla(4));
+//		silla.add(new Silla(5));
+//		silla.add(new Silla(6));
+//		silla.add(new Silla(7));
+//		silla.add(new Silla(8));
+//		silla.add(new Silla(9));
+//		silla.add(new Silla(10));
+//		silla.add(new Silla(11));
+//		silla.add(new Silla(12));
+//		silla.add(new Silla(13));
+//		silla.add(new Silla(14));
+//		silla.add(new Silla(15));
+//		silla.add(new Silla(16));
+//		silla.add(new Silla(17));
+//		silla.add(new Silla(18));
+//		silla.add(new Silla(19));
+//		silla.add(new Silla(20));
+//		silla.add(new Silla(21));
+//		silla.add(new Silla(22));
+//		silla.add(new Silla(23));
+//		silla.add(new Silla(24));
+//		Reserva c = new Reserva(1, silla, manana, 3);
+//
+//		reservas.add(c);
 	}
 
 	private void seguirReserva(Date deleccion, ArrayList<Integer> eleccion) {
+		
+		
+		
 		ArrayList<Silla> sillas = new ArrayList<Silla>();
 		for (Integer i : eleccion) {
-			sillas.add(new Silla(i));
+			sillas.add(new Silla(i, deleccion));
 		}
 
-		reservas.add(new Reserva(1, sillas, deleccion, 4));
+		//reservas.add(new Reserva(1, sillas, deleccion, 4));
 		rojos();
+		
+		controller.crearReserva(usuario.getNsocio(), sillas, deleccion, contReserva);
+		
+		contReserva++;
 	}
 
-	private boolean diferentesMesas(ArrayList<Integer> eleccion) {
+	private boolean diferentesMesas(Date deleccion, ArrayList<Integer> eleccion) {
 		ArrayList<Silla> sillas = new ArrayList<Silla>();
 		boolean sigue = true;
 		for (Integer i : eleccion) {
-			sillas.add(new Silla(i));
+			sillas.add(new Silla(i, deleccion));
 		}
 		boolean diferentesMesas = false;
 		for (int i = 0; i < sillas.size() - 1; i++) {

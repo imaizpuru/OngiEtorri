@@ -1,7 +1,10 @@
 package ServidorLD;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 
+import javax.jdo.annotations.Element;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
 
@@ -17,10 +20,17 @@ public class Silla implements Serializable {
 	
 	@PrimaryKey
 	private int codigoSilla;
+	@PrimaryKey
+	private Date fecha;
 	private int numMesa;
+	
+	//Reserva r;
+	//@Element(column = "numReserva")
+	//private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 
-	public Silla(int silla) {
+	public Silla(int silla, Date fecha) {
 		codigoSilla = silla;
+		this.fecha = fecha;
 		if ((codigoSilla > 0) && (codigoSilla < 13)) {
 			numMesa = 1;
 		}
@@ -36,7 +46,7 @@ public class Silla implements Serializable {
 		if ((codigoSilla > 44) && (codigoSilla < 53)) {
 			numMesa = 5;
 		}
-		
+	
 		
 	}
 

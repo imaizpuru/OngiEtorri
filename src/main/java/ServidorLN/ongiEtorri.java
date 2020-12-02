@@ -1,7 +1,10 @@
 package ServidorLN;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import ServidorLD.Reserva;
+import ServidorLD.Silla;
 import ServidorLD.Usuario;
 
 public class ongiEtorri {
@@ -44,13 +47,18 @@ public class ongiEtorri {
 		user1 = dao.GetUsuarioEmail(email);
 		user2 = dao.GetUsuarioSocio(nsocio);
 		
-		System.out.println(user1);
-		System.out.println(user2);
+		//System.out.println(user1);
+		//System.out.println(user2);
 		
-		if(u.getEmail().equals(user1.getEmail()) || u.getNsocio() == user2.getNsocio())
+		if(user2 != null)
 		{
-			vuelta = 1;// El nsocio ya tiene una cuenta o el correo esta registrado
-			System.out.println("Socio o email repetido");
+			vuelta = 1;// El nsocio ya tiene una cuenta
+			System.out.println("Socio repetido");
+		}
+		else if(user1 != null)
+		{
+			vuelta = 1;// El correo esta registrado
+			System.out.println("email repetido");
 		}
 		else
 		{
@@ -75,7 +83,13 @@ public class ongiEtorri {
 		
 		usuario = dao.GetUsuarioEmail(email);
 		
-		inicioSesion = dao.ComprobarUsuario(usuario.getEmail(), usuario.getContrasenya());
+		if(usuario == null)
+		{
+			return vuelta;
+		}
+		//System.out.println(usuario.getContrasenya().equals(contrasenya));
+		
+		inicioSesion = dao.ComprobarUsuario(email, contrasenya);
 		
 		if(inicioSesion == true)
 		{	
@@ -86,10 +100,6 @@ public class ongiEtorri {
 		{
 			vuelta = 1;
 		}
-		
-		
-		
-		
 /*//		usuario = dao.GetUsuario(email);
 //		System.out.println(usuario);
 		for (Usuario us : usuarios) {
@@ -124,5 +134,48 @@ public class ongiEtorri {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	public int crearReserva(int numSocio, ArrayList<Silla>sillas, Date fecha, int numReserva)
+	{
+		int retorno = 1;
+		boolean anadir;
+		
+		Reserva r = new Reserva(numSocio, sillas, fecha, numReserva);
+		
+		 anadir = dao.ReservarMesa(r);
+		
+		if(anadir = true)
+		{
+			retorno = 0;
+		}
+		
+		return retorno;
+		
+	}
+	public int initContReserva()
+	{
+		int contRes;
+		
+		contRes = dao.GetLastReservas() + 1;
+		
+		return contRes;
+	}
+	public int crearSillas(ArrayList <Silla> sillasGuardadas)
+	{
+		boolean contRes;
+		int retorno = 0;
+		
+		contRes = dao.GuardarMesas(sillasGuardadas);
+		
+		if(contRes == true)
+		{
+			return retorno;
+		}
+		else
+		{
+			retorno = 1;
+			return retorno;
+		}
+		
 	}
 }

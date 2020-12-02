@@ -1,5 +1,9 @@
 package ClienteLN;
 
+import java.util.ArrayList;
+import java.util.Date;
+
+import ServidorLD.Silla;
 import ServidorLD.Usuario;
 import ServidorLN.ongiEtorri;
 
@@ -20,7 +24,20 @@ public class Controller {
 	public int iniciaSesion(String email, String contrasenya) {
 		return stub.iniciaSesion(email, contrasenya);
 	}
-
+	
+	public int crearReserva(int numSocio, ArrayList<Silla>sillas, Date fecha, int numReserva) {
+		return stub.crearReserva(numSocio, sillas, fecha, numReserva);
+	}
+	public int initContReserva()
+	{
+		return stub.initContReserva();
+	}
+	
+	public int crearSillas(ArrayList <Silla> sillasGuardadas)
+	{	
+		return stub.crearSillas(sillasGuardadas);
+	}
+	
 	public Usuario getUsuario() {
 		return stub.getUsuario();
 	}
