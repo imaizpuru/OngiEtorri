@@ -64,16 +64,17 @@ public class vtInicio extends JFrame {
 		setTitle("Iniciar sesion");
 		this.setIconImage(imageIcon.getImage());
 		this.setResizable(false);
-
 		boolean admin = false;
+
+		if (admin == false) {
+			controller.crearUsuario(0, "Admin", "Admin", "admin", "admin");
+		}
 		for (Usuario u : controller.getUsuarios()) {
 			if (u.getNsocio() == 0) {
 				admin = true;
 			}
 		}
-		if (admin == false) {
-			controller.crearUsuario(0, "Admin", "Admin", "admin", "admin");
-		}
+
 		Image image = imageIcon.getImage();
 		Image newimg = image.getScaledInstance(h * 12, h * 12, java.awt.Image.SCALE_SMOOTH);
 		imageIcon = new ImageIcon(newimg);
