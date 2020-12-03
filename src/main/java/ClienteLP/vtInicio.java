@@ -112,7 +112,6 @@ public class vtInicio extends JFrame {
 				if (error == 0) {
 					vtPrincipal vt = new vtPrincipal(controller.getUsuario(), permisos);
 					vt.setVisible(true);
-					dispose();
 				}
 				if (error == 1) {
 					JOptionPane.showMessageDialog(null, "Contrasena incorrecta!");

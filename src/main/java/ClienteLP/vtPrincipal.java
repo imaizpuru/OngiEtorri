@@ -336,7 +336,6 @@ public class vtPrincipal extends JFrame {
 			public void propertyChange(PropertyChangeEvent evt) {
 				// Cargar rojos
 				rojos();
-				System.out.println("Cambio rojos");
 			}
 
 		});
@@ -1508,9 +1507,6 @@ public class vtPrincipal extends JFrame {
 				eleccion.add(i);
 			}
 		}
-		for (Integer a : eleccion) {
-			System.out.println(a);
-		}
 		deleccion = new Date();
 		deleccion = calendario.getDate();
 		String mensaje = "Seguro que quieres hacer la reserva de " + eleccion.size() + " sillas para el "
@@ -1523,7 +1519,6 @@ public class vtPrincipal extends JFrame {
 
 					deleccion.setMonth(deleccion.getMonth());
 					seguirReserva(deleccion, eleccion);
-					System.out.println("Seguimos");
 				} else {
 
 				}
@@ -1538,9 +1533,6 @@ public class vtPrincipal extends JFrame {
 		ArrayList<Integer> a = new ArrayList<Integer>();
 
 		for (Reserva r : reservas) {
-			System.out.println("Reserva:" + r.getFecha().getDate());
-			System.out.println("Calendario:" + calendario.getDate().getDate());
-
 			if (r.getFecha().getDate() == calendario.getDate().getDate()) {
 				for (Silla s : r.getSillas()) {
 					a.add(s.getCodigoSilla());
@@ -1589,7 +1581,6 @@ public class vtPrincipal extends JFrame {
 
 	private void llenarReservas() {
 		Date hoy = new Date(2020, 10, 06);
-		System.out.println("Hoy" + hoy.getDate());
 		ArrayList<Silla> sillas = new ArrayList<Silla>();
 		sillas.add(new Silla(1, hoy));
 		sillas.add(new Silla(2, hoy));
@@ -1628,7 +1619,7 @@ public class vtPrincipal extends JFrame {
 		reservas.add(c);
 	}
 
-	private void seguirReserva(Date deleccion, ArrayList<Integer> eleccion) {
+	public void seguirReserva(Date deleccion, ArrayList<Integer> eleccion) {
 
 		ArrayList<Silla> sillas = new ArrayList<Silla>();
 		for (Integer i : eleccion) {
