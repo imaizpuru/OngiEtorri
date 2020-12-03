@@ -35,13 +35,17 @@ public class vtPago extends JFrame implements ActionListener {
 	private JLabel label;
 	private JButton btnNewButton_1;
 	private DecimalFormat df;
+	private JButton btnNewButton_2;
+	private ImageIcon imageIcon = new ImageIcon("src/img/logo.png");
 
 	/**
 	 * Create the frame.
 	 */
 	public vtPago() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(665, 200, 570, 600);
+		setTitle("Pago");
+		this.setIconImage(imageIcon.getImage());
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setBackground(new Color(240, 248, 255));
@@ -59,12 +63,12 @@ public class vtPago extends JFrame implements ActionListener {
 		btnNewButton.setActionCommand("bebidas");
 		contentPane.add(btnNewButton);
 
-		btnCocina = new JButton("Cocina");
+		btnCocina = new JButton("Comida");
 		btnCocina.setBounds(324, 85, 139, 48);
 		btnCocina.addActionListener(this);
 		contentPane.add(btnCocina);
 
-		button_1 = new JButton("New button");
+		button_1 = new JButton("Cocina");
 		button_1.setBounds(324, 149, 139, 48);
 		button_1.addActionListener(this);
 		contentPane.add(button_1);
@@ -152,6 +156,10 @@ public class vtPago extends JFrame implements ActionListener {
 		btnNewButton_1.setActionCommand("atras");
 		contentPane.add(btnNewButton_1);
 
+		btnNewButton_2 = new JButton("Pagar");
+		btnNewButton_2.setBounds(208, 454, 115, 29);
+		contentPane.add(btnNewButton_2);
+
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -167,6 +175,7 @@ public class vtPago extends JFrame implements ActionListener {
 			button_1.setVisible(false);
 			btnNewButton.setVisible(false);
 			btnNewButton_1.setVisible(true);
+			btnNewButton_2.setVisible(false);
 		}
 		if (e.getActionCommand() == "atras") {
 			lblRefrescos.setVisible(false);
@@ -180,6 +189,7 @@ public class vtPago extends JFrame implements ActionListener {
 			button_1.setVisible(true);
 			btnNewButton.setVisible(true);
 			btnNewButton_1.setVisible(false);
+			btnNewButton_2.setVisible(true);
 		}
 
 	}

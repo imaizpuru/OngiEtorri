@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -19,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import ClienteLN.Controller;
+import ServidorLD.Usuario;
 
 public class vtInicio extends JFrame {
 
@@ -36,6 +38,7 @@ public class vtInicio extends JFrame {
 	private JButton crear;
 	private JButton btnNewButton;
 	private Controller controller = new Controller();
+	private ArrayList<Integer> permisos = new ArrayList<Integer>();
 
 	/**
 	 * Create the frame.
@@ -54,6 +57,15 @@ public class vtInicio extends JFrame {
 		this.setIconImage(imageIcon.getImage());
 		this.setResizable(false);
 
+		boolean admin = false;
+		for (Usuario u : controller.getUsuarios()) {
+			if (u.getNsocio() == 0) {
+				admin = true;
+			}
+		}
+		if (admin == false) {
+			controller.crearUsuario(0, "Admin", "Admin", "admin", "admin");
+		}
 		Image image = imageIcon.getImage();
 		Image newimg = image.getScaledInstance(h * 12, h * 12, java.awt.Image.SCALE_SMOOTH);
 		imageIcon = new ImageIcon(newimg);
@@ -90,7 +102,7 @@ public class vtInicio extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int error = controller.iniciaSesion(usuario.getText(), contrasenya.getText());
 				if (error == 0) {
-					vtPrincipal vt = new vtPrincipal(controller.getUsuario());
+					vtPrincipal vt = new vtPrincipal(controller.getUsuario(), permisos);
 					vt.setVisible(true);
 				}
 				if (error == 1) {
@@ -101,9 +113,6 @@ public class vtInicio extends JFrame {
 				}
 				// vtPrincipal vt = new vtPrincipal(controller.getUsuario());
 				// vt.setVisible(true);
-				vtPrincipal vt = new vtPrincipal(controller.getUsuario());
-				vt.setVisible(true);
-
 			}
 
 		});

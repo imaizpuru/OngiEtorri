@@ -60,47 +60,67 @@ public class vtPrincipal extends JFrame {
 	private JMenuBar menuBar;
 	private JList listaReservas;
 	private JButton btnReservar;
+	private JButton btnPermiso;
 	private JButton btnPago;
 	private JButton btnEliminar;
+	private JButton btnQuitarP;
 	private JLabel lblFecha;
 	private JTable list;
+	private JTable listaUsuarios;
 	private DefaultTableModel table_model;
+	private DefaultTableModel table_modelo;
 	private Usuario usuario;
 	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel1;
+	private JLabel lblNewLabell;
+	private JLabel lblNewLabell1;
+	private JLabel lblNewLabe;
 	private Date deleccion;
 	private Controller controller = new Controller();
 	private int contReserva;
 	private ArrayList<Silla> sillasGuardadas = new ArrayList<Silla>();
+	private ArrayList<Integer> permisos;
+
 	/**
 	 * Create the frame.
 	 */
 
-	public vtPrincipal(Usuario usuario) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public vtPrincipal(Usuario usuari, ArrayList<Integer> permiso) {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(550, 200, 800, 600);
 
-		this.usuario = usuario;
-		
+		this.permisos = permiso;
+		this.usuario = usuari;
+
 		contReserva = controller.initContReserva();
-		
-//		for(int i = 0; i<52; i++)
-//		{
-//			sillasGuardadas.add(new Silla(i));
-//		}
-		
-//		controller.crearSillas(sillasGuardadas);
-		
+
+		// for(int i = 0; i<52; i++)
+		// {
+		// sillasGuardadas.add(new Silla(i));
+		// }
+
+		// controller.crearSillas(sillasGuardadas);
+
 		table_model = new DefaultTableModel();
 		String[] col = { "Fecha", "Sillas" };
 		table_model.setColumnIdentifiers(col);
+		table_modelo = new DefaultTableModel();
+		String[] colu = { "Numero de socio", "Nombre", "Admin" };
+		table_modelo.setColumnIdentifiers(colu);
 		list = new JTable(table_model);
 		list.setBackground(new Color(240, 248, 255));
 		list.setFont(new Font("Serif", Font.PLAIN, 20));
 		list.setRowHeight(25);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		list.setVisible(false);
 
+		listaUsuarios = new JTable(table_modelo);
+		listaUsuarios.setBackground(new Color(240, 248, 255));
+		listaUsuarios.setFont(new Font("Serif", Font.PLAIN, 20));
+		listaUsuarios.setRowHeight(25);
+		listaUsuarios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listaUsuarios.setVisible(false);
 		menuBar = new JMenuBar();
 		llenarReservas();
 
@@ -121,6 +141,9 @@ public class vtPrincipal extends JFrame {
 				rojos();
 				btnPago.setVisible(false);
 				btnEliminar.setVisible(false);
+				usuarios.setSelected(false);
+				btnPermiso.setVisible(false);
+				btnQuitarP.setVisible(false);
 			}
 		});
 
@@ -129,19 +152,96 @@ public class vtPrincipal extends JFrame {
 
 		usuarios = new JMenuItem("Gestion de usuarios");
 		usuarios.setFont(new Font("Serif", Font.BOLD, 20));
+		usuarios.addActionListener(new ActionListener() {
 
-		int u = 0;
+			public void actionPerformed(ActionEvent e) {
+				panel_1.setVisible(true);
+				reserva.setSelected(false);
+				misReservas.setSelected(false);
+				usuarios.setSelected(true);
+				panel.setVisible(false);
+				calendario.setVisible(false);
+				btnReservar.setVisible(false);
+				lblFecha.setVisible(false);
+				rojos();
+				btnPago.setVisible(false);
+				btnEliminar.setVisible(false);
+				listaUsuarios.setVisible(true);
+				lblNewLabel.setVisible(false);
+				lblNewLabel1.setVisible(false);
+				lblNewLabell.setVisible(true);
+				lblNewLabell1.setVisible(true);
+				lblNewLabe.setVisible(true);
+				btnPermiso.setVisible(true);
+				btnQuitarP.setVisible(true);
+
+				table_modelo.getDataVector().removeAllElements();
+
+				DefaultTableCellRenderer modelocentrar = new DefaultTableCellRenderer();
+				modelocentrar.setHorizontalAlignment(SwingConstants.CENTER);
+				listaUsuarios.getColumnModel().getColumn(0).setCellRenderer(modelocentrar);
+				listaUsuarios.getColumnModel().getColumn(1).setCellRenderer(modelocentrar);
+				listaUsuarios.getColumnModel().getColumn(2).setCellRenderer(modelocentrar);
+				// Llenar mis reservas
+				for (Usuario r : controller.getUsuarios()) {
+
+					Object[] fila = new Object[3];
+					fila[0] = r.getNsocio();
+					fila[1] = r.getNombre();
+					if (r.getNsocio() == 0) {
+						fila[2] = "Si";
+					} else {
+						if (permisos.isEmpty()) {
+							fila[2] = "No";
+						} else {
+							for (Integer i : permisos) {
+								if (i == r.getNsocio()) {
+									fila[2] = "Si";
+									break;
+								} else {
+									fila[2] = "No";
+								}
+
+							}
+
+						}
+					}
+					table_modelo.addRow(fila);
+				}
+
+				list.setVisible(false);
+				listaUsuarios.setBounds(2, 2, 540, 488);
+				listaUsuarios.repaint();
+
+			}
+		});
 
 		menuBar.add(reserva);
 		menuBar.add(misReservas);
-		if (u == 0)
+
+		if (usuario.getNsocio() == 0) {
 			menuBar.add(usuarios);
+		} else {
+			if (permisos.isEmpty()) {
+			} else {
+				for (Integer i : permisos) {
+					if (i == usuario.getNsocio()) {
+						menuBar.add(usuarios);
+						break;
+					} else {
+					}
+
+				}
+
+			}
+		}
 
 		misReservas.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				panel_1.setVisible(true);
 				panel.setVisible(false);
+				listaUsuarios.setVisible(false);
 				misReservas.setSelected(true);
 				reserva.setSelected(false);
 				calendario.setVisible(false);
@@ -149,6 +249,15 @@ public class vtPrincipal extends JFrame {
 				lblFecha.setVisible(false);
 				btnPago.setVisible(true);
 				btnEliminar.setVisible(true);
+				lblNewLabel.setVisible(true);
+				lblNewLabel1.setVisible(true);
+				lblNewLabell.setVisible(false);
+				lblNewLabell1.setVisible(false);
+				lblNewLabe.setVisible(false);
+				usuarios.setSelected(false);
+				btnPermiso.setVisible(false);
+				btnQuitarP.setVisible(false);
+				table_model.getDataVector().removeAllElements();
 
 				DefaultTableCellRenderer modelocentrar = new DefaultTableCellRenderer();
 				modelocentrar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -156,7 +265,7 @@ public class vtPrincipal extends JFrame {
 				list.getColumnModel().getColumn(1).setCellRenderer(modelocentrar);
 				// Llenar mis reservas
 				for (Reserva r : reservas) {
-					if (r.getNumSocio() == 1)// Socio pasado por parámetro
+					if (r.getNumSocio() == 1)// Socio pasado por parï¿½metro
 					{
 						Object[] fila = new Object[2];
 						fila[0] = r.getFecha().getDate() + " de " + mes(r.getFecha().getMonth() + 1);
@@ -165,9 +274,9 @@ public class vtPrincipal extends JFrame {
 					}
 				}
 
+				list.setVisible(true);
 				list.setBounds(2, 2, 540, 488);
 				list.repaint();
-				panel_1.add(list);
 
 			}
 		});
@@ -189,6 +298,8 @@ public class vtPrincipal extends JFrame {
 		panel_1.setLayout(null);
 		panel_1.setVisible(false);
 		contentPane.add(panel_1);
+		panel_1.add(listaUsuarios);
+		panel_1.add(list);
 
 		this.setIconImage(icon.getImage());
 		this.setResizable(false);
@@ -1244,13 +1355,42 @@ public class vtPrincipal extends JFrame {
 		lblNewLabel1.setBounds(502, 10, 69, 20);
 		contentPane.add(lblNewLabel1);
 
+		lblNewLabell = new JLabel("NÂº de socio");
+		lblNewLabell.setFont(new Font("Serif", Font.BOLD, 25));
+		lblNewLabell.setBounds(155, 10, 170, 20);
+		contentPane.add(lblNewLabell);
+
+		lblNewLabe = new JLabel("Nombre");
+		lblNewLabe.setFont(new Font("Serif", Font.BOLD, 25));
+		lblNewLabe.setBounds(355, 10, 170, 20);
+		contentPane.add(lblNewLabe);
+
+		lblNewLabell1 = new JLabel("Administrador");
+		lblNewLabell1.setFont(new Font("Serif", Font.BOLD, 25));
+		lblNewLabell1.setBounds(500, 10, 170, 20);
+		contentPane.add(lblNewLabell1);
+
+		btnPermiso = new JButton("<html>" + "Dar" + "<br>" + "permiso" + "</html>");
+		btnPermiso.setFont(new Font("Serif", Font.PLAIN, 16));
+		btnPermiso.setBounds(10, 139, 105, 60);
+		btnPermiso.setVisible(false);
+		btnPermiso.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				permisos.add(listaUsuarios.getSelectedRow());
+				llenarListaUsuarios();
+			}
+
+		});
+		contentPane.add(btnPermiso);
+
 		btnReservar = new JButton("Reservar");
 		btnReservar.setFont(new Font("Serif", Font.PLAIN, 16));
 		btnReservar.setBounds(10, 139, 105, 29);
 		btnReservar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				
+
 				reserva();
 			}
 
@@ -1283,8 +1423,64 @@ public class vtPrincipal extends JFrame {
 		btnEliminar.setVisible(false);
 		contentPane.add(btnEliminar);
 
+		btnQuitarP = new JButton("Quitar");
+		btnQuitarP.setFont(new Font("Serif", Font.PLAIN, 16));
+		btnQuitarP.setBounds(677, 139, 105, 60);
+		btnQuitarP.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < permisos.size(); i++) {
+					if (listaUsuarios.getSelectedRow() == permisos.get(i)) {
+						permisos.remove(i);
+					}
+				}
+				llenarListaUsuarios();
+			}
+
+		});
+		btnQuitarP.setVisible(false);
+		contentPane.add(btnQuitarP);
+
 		rojos();
 
+	}
+
+	private void llenarListaUsuarios() {
+		table_modelo.getDataVector().removeAllElements();
+		DefaultTableCellRenderer modelocentrar = new DefaultTableCellRenderer();
+		modelocentrar.setHorizontalAlignment(SwingConstants.CENTER);
+		listaUsuarios.getColumnModel().getColumn(0).setCellRenderer(modelocentrar);
+		listaUsuarios.getColumnModel().getColumn(1).setCellRenderer(modelocentrar);
+		listaUsuarios.getColumnModel().getColumn(2).setCellRenderer(modelocentrar);
+		// Llenar mis reservas
+		int i = 0;
+		for (Usuario r : controller.getUsuarios()) {
+
+			Object[] fila = new Object[3];
+			fila[0] = r.getNsocio();
+			fila[1] = r.getNombre();
+			if (r.getNsocio() == 0) {
+				fila[2] = "Si";
+			} else {
+				if (permisos.isEmpty()) {
+					fila[2] = "No";
+
+				} else {
+					for (Integer in : permisos) {
+						if (i == in) {
+							fila[2] = "Si";
+							break;
+						} else {
+							fila[2] = "No";
+						}
+					}
+				}
+
+			}
+			table_modelo.addRow(fila);
+			i++;
+		}
+		listaUsuarios.repaint();
 	}
 
 	private void reserva() {
@@ -1303,7 +1499,7 @@ public class vtPrincipal extends JFrame {
 				+ deleccion.getDate() + " de " + mes(deleccion.getMonth() + 1) + " del " + (1900 + deleccion.getYear());
 		if (eleccion.size() != 0) {
 			if (diferentesMesas(deleccion, eleccion)) {
-				
+
 				if (JOptionPane.showConfirmDialog(esta, mensaje, "Reserva", JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE) == 0) {
 
@@ -1374,72 +1570,58 @@ public class vtPrincipal extends JFrame {
 	}
 
 	private void llenarReservas() {
-//		Date hoy = new Date(2020, 10, 06);
-//		System.out.println("Hoy" + hoy.getDate());
-//		ArrayList<Silla> sillas = new ArrayList<Silla>();
-//		sillas.add(new Silla(1));
-//		sillas.add(new Silla(2));
-//		sillas.add(new Silla(3));
-//		sillas.add(new Silla(7));
-//		Reserva a = new Reserva(1, sillas, hoy, 1);
-//		reservas.add(a);
-//
-//		ArrayList<Silla> sillas2 = new ArrayList<Silla>();
-//
-//		sillas2.add(new Silla(13));
-//		sillas2.add(new Silla(14));
-//		sillas2.add(new Silla(15));
-//		sillas2.add(new Silla(19));
-//		Reserva b = new Reserva(1, sillas2, hoy, 2);
-//
-//		reservas.add(b);
-//
-//		Date manana = new Date(2020, 10, 07);
-//		ArrayList<Silla> silla = new ArrayList<Silla>();
-//
-//		silla.add(new Silla(1));
-//		silla.add(new Silla(2));
-//		silla.add(new Silla(3));
-//		silla.add(new Silla(4));
-//		silla.add(new Silla(5));
-//		silla.add(new Silla(6));
-//		silla.add(new Silla(7));
-//		silla.add(new Silla(8));
-//		silla.add(new Silla(9));
-//		silla.add(new Silla(10));
-//		silla.add(new Silla(11));
-//		silla.add(new Silla(12));
-//		silla.add(new Silla(13));
-//		silla.add(new Silla(14));
-//		silla.add(new Silla(15));
-//		silla.add(new Silla(16));
-//		silla.add(new Silla(17));
-//		silla.add(new Silla(18));
-//		silla.add(new Silla(19));
-//		silla.add(new Silla(20));
-//		silla.add(new Silla(21));
-//		silla.add(new Silla(22));
-//		silla.add(new Silla(23));
-//		silla.add(new Silla(24));
-//		Reserva c = new Reserva(1, silla, manana, 3);
-//
-//		reservas.add(c);
+		Date hoy = new Date(2020, 10, 06);
+		System.out.println("Hoy" + hoy.getDate());
+		ArrayList<Silla> sillas = new ArrayList<Silla>();
+		sillas.add(new Silla(1, hoy));
+		sillas.add(new Silla(2, hoy));
+		sillas.add(new Silla(3, hoy));
+		sillas.add(new Silla(7, hoy));
+		Reserva a = new Reserva(1, sillas, hoy, 1);
+		reservas.add(a);
+
+		ArrayList<Silla> sillas2 = new ArrayList<Silla>();
+
+		sillas2.add(new Silla(13, hoy));
+		sillas2.add(new Silla(14, hoy));
+		sillas2.add(new Silla(15, hoy));
+		sillas2.add(new Silla(19, hoy));
+		Reserva b = new Reserva(1, sillas2, hoy, 2);
+
+		reservas.add(b);
+
+		Date manana = new Date(2020, 10, 07);
+		ArrayList<Silla> silla = new ArrayList<Silla>();
+
+		silla.add(new Silla(1, hoy));
+		silla.add(new Silla(2, hoy));
+		silla.add(new Silla(3, hoy));
+		silla.add(new Silla(4, hoy));
+		silla.add(new Silla(5, hoy));
+		silla.add(new Silla(6, hoy));
+		silla.add(new Silla(7, hoy));
+		silla.add(new Silla(8, hoy));
+		silla.add(new Silla(9, hoy));
+		silla.add(new Silla(10, hoy));
+		silla.add(new Silla(11, hoy));
+		silla.add(new Silla(12, hoy));
+		Reserva c = new Reserva(1, silla, manana, 3);
+
+		reservas.add(c);
 	}
 
 	private void seguirReserva(Date deleccion, ArrayList<Integer> eleccion) {
-		
-		
-		
+
 		ArrayList<Silla> sillas = new ArrayList<Silla>();
 		for (Integer i : eleccion) {
 			sillas.add(new Silla(i, deleccion));
 		}
 
-		//reservas.add(new Reserva(1, sillas, deleccion, 4));
+		// reservas.add(new Reserva(1, sillas, deleccion, 4));
 		rojos();
-		
+
 		controller.crearReserva(usuario.getNsocio(), sillas, deleccion, contReserva);
-		
+
 		contReserva++;
 	}
 

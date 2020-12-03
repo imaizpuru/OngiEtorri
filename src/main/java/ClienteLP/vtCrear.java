@@ -157,7 +157,7 @@ public class vtCrear extends JFrame {
 		this.setResizable(false);
 	}
 
-	private void crearUsuario() {
+	public void crearUsuario() {
 		int nsocio = Integer.parseInt(textField.getText());
 		String nombre = textField_1.getText();
 		String apellidos = textField_2.getText();
