@@ -35,7 +35,7 @@ public class AppTest
      * Rigourous Test :-)
      */
     @Test
-    @PerfTest(duration = 1000)
+    @PerfTest(invocations = 10000,threads = 100)
     public void testApp()
     {
     	boolean retorno;
