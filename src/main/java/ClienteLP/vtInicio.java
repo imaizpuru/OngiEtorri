@@ -66,13 +66,13 @@ public class vtInicio extends JFrame {
 		this.setResizable(false);
 		boolean admin = false;
 
-		if (admin == false) {
-			controller.crearUsuario(0, "Admin", "Admin", "admin", "admin");
-		}
 		for (Usuario u : controller.getUsuarios()) {
 			if (u.getNsocio() == 0) {
 				admin = true;
 			}
+		}
+		if (admin == false) {
+			controller.crearUsuario(0, "Admin", "Admin", "admin", "admin");
 		}
 
 		Image image = imageIcon.getImage();
