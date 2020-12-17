@@ -9,8 +9,10 @@
 
   <name>OngiEtorri</name>
   <url>http://maven.apache.org</url>
+  
 
  <properties>
+ 		<doxygen.config.file>${basedir}/src/main/resources/Doxyfile</doxygen.config.file>
         <config.files.dir>src/main/resources</config.files.dir>
         <encoding>UTF-8</encoding>
     </properties>
@@ -114,9 +116,11 @@
 
   </dependencies>
 <build>
+
       <sourceDirectory>src/main/java</sourceDirectory>
         <testSourceDirectory>src/test/java</testSourceDirectory>
 
+	
         <resources>
             <resource>
                 <directory>${config.files.dir}</directory>
@@ -127,8 +131,26 @@
                 </includes>
             </resource>
        	</resources>
+       	
+      <pluginManagement>
+    	<plugins>
+         	<plugin>
+	      <groupId>com.soebes.maven.plugins</groupId>
+	      <artifactId>doxygen-maven-plugin</artifactId>
+	      <version>1.1.0</version>
+    		</plugin>
+    	</plugins>
+  	</pluginManagement>
 
       <plugins>
+         	<plugin>
+	      <groupId>com.soebes.maven.plugins</groupId>
+	      <artifactId>doxygen-maven-plugin</artifactId>
+	      <version>1.1.0</version>
+	      <configuration>
+			<configurationFile>${doxygen.config.file}</configurationFile>
+			</configuration>
+    		</plugin>
       
       <plugin>
 				<groupId>org.jacoco</groupId>
@@ -206,4 +228,17 @@
         </plugin>       
       </plugins>
     </build>
+      <reporting>
+  <plugins>
+  	<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+				    <artifactId>maven-javadoc-plugin</artifactId>
+				    <version>3.0.0</version>
+				        <configuration>
+					        <show>private</show>
+					        <nohelp>true</nohelp>
+				        </configuration>
+		</plugin>
+	</plugins>
+</reporting>
 </project>
