@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ServidorLD.Reserva;
 import ServidorLD.Silla;
 import ServidorLD.Usuario;
 import ServidorLN.ongiEtorri;
@@ -40,11 +41,11 @@ public class Controller {
 	 * contrasenya del usuario, tipo string
 	 * @return devuelve el retorno del metodo crearUsuario de la clase OngliEtorri, al que se accede con la instancia creada en el constructor
 	 */
-	public int crearUsuario(int nsocio, String nombre, String apellidos, String email, String contrasenya) {
+	public int crearUsuario(int nsocio, String nombre, String apellidos, String email, String contrasenya, boolean admin) {
 		
 		stub.getUsuarios();
 		
-		return stub.crearUsuario(nsocio, nombre, apellidos, email, contrasenya);
+		return stub.crearUsuario(nsocio, nombre, apellidos, email, contrasenya, admin);
 	}
 	/**
 	 * Metodo de inicio de sesion de un usuario registrado
@@ -89,7 +90,20 @@ public class Controller {
 	{
 		return stub.getUsuarios();
 	}
-	
+	public List<Reserva> getReservas()
+	{
+		return stub.getReservas();
+	}
+	public List<Reserva> getReservasUser(int numSocio)
+	{
+		return stub.getReservasUser(numSocio);
+	}
+	/*
+	public List<Reserva> getReservasDate(Date fecha)
+	{
+		return stub.getReservasDate(fecha);
+	}
+	*/
 	public Usuario getUsuario() {
 		return stub.getUsuario();
 	}

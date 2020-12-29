@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -20,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import ClienteLN.Controller;
+import ServidorLD.Reserva;
 import ServidorLD.Usuario;
 
 public class vtInicio extends JFrame {
@@ -46,6 +48,7 @@ public class vtInicio extends JFrame {
 	private JButton btnNewButton;
 	private Controller controller = new Controller();
 	private ArrayList<Integer> permisos = new ArrayList<Integer>();
+	private List<Usuario> usuarios = new ArrayList<Usuario>();
 
 	/**
 	 * Create the frame.
@@ -66,13 +69,15 @@ public class vtInicio extends JFrame {
 		this.setResizable(false);
 		boolean admin = false;
 
-		for (Usuario u : controller.getUsuarios()) {
-			if (u.getNsocio() == 0) {
-				admin = true;
-			}
+		usuarios = controller.getUsuarios();
+		
+		if(usuarios != null)
+		{
+			admin = true;
 		}
+		
 		if (admin == false) {
-			controller.crearUsuario(0, "Admin", "Admin", "admin", "admin");
+			controller.crearUsuario(0, "Admin", "Admin", "admin", "admin", true);
 		}
 
 		Image image = imageIcon.getImage();

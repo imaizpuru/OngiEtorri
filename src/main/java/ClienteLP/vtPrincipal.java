@@ -8,6 +8,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -79,7 +80,7 @@ public class vtPrincipal extends JFrame {
 	private DefaultTableModel table_model;
 	private DefaultTableModel table_modelo;
 	private Usuario usuario;
-	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+	private List<Reserva> reservas = new ArrayList<Reserva>();
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel1;
 	private JLabel lblNewLabell;
@@ -140,7 +141,7 @@ public class vtPrincipal extends JFrame {
 		listaUsuarios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listaUsuarios.setVisible(false);
 		menuBar = new JMenuBar();
-		llenarReservas();
+		reservas = controller.getReservas();
 
 		reserva = new JMenuItem("Reserva");
 		reserva.setFont(new Font("Serif", Font.BOLD, 20));
@@ -181,7 +182,7 @@ public class vtPrincipal extends JFrame {
 				calendario.setVisible(false);
 				btnReservar.setVisible(false);
 				lblFecha.setVisible(false);
-				rojos();
+				//rojos();
 				btnPago.setVisible(false);
 				btnEliminar.setVisible(false);
 				listaUsuarios.setVisible(true);
@@ -206,24 +207,34 @@ public class vtPrincipal extends JFrame {
 					Object[] fila = new Object[3];
 					fila[0] = r.getNsocio();
 					fila[1] = r.getNombre();
-					if (r.getNsocio() == 0) {
+					
+					if(r.isAdmin())
+					{
 						fila[2] = "Si";
-					} else {
-						if (permisos.isEmpty()) {
-							fila[2] = "No";
-						} else {
-							for (Integer i : permisos) {
-								if (i == r.getNsocio()) {
-									fila[2] = "Si";
-									break;
-								} else {
-									fila[2] = "No";
-								}
-
-							}
-
-						}
 					}
+					else
+					{
+						fila[2] = "No";
+					}
+						
+//					if (r.getNsocio() == 0) {
+//						fila[2] = "Si";
+//					} else {
+//						if (permisos.isEmpty()) {
+//							fila[2] = "No";
+//						} else {
+//							for (Integer i : permisos) {
+//								if (i == r.getNsocio()) {
+//									fila[2] = "Si";
+//									break;
+//								} else {
+//									fila[2] = "No";
+//								}
+//
+//							}
+//
+//						}
+//					}
 					table_modelo.addRow(fila);
 				}
 
@@ -282,13 +293,17 @@ public class vtPrincipal extends JFrame {
 				list.getColumnModel().getColumn(0).setCellRenderer(modelocentrar);
 				list.getColumnModel().getColumn(1).setCellRenderer(modelocentrar);
 				// Llenar mis reservas
-				for (Reserva r : reservas) {
-					if (r.getNumSocio() == 1)// Socio pasado por par�metro
-					{
-						Object[] fila = new Object[2];
-						fila[0] = r.getFecha().getDate() + " de " + mes(r.getFecha().getMonth() + 1);
-						fila[1] = r.getSillas().size();
-						table_model.addRow(fila);
+				
+				if(reservas != null)
+				{
+					for (Reserva r : reservas) {
+						if (r.getNumSocio() == usuario.getNsocio())// Socio pasado por par�metro
+						{
+							Object[] fila = new Object[2];
+							fila[0] = r.getFecha().getDate() + " de " + mes(r.getFecha().getMonth() + 1);
+							fila[1] = r.getSillas().size();
+							table_model.addRow(fila);
+						}
 					}
 				}
 
@@ -307,7 +322,6 @@ public class vtPrincipal extends JFrame {
 		setContentPane(contentPane);
 
 		esta = this;
-		llenarReservas();
 		this.setTitle(usuario.getNombre() + " " + usuario.getApellido() + " - " + usuario.getNsocio());
 
 		panel_1 = new JPanel();
@@ -1476,24 +1490,33 @@ public class vtPrincipal extends JFrame {
 			Object[] fila = new Object[3];
 			fila[0] = r.getNsocio();
 			fila[1] = r.getNombre();
-			if (r.getNsocio() == 0) {
+			
+			if(r.isAdmin())
+			{
 				fila[2] = "Si";
-			} else {
-				if (permisos.isEmpty()) {
-					fila[2] = "No";
-
-				} else {
-					for (Integer in : permisos) {
-						if (i == in) {
-							fila[2] = "Si";
-							break;
-						} else {
-							fila[2] = "No";
-						}
-					}
-				}
-
 			}
+			else
+			{
+				fila[2] = "No";
+			}
+//			if (r.getNsocio() == 0) {
+//				fila[2] = "Si";
+//			} else {
+//				if (permisos.isEmpty()) {
+//					fila[2] = "No";
+//
+//				} else {
+//					for (Integer in : permisos) {
+//						if (i == in) {
+//							fila[2] = "Si";
+//							break;
+//						} else {
+//							fila[2] = "No";
+//						}
+//					}
+//				}
+//
+//			}
 			table_modelo.addRow(fila);
 			i++;
 		}
@@ -1531,20 +1554,25 @@ public class vtPrincipal extends JFrame {
 
 	private void rojos() {
 		ArrayList<Integer> a = new ArrayList<Integer>();
-
-		for (Reserva r : reservas) {
-			if (r.getFecha().getDate() == calendario.getDate().getDate()) {
-				for (Silla s : r.getSillas()) {
-					a.add(s.getCodigoSilla());
+		
+		reservas = controller.getReservas();
+		
+		if(reservas != null)
+		{
+			for (Reserva r : reservas) {
+				if (r.getFecha().getDate() == calendario.getDate().getDate()) {
+					for (Silla s : r.getSillas()) {
+						a.add(s.getCodigoSilla());
+					}
 				}
 			}
-		}
-		for (JButton s : sillas) {
-			s.setIcon(imageIcon);
-		}
-		for (Integer e : a) {
-			sillas.get(e - 1).setIcon(gorri);
-		}
+			for (JButton s : sillas) {
+				s.setIcon(imageIcon);
+			}
+			for (Integer e : a) {
+				sillas.get(e - 1).setIcon(gorri);
+			}	
+		}	
 	}
 
 	private String mes(int mes) {
@@ -1578,46 +1606,7 @@ public class vtPrincipal extends JFrame {
 		}
 
 	}
-
-	private void llenarReservas() {
-		Date hoy = new Date(2020, 10, 06);
-		ArrayList<Silla> sillas = new ArrayList<Silla>();
-		sillas.add(new Silla(1, hoy));
-		sillas.add(new Silla(2, hoy));
-		sillas.add(new Silla(3, hoy));
-		sillas.add(new Silla(7, hoy));
-		Reserva a = new Reserva(1, sillas, hoy, 1);
-		reservas.add(a);
-
-		ArrayList<Silla> sillas2 = new ArrayList<Silla>();
-
-		sillas2.add(new Silla(13, hoy));
-		sillas2.add(new Silla(14, hoy));
-		sillas2.add(new Silla(15, hoy));
-		sillas2.add(new Silla(19, hoy));
-		Reserva b = new Reserva(1, sillas2, hoy, 2);
-
-		reservas.add(b);
-
-		Date manana = new Date(2020, 10, 07);
-		ArrayList<Silla> silla = new ArrayList<Silla>();
-
-		silla.add(new Silla(1, hoy));
-		silla.add(new Silla(2, hoy));
-		silla.add(new Silla(3, hoy));
-		silla.add(new Silla(4, hoy));
-		silla.add(new Silla(5, hoy));
-		silla.add(new Silla(6, hoy));
-		silla.add(new Silla(7, hoy));
-		silla.add(new Silla(8, hoy));
-		silla.add(new Silla(9, hoy));
-		silla.add(new Silla(10, hoy));
-		silla.add(new Silla(11, hoy));
-		silla.add(new Silla(12, hoy));
-		Reserva c = new Reserva(1, silla, manana, 3);
-
-		reservas.add(c);
-	}
+	
 
 	public void seguirReserva(Date deleccion, ArrayList<Integer> eleccion) {
 
@@ -1627,10 +1616,12 @@ public class vtPrincipal extends JFrame {
 		}
 
 		// reservas.add(new Reserva(1, sillas, deleccion, 4));
-		rojos();
 
+		
 		controller.crearReserva(usuario.getNsocio(), sillas, deleccion, contReserva);
 
+		rojos();
+		
 		contReserva++;
 	}
 

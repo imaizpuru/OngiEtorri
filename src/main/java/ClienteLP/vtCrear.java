@@ -163,8 +163,9 @@ public class vtCrear extends JFrame {
 		String apellidos = textField_2.getText();
 		String email = textField_3.getText();
 		String contrasenya = textField_4.getText();
+		boolean admin = false;
 
-		int error = controller.crearUsuario(nsocio, nombre, apellidos, email, contrasenya);
+		int error = controller.crearUsuario(nsocio, nombre, apellidos, email, contrasenya, admin);
 		if (error == 0) {
 			dispose();
 			JOptionPane.showMessageDialog(null, "Usuario creado exitosamente!");

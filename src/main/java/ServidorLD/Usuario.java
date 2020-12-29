@@ -28,6 +28,7 @@ public class Usuario implements Serializable {
 	private String apellido;
 	private String email;
 	private String contrasenya;
+	private boolean admin;
 
 	public String nombreApellido (String nom, String ape){
 		
