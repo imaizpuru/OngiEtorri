@@ -3,7 +3,9 @@ package Soldados.OngiEtorri;
 import ClienteLP.vtInicio;
 
 /**
- * Hello world!
+ * Main de la ejecucion. Inicializa la ventana de inicio
+ * @param parametros del main
+ * @return no devuelve nada
  *
  */
 public class App {

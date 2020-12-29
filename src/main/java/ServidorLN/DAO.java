@@ -14,6 +14,11 @@ import ServidorLD.Reserva;
 import ServidorLD.Silla;
 import ServidorLD.Usuario;
 
+/**
+ * 
+ * @author Soldados de StackOverflow v2
+ *
+ */
 public class DAO implements IDAO {
 
 	private PersistenceManagerFactory persistentManagerFactory;
@@ -21,7 +26,10 @@ public class DAO implements IDAO {
 	private Transaction transaction;
 	
 	private static DAO instance = new DAO();
-
+	
+	/**
+	 * Constrcutor del DAO. Se ejecuta las conexiones de datanucleus abriendo el fichero datanculeus.properties
+	 */
 	public DAO() {
 		super();
 		try {
@@ -398,6 +406,12 @@ public class DAO implements IDAO {
 		}
 		return true;
 	}
+	/**
+	 * Metod del DAO de registro de usuario.
+	 * @param usuario
+	 * Se le pasa como parametro un objeto usuario y se inserta en la base de datos todos los atributos de ese usuario.
+	 *@return devuelve true si el registro se realiza correctamente
+	 */
 	public boolean GuardarUsuario(Usuario usuario) {
 		System.out.println(usuario);
 		try {
@@ -421,6 +435,13 @@ public class DAO implements IDAO {
 		}
 		return true;
 	}
+	/**
+	 * Metodo de inicio de sesion de un usuario
+	 * @param email
+	 * @param contrasenya
+	 * Se pasa como paramentro el email y contrasenya de un usuario concreto. Para comprobar el inicio de sesion, se crea una query y se filtra el email y la contrasenya.
+	 * @return devuelve true si el inicio de sesion se realiza correctamente
+	 */
 	public boolean ComprobarUsuario(String email, String contrasenya) {
 		persistentManager = persistentManagerFactory.getPersistenceManager();
 		transaction = persistentManager.currentTransaction();
@@ -449,6 +470,12 @@ public class DAO implements IDAO {
 		}
 		return true;
 	}
+	/**
+	 * Metodo de reserva
+	 * @param reserva
+	 * Se pasa como paramentro un objeto reserva y se inserta en la base de datos todos los atributos de esa reserva.
+	 * @return devuelve true si la reserva se realiza correctamente
+	 */ 
 	public boolean ReservarMesa(Reserva reserva) {
 		try {
 			persistentManager = persistentManagerFactory.getPersistenceManager();

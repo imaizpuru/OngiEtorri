@@ -18,7 +18,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @PersistenceCapable
 
-
+/**
+ * 
+ * @author Soldados de StackOverflow v2
+ * 
+ * Clase reserva que contiene la informacion referente a la reserva que se guarda como tabla en la base de datos; numRerva, numSocio, sillas, fecha
+ *
+ */
 public class Reserva implements Serializable {
 
 

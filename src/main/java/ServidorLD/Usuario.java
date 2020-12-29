@@ -13,6 +13,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @PersistenceCapable
+/**
+ * 
+ * @author Soldados de StackOverflow v2
+ * 
+ * Clase Usuario que contiene la informacion referente a los usuarios que se guarda como tabla en la base de datos; nsocio, nombre, apellido, email, fecha
+ *
+ */
 public class Usuario implements Serializable {
 	
 	@PrimaryKey

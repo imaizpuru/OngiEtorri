@@ -8,6 +8,13 @@ import ServidorLD.Reserva;
 import ServidorLD.Silla;
 import ServidorLD.Usuario;
 
+/**
+ * 
+ * @author Soldados de StackOverflow v2
+ * 
+ * Clase que interactua entre el controller y la clase DAO
+ *
+ */
 public class ongiEtorri {
 
 	private static ongiEtorri instance = new ongiEtorri();
@@ -19,15 +26,30 @@ public class ongiEtorri {
 	private Usuario user1  = new Usuario();
 	private Usuario user2  = new Usuario();
 	
+	/**
+	 * Constructor de la clase. Se crea una instancia de la clase DAO
+	 */
 	private ongiEtorri()
 	{
 		dao = DAO.getInstance();
 	}
+	/**
+	 * Metodo getter para que desde el controller se pueda acceder a un objeto ongiEtorri
+	 * @return devuelve el objeto instace de tipo ongiEtorri
+	 */
 	public static ongiEtorri getInstance() {
 		return instance;
 	}
 	
-	
+	/**
+	 * Metodo de creacion de usuario al que se le llama desde el controller. Se llama al metodo del DAO de creacion de usuario  y en el se comprueba si el usuario se puede crear
+	 * @param nsocio
+	 * @param nombre
+	 * @param apellidos
+	 * @param email
+	 * @param contrasenya
+	 * @return devuelve 0 solo en caso de que el usuario se haya registrado correctamente
+	 */
 	public int crearUsuario(int nsocio, String nombre, String apellidos, String email, String contrasenya) {
 		int vuelta = 0;
 		
@@ -77,7 +99,12 @@ public class ongiEtorri {
 		//System.out.println(usuarios);
 		return vuelta;
 	}
-
+	/**
+	 * Metodo de inicio de sesion al que se le llama desde el controller. Se llama al metodo del DAO de inicio de sesion y en el se comprueba si el usuario es correcto.
+	 * @param email
+	 * @param contrasenya
+	 * @return devuelve 0 solo en caso de que el usuario haya iniciado sesion correctamente
+	 */
 	public int iniciaSesion(String email, String contrasenya) {
 		int vuelta = 2;
 		boolean inicioSesion;
@@ -136,6 +163,14 @@ public class ongiEtorri {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+	/**
+	 * Metodo de crear reserva al que se le llama desde el controller. Se llama al metodo del DAO de crear reserva y en el se prueba si se puede realziar la reserva.
+	 * @param numSocio
+	 * @param sillas
+	 * @param fecha
+	 * @param numReserva
+	 * @return devuelve 0 solo en caso de que la reserva se haya realizado correctamente
+	 */
 	public int crearReserva(int numSocio, ArrayList<Silla>sillas, Date fecha, int numReserva)
 	{
 		int retorno = 1;

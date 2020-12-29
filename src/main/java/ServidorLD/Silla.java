@@ -16,6 +16,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @PersistenceCapable
+/**
+ * 
+ * @author Soldados de StackOverflow v2
+ * 
+ * Clase Silla que contiene la informacion referente a las sillas que se guarda como tabla en la base de datos; codigoSilla, fecha, numMesa
+ *
+ */
 public class Silla implements Serializable {
 	
 	@PrimaryKey
@@ -27,7 +34,14 @@ public class Silla implements Serializable {
 	//Reserva r;
 	//@Element(column = "numReserva")
 	//private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
-
+	/**
+	 * Constructor de la clase Silla donde se asingan las sillas a una mesa concreta
+	 * @param silla
+	 * Inicialziacion de las claves primaria silla
+	 * @param fecha
+	 * Inicializacion de la clave primaria fecha
+	 * 
+	 */
 	public Silla(int silla, Date fecha) {
 		codigoSilla = silla;
 		this.fecha = fecha;
