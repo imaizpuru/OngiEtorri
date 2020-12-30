@@ -19,6 +19,7 @@ public class ongiEtorri {
 
 	private static ongiEtorri instance = new ongiEtorri();
 	private List<Usuario> usuarios = new ArrayList<Usuario>();
+	private List<Reserva> reservas = new ArrayList<Reserva>();
 	private Usuario usuario = new Usuario();
 	private DAO dao;
 	//private static ongiEtorri
@@ -50,10 +51,10 @@ public class ongiEtorri {
 	 * @param contrasenya
 	 * @return devuelve 0 solo en caso de que el usuario se haya registrado correctamente
 	 */
-	public int crearUsuario(int nsocio, String nombre, String apellidos, String email, String contrasenya) {
+	public int crearUsuario(int nsocio, String nombre, String apellidos, String email, String contrasenya, boolean admin) {
 		int vuelta = 0;
 		
-		Usuario u = new Usuario(nsocio, nombre,apellidos , email, contrasenya);
+		Usuario u = new Usuario(nsocio, nombre,apellidos , email, contrasenya, admin);
 /*		u.setNsocio(nsocio);
 		u.setNombre(nombre);
 		u.setApellido(apellidos);
@@ -221,4 +222,27 @@ public class ongiEtorri {
 		
 		return usuarios;
 	}
+	public List<Reserva> getReservas()
+	{
+		reservas = dao.GetReservasList();
+		System.out.println(reservas);
+		
+		return reservas;
+	}
+	public List<Reserva> getReservasUser(int numSocio)
+	{
+		reservas = dao.GetReservasListUser(numSocio);
+		System.out.println(reservas);
+		
+		return reservas;
+	}
+	/*
+	public List<Reserva> getReservasDate(Date fecha)
+	{
+		reservas = dao.GetReservasListDate(fecha);
+		System.out.println(reservas);
+		
+		return reservas;
+	}
+	*/
 }
