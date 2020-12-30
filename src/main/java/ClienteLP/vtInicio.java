@@ -171,7 +171,6 @@ public class vtInicio extends JFrame {
 				} else {
 					contrasenya.setEchoChar('*');
 					btnNewButton.setIcon(ojo);
-
 				}
 
 			}

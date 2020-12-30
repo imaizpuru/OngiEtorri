@@ -1580,7 +1580,7 @@ public class vtPrincipal extends JFrame {
 	}
 
 	private void llenarReservas() {
-		Date hoy = new Date(2020, 10, 06);
+		Date hoy = new Date(2020, 12, 31);
 		ArrayList<Silla> sillas = new ArrayList<Silla>();
 		sillas.add(new Silla(1, hoy));
 		sillas.add(new Silla(2, hoy));
@@ -1599,7 +1599,7 @@ public class vtPrincipal extends JFrame {
 
 		reservas.add(b);
 
-		Date manana = new Date(2020, 10, 07);
+		Date manana = new Date(2020, 12, 31);
 		ArrayList<Silla> silla = new ArrayList<Silla>();
 
 		silla.add(new Silla(1, hoy));
