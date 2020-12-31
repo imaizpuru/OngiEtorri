@@ -28,7 +28,7 @@ public class ReservaTest {
 	@Before
 	public void setUp() throws Exception {
 
-		user = new Usuario(1, "a", "a", "a", "a");
+		user = new Usuario(1, "a", "a", "a", "a", false);
 		ventana = new vtPrincipal(user, new ArrayList<Integer>());
 		reserva = new Reserva();
 		array = new ArrayList<Integer>();

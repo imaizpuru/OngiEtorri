@@ -33,7 +33,7 @@ public class MockitoTest {
 		umock= mock (Usuario.class);
 		email= "a";
 		dao = DAO.getInstance();
-		u = new Usuario (1,"a","a","a","a");
+		u = new Usuario (1,"a","a","a","a", false);
 		
 		
 	}
