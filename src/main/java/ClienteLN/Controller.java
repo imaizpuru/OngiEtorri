@@ -82,6 +82,10 @@ public class Controller {
 		
 		return stub.crearSillas(sillasGuardadas);
 	}
+	public int setAdmin(int nsocio)
+	{	
+		return stub.setAdmin(nsocio);
+	}
 	/**
 	 * Metodo de seleccion de usuarios, que se utiliza para los permisos del administrador
 	 * @return devuelve el retorno del metodo getUsuarios de la clase OngliEtorri, al que se accede con la instancia creada en el constructor

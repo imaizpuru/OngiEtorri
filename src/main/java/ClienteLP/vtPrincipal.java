@@ -56,15 +56,6 @@ public class vtPrincipal extends JFrame {
 	private JDateChooser calendario;
 	private JPanel panel_1;
 	private JMenuItem misReservas;
-
-	public JMenuItem getMisReservas() {
-		return misReservas;
-	}
-
-	public void setMisReservas(JMenuItem misReservas) {
-		this.misReservas = misReservas;
-	}
-
 	private JMenuItem usuarios;
 	private JMenuItem reserva;
 	private JMenuBar menuBar;
@@ -89,6 +80,8 @@ public class vtPrincipal extends JFrame {
 	private Date deleccion;
 	private Controller controller = new Controller();
 	private int contReserva;
+	private ArrayList<Silla> sillasGuardadas = new ArrayList<Silla>();
+	private ArrayList<Integer> permisos;
 
 	public int getContReserva() {
 		return contReserva;
@@ -97,29 +90,24 @@ public class vtPrincipal extends JFrame {
 	public void setContReserva(int contReserva) {
 		this.contReserva = contReserva;
 	}
+	public JMenuItem getMisReservas() {
+		return misReservas;
+	}
 
-	private ArrayList<Silla> sillasGuardadas = new ArrayList<Silla>();
-	private ArrayList<Integer> permisos;
+	public void setMisReservas(JMenuItem misReservas) {
+		this.misReservas = misReservas;
+	}
 
 	/**
 	 * Create the frame.
 	 */
 
-	public vtPrincipal(Usuario usuari, ArrayList<Integer> permiso) {
+	public vtPrincipal(Usuario user, ArrayList<Integer> permiso) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(550, 200, 800, 600);
-
-		this.permisos = permiso;
-		this.usuario = usuari;
-
+		
+		this.usuario = user;
 		contReserva = controller.initContReserva();
-
-		// for(int i = 0; i<52; i++)
-		// {
-		// sillasGuardadas.add(new Silla(i));
-		// }
-
-		// controller.crearSillas(sillasGuardadas);
 
 		table_model = new DefaultTableModel();
 		String[] col = { "Fecha", "Sillas" };
@@ -141,7 +129,7 @@ public class vtPrincipal extends JFrame {
 		listaUsuarios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listaUsuarios.setVisible(false);
 		menuBar = new JMenuBar();
-		reservas = controller.getReservas();
+
 
 		reserva = new JMenuItem("Reserva");
 		reserva.setFont(new Font("Serif", Font.BOLD, 20));
@@ -216,25 +204,6 @@ public class vtPrincipal extends JFrame {
 					{
 						fila[2] = "No";
 					}
-						
-//					if (r.getNsocio() == 0) {
-//						fila[2] = "Si";
-//					} else {
-//						if (permisos.isEmpty()) {
-//							fila[2] = "No";
-//						} else {
-//							for (Integer i : permisos) {
-//								if (i == r.getNsocio()) {
-//									fila[2] = "Si";
-//									break;
-//								} else {
-//									fila[2] = "No";
-//								}
-//
-//							}
-//
-//						}
-//					}
 					table_modelo.addRow(fila);
 				}
 
@@ -248,21 +217,8 @@ public class vtPrincipal extends JFrame {
 		menuBar.add(reserva);
 		menuBar.add(misReservas);
 
-		if (usuario.getNsocio() == 0) {
+		if (usuario.isAdmin()) {
 			menuBar.add(usuarios);
-		} else {
-			if (permisos.isEmpty()) {
-			} else {
-				for (Integer i : permisos) {
-					if (i == usuario.getNsocio()) {
-						menuBar.add(usuarios);
-						break;
-					} else {
-					}
-
-				}
-
-			}
 		}
 
 		misReservas.addActionListener(new ActionListener() {
@@ -1408,10 +1364,31 @@ public class vtPrincipal extends JFrame {
 		btnPermiso.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				permisos.add(listaUsuarios.getSelectedRow());
-				llenarListaUsuarios();
+				int r;
+				try
+				{
+					r=listaUsuarios.getSelectedRow();
+					if(listaUsuarios.getValueAt(r, 2).equals("No"))
+					{
+						if(controller.setAdmin((Integer) listaUsuarios.getValueAt(r, 0))==0)
+						{
+							llenarListaUsuarios();
+						}
+						else
+						{
+							System.out.println("No se ha podido dar el permiso");
+						}
+					}
+					else
+					{
+						System.out.println("Este usuario ya es administrador");
+					}
+				}
+				catch(Exception ex)
+				{
+					System.out.println("No se ha elegido fila");
+				}
 			}
-
 		});
 		contentPane.add(btnPermiso);
 
@@ -1460,19 +1437,36 @@ public class vtPrincipal extends JFrame {
 		btnQuitarP.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < permisos.size(); i++) {
-					if (listaUsuarios.getSelectedRow() == permisos.get(i)) {
-						permisos.remove(i);
+				int r;
+				try
+				{
+					r=listaUsuarios.getSelectedRow();
+					if(listaUsuarios.getValueAt(r, 2).equals("Si"))
+					{
+						if(controller.setAdmin((Integer) listaUsuarios.getValueAt(r, 0))==0)
+						{
+							llenarListaUsuarios();
+						}
+						else
+						{
+							System.out.println("No se ha podido dar el permiso");
+						}
+					}
+					else
+					{
+						System.out.println("Este usuario ya es administrador");
 					}
 				}
-				llenarListaUsuarios();
+				catch(Exception ex)
+				{
+					System.out.println("No se ha elegido fila");
+				}
 			}
 
 		});
 		btnQuitarP.setVisible(false);
 		contentPane.add(btnQuitarP);
 
-		rojos();
 
 	}
 
@@ -1484,7 +1478,6 @@ public class vtPrincipal extends JFrame {
 		listaUsuarios.getColumnModel().getColumn(1).setCellRenderer(modelocentrar);
 		listaUsuarios.getColumnModel().getColumn(2).setCellRenderer(modelocentrar);
 		// Llenar mis reservas
-		int i = 0;
 		for (Usuario r : controller.getUsuarios()) {
 
 			Object[] fila = new Object[3];
@@ -1499,26 +1492,7 @@ public class vtPrincipal extends JFrame {
 			{
 				fila[2] = "No";
 			}
-//			if (r.getNsocio() == 0) {
-//				fila[2] = "Si";
-//			} else {
-//				if (permisos.isEmpty()) {
-//					fila[2] = "No";
-//
-//				} else {
-//					for (Integer in : permisos) {
-//						if (i == in) {
-//							fila[2] = "Si";
-//							break;
-//						} else {
-//							fila[2] = "No";
-//						}
-//					}
-//				}
-//
-//			}
 			table_modelo.addRow(fila);
-			i++;
 		}
 		listaUsuarios.repaint();
 	}
@@ -1554,9 +1528,7 @@ public class vtPrincipal extends JFrame {
 
 	private void rojos() {
 		ArrayList<Integer> a = new ArrayList<Integer>();
-		
 		reservas = controller.getReservas();
-		
 		if(reservas != null)
 		{
 			for (Reserva r : reservas) {

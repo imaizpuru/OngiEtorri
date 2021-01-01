@@ -71,9 +71,6 @@ public class ongiEtorri {
 		user1 = dao.GetUsuarioEmail(email);
 		user2 = dao.GetUsuarioSocio(nsocio);
 		
-		//System.out.println(user1);
-		//System.out.println(user2);
-		
 		if(user2 != null)
 		{
 			vuelta = 1;// El nsocio ya tiene una cuenta
@@ -89,15 +86,6 @@ public class ongiEtorri {
 			vuelta = 0;
 			dao.GuardarUsuario(u);
 		}
-		
-/*		if (vuelta == 0) {
-			usuarios.add(u);
-			System.out.println(u);
-			dao.GuardarUsuario(u);
-		}*/
-		//System.out.println("Usuarios:" + usuarios.size());
-		System.out.println(vuelta);
-		//System.out.println(usuarios);
 		return vuelta;
 	}
 	/**
@@ -215,17 +203,34 @@ public class ongiEtorri {
 		}
 		
 	}
+	public int setAdmin(int nsocio)
+	{
+		boolean contRes;
+		int retorno = 0;
+		
+		contRes = dao.setAdmin(nsocio);
+		
+		if(contRes)
+		{
+			return retorno;
+		}
+		else
+		{
+			retorno = 1;
+			return retorno;
+		}
+		
+	}
 	public List<Usuario> getUsuarios()
 	{
 		usuarios = dao.GetUsuariosList();
-		System.out.println(usuarios);
 		
 		return usuarios;
 	}
 	public List<Reserva> getReservas()
 	{
-		reservas = dao.GetReservasList();
-		System.out.println(reservas);
+		reservas = new ArrayList<Reserva>();
+		dao.GetReservasList(reservas);
 		
 		return reservas;
 	}

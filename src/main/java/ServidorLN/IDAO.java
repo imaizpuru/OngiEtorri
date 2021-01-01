@@ -19,4 +19,5 @@ public interface IDAO
 	public Reserva GetReservaUsuario(int numSocio);
 	public int GetLastReservas();
 	public Reserva GetReservaFecha(Date fecha);
+	public boolean setAdmin(int nsocio);
 }
