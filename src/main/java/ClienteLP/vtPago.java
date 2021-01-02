@@ -17,6 +17,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import ClienteLN.Controller;
+import ServidorLD.Reserva;
+
 public class vtPago extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
@@ -72,6 +75,7 @@ public class vtPago extends JFrame implements ActionListener {
 	private double vas;
 	private double prod;
 	private double tot=0;
+	private Controller controller = new Controller();
 
 	
 	private JLabel label;
@@ -79,14 +83,16 @@ public class vtPago extends JFrame implements ActionListener {
 	private DecimalFormat df;
 	private JButton btnNewButton_2;
 	private ImageIcon imageIcon = new ImageIcon("src/img/logo.png");
+	private Reserva reserva;
 
 	/**
 	 * Create the frame.
 	 */
-	public vtPago() {
+	public vtPago(Reserva r) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(665, 200, 570, 600);
 		setTitle("Pago");
+		this.reserva = r;
 		this.setIconImage(imageIcon.getImage());
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -247,7 +253,122 @@ public class vtPago extends JFrame implements ActionListener {
 		contentPane.add(ttlLicores);
 		ttlLicores.setVisible(false);
 		
-////////////////
+		lblcebolla = new JLabel("Cebolla:");
+		lblcebolla.setFont(new Font("Serif", Font.PLAIN, 18));
+		lblcebolla.setBounds(86, 49, 83, 20);
+		contentPane.add(lblcebolla);
+		lblcebolla.setVisible(false);
+
+		lblpatatas = new JLabel("Patatas:");
+		lblpatatas.setFont(new Font("Serif", Font.PLAIN, 18));
+		lblpatatas.setBounds(86, 85, 83, 20);
+		contentPane.add(lblpatatas);
+		lblpatatas.setVisible(false);
+		
+		lblaceitunas = new JLabel("Aceitunas:");
+		lblaceitunas.setFont(new Font("Serif", Font.PLAIN, 18));
+		lblaceitunas.setBounds(86, 125, 83, 20);
+		contentPane.add(lblaceitunas);
+		lblaceitunas.setVisible(false);
+		
+		lblAjo = new JLabel("Ajo:");
+		lblAjo.setFont(new Font("Serif", Font.PLAIN, 18));
+		lblAjo.setBounds(86, 166, 113, 20);
+		contentPane.add(lblAjo);
+		lblAjo.setVisible(false);
+		
+		spinner4 = new JSpinner();
+		spinner4.setBounds(253, 115, 54, 29);
+		contentPane.add(spinner4);
+		spinner4.setVisible(false);
+		spinner4.getEditor().getComponent(0).setBackground(new Color(240, 248, 255));
+		spinner4.setFont(new Font("Serif", Font.PLAIN, 28));
+		spinner4.addChangeListener(new ChangeListener() {
+
+			public void stateChanged(ChangeEvent e) {
+				ace = (Double.valueOf((Integer) spinner4.getValue()) * 2);
+				ttlaceitunas.setText(df.format(ace) + "€");
+				tot = ref+cer+cham+lic+	ceb+pat+ace+ajo;
+				label.setText(df.format(tot) + "€");
+			}
+
+		});
+		
+		spinner5 = new JSpinner();
+		spinner5.setBounds(253, 155, 54, 29);
+		contentPane.add(spinner5);
+		spinner5.setVisible(false);
+		spinner5.getEditor().getComponent(0).setBackground(new Color(240, 248, 255));
+		spinner5.setFont(new Font("Serif", Font.PLAIN, 28));
+		spinner5.addChangeListener(new ChangeListener() {
+
+			public void stateChanged(ChangeEvent e) {
+				ajo = (Double.valueOf((Integer) spinner5.getValue()) * 0.8);
+				ttlajo.setText(df.format(ajo) + "€");
+				tot = ref+cer+cham+lic+	ceb+pat+ace+ajo;
+				label.setText(df.format(tot) + "€");
+			}
+
+		});
+
+		spinner6 = new JSpinner();
+		spinner6.setBounds(253, 47, 54, 29);
+		contentPane.add(spinner6);
+		spinner6.setVisible(false);
+		spinner6.getEditor().getComponent(0).setBackground(new Color(240, 248, 255));
+		spinner6.setFont(new Font("Serif", Font.PLAIN, 28));
+		spinner6.addChangeListener(new ChangeListener() {
+
+			public void stateChanged(ChangeEvent e) {
+				ceb = (Double.valueOf((Integer) spinner6.getValue()) * 1);
+				ttlcebolla.setText(df.format(ceb) + "€");
+				tot = ref+cer+cham+lic+	ceb+pat+ace+ajo;
+				label.setText(df.format(tot) + "€");
+			}
+
+		});
+
+		spinner_7 = new JSpinner();
+		spinner_7.setBounds(253, 82, 54, 29);
+		contentPane.add(spinner_7);
+		spinner_7.getEditor().getComponent(0).setBackground(new Color(240, 248, 255));
+		spinner_7.setFont(new Font("Serif", Font.PLAIN, 28));
+		spinner_7.setVisible(false);
+		spinner_7.addChangeListener(new ChangeListener() {
+
+			public void stateChanged(ChangeEvent e) {
+				pat = (Double.valueOf((Integer) spinner_7.getValue()) * 2);
+				ttlpatatas.setText(df.format(pat) + "€");
+				tot = ref+cer+cham+lic+	ceb+pat+ace+ajo;
+				label.setText(df.format(tot) + "€");
+
+			}
+
+		});
+
+		ttlcebolla = new JLabel();
+		ttlcebolla.setFont(new Font("Serif", Font.PLAIN, 18));
+		ttlcebolla.setBounds(372, 50, 91, 20);
+		contentPane.add(ttlcebolla);
+		ttlcebolla.setVisible(false);
+		
+		ttlpatatas = new JLabel();
+		ttlpatatas.setFont(new Font("Serif", Font.PLAIN, 18));
+		ttlpatatas.setBounds(372, 86 ,91, 20);
+		contentPane.add(ttlpatatas);
+		ttlpatatas.setVisible(false);
+		
+		ttlaceitunas = new JLabel();
+		ttlaceitunas.setFont(new Font("Serif", Font.PLAIN, 18));
+		ttlaceitunas.setBounds(372, 124, 91, 20);
+		contentPane.add(ttlaceitunas);
+		ttlaceitunas.setVisible(false);
+
+		ttlajo = new JLabel();
+		ttlajo.setFont(new Font("Serif", Font.PLAIN, 18));
+		ttlajo.setBounds(372, 164, 91, 20);
+		contentPane.add(ttlajo);
+		ttlajo.setVisible(false);
 		
 		lblcebolla = new JLabel("Cebolla:");
 		lblcebolla.setFont(new Font("Serif", Font.PLAIN, 18));
@@ -365,125 +486,6 @@ public class vtPago extends JFrame implements ActionListener {
 		ttlajo.setBounds(372, 164, 91, 20);
 		contentPane.add(ttlajo);
 		ttlajo.setVisible(false);
-///////////////
-		
-		lblcebolla = new JLabel("Cebolla:");
-		lblcebolla.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblcebolla.setBounds(86, 49, 83, 20);
-		contentPane.add(lblcebolla);
-		lblcebolla.setVisible(false);
-
-		lblpatatas = new JLabel("Patatas:");
-		lblpatatas.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblpatatas.setBounds(86, 85, 83, 20);
-		contentPane.add(lblpatatas);
-		lblpatatas.setVisible(false);
-		
-		lblaceitunas = new JLabel("Aceitunas:");
-		lblaceitunas.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblaceitunas.setBounds(86, 125, 83, 20);
-		contentPane.add(lblaceitunas);
-		lblaceitunas.setVisible(false);
-		
-		lblAjo = new JLabel("Ajo:");
-		lblAjo.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblAjo.setBounds(86, 166, 113, 20);
-		contentPane.add(lblAjo);
-		lblAjo.setVisible(false);
-		
-		spinner4 = new JSpinner();
-		spinner4.setBounds(253, 115, 54, 29);
-		contentPane.add(spinner4);
-		spinner4.setVisible(false);
-		spinner4.getEditor().getComponent(0).setBackground(new Color(240, 248, 255));
-		spinner4.setFont(new Font("Serif", Font.PLAIN, 28));
-		spinner4.addChangeListener(new ChangeListener() {
-
-			public void stateChanged(ChangeEvent e) {
-				ace = (Double.valueOf((Integer) spinner4.getValue()) * 2);
-				ttlaceitunas.setText(df.format(ace) + "€");
-				tot = ref+cer+cham+lic+	ceb+pat+ace+ajo;
-				label.setText(df.format(tot) + "€");
-			}
-
-		});
-		
-		spinner5 = new JSpinner();
-		spinner5.setBounds(253, 155, 54, 29);
-		contentPane.add(spinner5);
-		spinner5.setVisible(false);
-		spinner5.getEditor().getComponent(0).setBackground(new Color(240, 248, 255));
-		spinner5.setFont(new Font("Serif", Font.PLAIN, 28));
-		spinner5.addChangeListener(new ChangeListener() {
-
-			public void stateChanged(ChangeEvent e) {
-				ajo = (Double.valueOf((Integer) spinner5.getValue()) * 0.8);
-				ttlajo.setText(df.format(ajo) + "€");
-				tot = ref+cer+cham+lic+	ceb+pat+ace+ajo;
-				label.setText(df.format(tot) + "€");
-			}
-
-		});
-
-		spinner6 = new JSpinner();
-		spinner6.setBounds(253, 47, 54, 29);
-		contentPane.add(spinner6);
-		spinner6.setVisible(false);
-		spinner6.getEditor().getComponent(0).setBackground(new Color(240, 248, 255));
-		spinner6.setFont(new Font("Serif", Font.PLAIN, 28));
-		spinner6.addChangeListener(new ChangeListener() {
-
-			public void stateChanged(ChangeEvent e) {
-				ceb = (Double.valueOf((Integer) spinner6.getValue()) * 1);
-				ttlcebolla.setText(df.format(ceb) + "€");
-				tot = ref+cer+cham+lic+	ceb+pat+ace+ajo;
-				label.setText(df.format(tot) + "€");
-			}
-
-		});
-
-		spinner_7 = new JSpinner();
-		spinner_7.setBounds(253, 82, 54, 29);
-		contentPane.add(spinner_7);
-		spinner_7.getEditor().getComponent(0).setBackground(new Color(240, 248, 255));
-		spinner_7.setFont(new Font("Serif", Font.PLAIN, 28));
-		spinner_7.setVisible(false);
-		spinner_7.addChangeListener(new ChangeListener() {
-
-			public void stateChanged(ChangeEvent e) {
-				pat = (Double.valueOf((Integer) spinner_7.getValue()) * 2);
-				ttlpatatas.setText(df.format(pat) + "€");
-				tot = ref+cer+cham+lic+	ceb+pat+ace+ajo;
-				label.setText(df.format(tot) + "€");
-
-			}
-
-		});
-
-		ttlcebolla = new JLabel();
-		ttlcebolla.setFont(new Font("Serif", Font.PLAIN, 18));
-		ttlcebolla.setBounds(372, 50, 91, 20);
-		contentPane.add(ttlcebolla);
-		ttlcebolla.setVisible(false);
-		
-		ttlpatatas = new JLabel();
-		ttlpatatas.setFont(new Font("Serif", Font.PLAIN, 18));
-		ttlpatatas.setBounds(372, 86 ,91, 20);
-		contentPane.add(ttlpatatas);
-		ttlpatatas.setVisible(false);
-		
-		ttlaceitunas = new JLabel();
-		ttlaceitunas.setFont(new Font("Serif", Font.PLAIN, 18));
-		ttlaceitunas.setBounds(372, 124, 91, 20);
-		contentPane.add(ttlaceitunas);
-		ttlaceitunas.setVisible(false);
-
-		ttlajo = new JLabel();
-		ttlajo.setFont(new Font("Serif", Font.PLAIN, 18));
-		ttlajo.setBounds(372, 164, 91, 20);
-		contentPane.add(ttlajo);
-		ttlajo.setVisible(false);
-//////////////
 		
 		lblservilletas = new JLabel("Servilletas:");
 		lblservilletas.setFont(new Font("Serif", Font.PLAIN, 18));
@@ -575,8 +577,6 @@ public class vtPago extends JFrame implements ActionListener {
 		ttlproductolimpieza.setVisible(false);
 
 		
-//////////////
-		
 		
 		btnNewButton_1 = new JButton("");
 		btnNewButton_1.setIcon(new ImageIcon(
@@ -621,7 +621,14 @@ public class vtPago extends JFrame implements ActionListener {
 
 			      if(n2 == JOptionPane.YES_OPTION)
 			      {
-			          JOptionPane.showMessageDialog(null, "Pago realizado con exito. Muchas gracias");
+			    	  if(controller.anadirCuenta(reserva, tot)==0)
+			    	  {
+			    		  JOptionPane.showMessageDialog(null, "Pago realizado con exito. Muchas gracias");
+			    	  }
+			    	  else
+			    	  {
+			    		  JOptionPane.showMessageDialog(null, "Error al realizar la cuenta.");
+			    	  }
 			          dispose();
 			      }
 			      else

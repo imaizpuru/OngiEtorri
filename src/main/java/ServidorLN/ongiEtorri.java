@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
 
+import ServidorLD.Cuenta;
 import ServidorLD.Reserva;
 import ServidorLD.Silla;
 import ServidorLD.Usuario;
@@ -55,19 +56,6 @@ public class ongiEtorri {
 		int vuelta = 0;
 		
 		Usuario u = new Usuario(nsocio, nombre,apellidos , email, contrasenya, admin);
-/*		u.setNsocio(nsocio);
-		u.setNombre(nombre);
-		u.setApellido(apellidos);
-		u.setEmail(email);
-		u.setContrasenya(contrasenya);
-*/		
-/*		for (Usuario a : usuarios) {
-			if (nsocio == a.getNsocio() || email.equals(a.getEmail())) {
-				vuelta = 1;// El nsocio ya tiene una cuenta
-				System.out.println("Socio o email repetido");
-			}
-		
-		}*/
 		user1 = dao.GetUsuarioEmail(email);
 		user2 = dao.GetUsuarioSocio(nsocio);
 		
@@ -104,7 +92,6 @@ public class ongiEtorri {
 		{
 			return vuelta;
 		}
-		//System.out.println(usuario.getContrasenya().equals(contrasenya));
 		
 		inicioSesion = dao.ComprobarUsuario(email, contrasenya);
 		
@@ -117,31 +104,6 @@ public class ongiEtorri {
 		{
 			vuelta = 1;
 		}
-/*//		usuario = dao.GetUsuario(email);
-//		System.out.println(usuario);
-		for (Usuario us : usuarios) {
-			//System.out.println(usuarios);
-			if (us.getEmail().equals(email)) {
-				System.out.println("Holaa");
-				if (us.getContrasenya().equals(contrasenya)) 
-				{
-						//vuelta = 0;
-						//usuario = us;
-					
-					System.out.println(inicioSesion);
-					if(inicioSesion == true)
-					{	
-						vuelta = 0;
-						
-					}
-					else{	
-				
-						vuelta = 1;
-						
-					}
-				}
-			}
-		}*/
 		return vuelta;
 	}
 
@@ -165,7 +127,7 @@ public class ongiEtorri {
 		int retorno = 1;
 		boolean anadir;
 		
-		Reserva r = new Reserva(numSocio, sillas, fecha, numReserva);
+		Reserva r = new Reserva(numSocio, sillas, null, false, fecha, numReserva);
 		
 		 anadir = dao.ReservarMesa(r);
 		
@@ -175,7 +137,23 @@ public class ongiEtorri {
 		}
 		
 		return retorno;
-		
+	}
+	public int deleteReserva(int numReserva)
+	{
+		if(dao.deleteReserva(numReserva))
+		{
+			return 0;
+		}
+		return 1;
+	}
+	public int anadirCuenta (Reserva r, double cuenta)
+	{
+		Cuenta c = new Cuenta(false, cuenta, r.getNumReserva());
+		if(dao.anadirCuenta(r, c))
+		{
+			return 0;
+		}
+		return 1;
 	}
 	public int initContReserva()
 	{

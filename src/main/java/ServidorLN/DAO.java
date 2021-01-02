@@ -10,7 +10,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
-
+import ServidorLD.Cuenta;
 import ServidorLD.Reserva;
 import ServidorLD.Silla;
 import ServidorLD.Usuario;
@@ -356,6 +356,27 @@ public class DAO implements IDAO {
 		}
 		return true;
 	}
+	public boolean deleteReserva(int numReserva) {
+		try {
+			persistentManager = persistentManagerFactory.getPersistenceManager();
+			transaction = persistentManager.currentTransaction();
+			transaction.begin();
+			Query<Reserva> query = persistentManager.newQuery(Reserva.class, "numReserva ==" + numReserva);
+			@SuppressWarnings("unchecked")
+			List<Reserva> result = (List<Reserva>) query.execute();
+			persistentManager.deletePersistent(result.get(0));
+			transaction.commit();
+		} catch (Exception ex) {
+			System.err.println("* Exception inserting reservation data into db: " + ex.getMessage());
+			return false;
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+			persistentManager.close();
+		}
+		return true;
+	}
 	public Reserva GetReservaFecha(Date fecha) {
 		persistentManager = persistentManagerFactory.getPersistenceManager();
 		transaction = persistentManager.currentTransaction();
@@ -420,6 +441,35 @@ public class DAO implements IDAO {
 			if(usuarios.size()==1)
 			{			
 				usuarios.get(0).setAdmin(!usuarios.get(0).isAdmin());
+			    transaction.commit();
+			}
+		} catch(Exception ex) {
+			System.err.println("* Exception executing a query: " + ex.getMessage());
+			return false;
+		} finally {
+			if (transaction.isActive()) {
+		        transaction.rollback();
+		    }
+
+		    persistentManager.close();
+		}
+		return true;
+	}
+	public boolean anadirCuenta(Reserva r, Cuenta c) {
+		persistentManager = persistentManagerFactory.getPersistenceManager();
+		transaction = persistentManager.currentTransaction();
+			
+		try {
+		    transaction.begin();
+		    Query<Reserva> query = persistentManager.newQuery(Reserva.class);
+			query.setFilter("numReserva == " + r.getNumReserva());
+			@SuppressWarnings("unchecked")
+			List<Reserva> reservas = (List<Reserva>) query.execute();
+
+			if(reservas.size()==1)
+			{
+				r.setCuenta(c);
+				r.setBCuenta(true);
 			    transaction.commit();
 			}
 		} catch(Exception ex) {

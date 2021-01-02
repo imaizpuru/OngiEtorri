@@ -26,7 +26,6 @@ public class Controller {
 		
 		stub = ongiEtorri.getInstance();
 	}
-	//private ongiEtorri stub = new ongiEtorri();
 	/**
 	 * Metodo de registro de un usuario
 	 * @param nsocio
@@ -42,9 +41,7 @@ public class Controller {
 	 * @return devuelve el retorno del metodo crearUsuario de la clase OngliEtorri, al que se accede con la instancia creada en el constructor
 	 */
 	public int crearUsuario(int nsocio, String nombre, String apellidos, String email, String contrasenya, boolean admin) {
-		
 		stub.getUsuarios();
-		
 		return stub.crearUsuario(nsocio, nombre, apellidos, email, contrasenya, admin);
 	}
 	/**
@@ -73,42 +70,37 @@ public class Controller {
 	public int crearReserva(int numSocio, ArrayList<Silla>sillas, Date fecha, int numReserva) {
 		return stub.crearReserva(numSocio, sillas, fecha, numReserva);
 	}
-	public int initContReserva()
+	public int deleteReserva(int numReserva)
 	{
+		return stub.deleteReserva(numReserva);
+	}
+	public int initContReserva(){
 		return stub.initContReserva();
 	}
-	public int crearSillas(ArrayList <Silla> sillasGuardadas)
-	{	
-		
+	public int crearSillas(ArrayList <Silla> sillasGuardadas){	
 		return stub.crearSillas(sillasGuardadas);
 	}
-	public int setAdmin(int nsocio)
-	{	
+	public int setAdmin(int nsocio){	
 		return stub.setAdmin(nsocio);
+	}
+	public int anadirCuenta(Reserva r, double precio)
+	{
+		return stub.anadirCuenta(r, precio);
 	}
 	/**
 	 * Metodo de seleccion de usuarios, que se utiliza para los permisos del administrador
 	 * @return devuelve el retorno del metodo getUsuarios de la clase OngliEtorri, al que se accede con la instancia creada en el constructor
 	 */
-	public List<Usuario> getUsuarios()
-	{
+	public List<Usuario> getUsuarios(){
 		return stub.getUsuarios();
 	}
-	public List<Reserva> getReservas()
-	{
+	public List<Reserva> getReservas(){
 		return stub.getReservas();
 	}
-	public List<Reserva> getReservasUser(int numSocio)
-	{
+	public List<Reserva> getReservasUser(int numSocio){
 		return stub.getReservasUser(numSocio);
 	}
-	/*
-	public List<Reserva> getReservasDate(Date fecha)
-	{
-		return stub.getReservasDate(fecha);
-	}
-	*/
-	public Usuario getUsuario() {
+	public Usuario getUsuario(){
 		return stub.getUsuario();
 	}
 }

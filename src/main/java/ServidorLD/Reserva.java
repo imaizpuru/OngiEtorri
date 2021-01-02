@@ -31,6 +31,8 @@ public class Reserva implements Serializable {
 	private int numSocio;
 	//@Element(column = "codigoSilla")
 	private ArrayList<Silla> sillas = new ArrayList<Silla>();
+	private Cuenta cuenta;
+	private boolean bCuenta = false;
 	private Date fecha;
 	@PrimaryKey
 	private int numReserva;

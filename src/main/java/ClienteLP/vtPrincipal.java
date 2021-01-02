@@ -72,6 +72,7 @@ public class vtPrincipal extends JFrame {
 	private DefaultTableModel table_modelo;
 	private Usuario usuario;
 	private List<Reserva> reservas = new ArrayList<Reserva>();
+	private List<Reserva> reservasUser = new ArrayList<Reserva>();
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel1;
 	private JLabel lblNewLabell;
@@ -252,9 +253,11 @@ public class vtPrincipal extends JFrame {
 				
 				if(reservas != null)
 				{
+					reservasUser.clear();
 					for (Reserva r : reservas) {
 						if (r.getNumSocio() == usuario.getNsocio())// Socio pasado por par�metro
 						{
+							reservasUser.add(r);
 							Object[] fila = new Object[2];
 							fila[0] = r.getFecha().getDate() + " de " + mes(r.getFecha().getMonth() + 1);
 							fila[1] = r.getSillas().size();
@@ -1376,17 +1379,17 @@ public class vtPrincipal extends JFrame {
 						}
 						else
 						{
-							System.out.println("No se ha podido dar el permiso");
+							JOptionPane.showMessageDialog(null, "No se ha podido dar el permiso");
 						}
 					}
 					else
 					{
-						System.out.println("Este usuario ya es administrador");
+						JOptionPane.showMessageDialog(null, "Este usuario ya es administrador");
 					}
 				}
 				catch(Exception ex)
 				{
-					System.out.println("No se ha elegido fila");
+					JOptionPane.showMessageDialog(null, "No se ha elegido fila");
 				}
 			}
 		});
@@ -1411,10 +1414,26 @@ public class vtPrincipal extends JFrame {
 		btnPago.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				vtPago p = new vtPago();
-				p.setVisible(true);
-			}
+				int r;
+				try
+				{
+					r=list.getSelectedRow();
+					if(!reservasUser.get(r).isBCuenta())
+					{
+						vtPago p = new vtPago(reservas.get(r));
+						p.setVisible(true);
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "Ya se ha asignado una cuenta a esta reserva");
+					}
+				}
+				catch(Exception ex)
+				{
+					JOptionPane.showMessageDialog(null, "No se ha elegido fila");
+				}
 
+			}
 		});
 		btnPago.setVisible(false);
 		contentPane.add(btnPago);
@@ -1425,8 +1444,26 @@ public class vtPrincipal extends JFrame {
 		btnEliminar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				int r;
+				try
+				{
+					r=list.getSelectedRow();
+					if(controller.deleteReserva(reservasUser.get(r).getNumReserva())==0)
+					{
+						reservasUser.remove(r);
+						table_model.removeRow(r);
+						list.repaint();
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, "No se ha podido eliminar la reserva.");
+					}
+				}
+				catch(Exception ex)
+				{
+					JOptionPane.showMessageDialog(null, "No se ha elegido fila");
+				}
 			}
-
 		});
 		btnEliminar.setVisible(false);
 		contentPane.add(btnEliminar);
@@ -1449,17 +1486,17 @@ public class vtPrincipal extends JFrame {
 						}
 						else
 						{
-							System.out.println("No se ha podido dar el permiso");
+							JOptionPane.showMessageDialog(null, "No se ha podido dar el permiso.");
 						}
 					}
 					else
 					{
-						System.out.println("Este usuario ya es administrador");
+						JOptionPane.showMessageDialog(null, "Este usuario ya es administrador.");
 					}
 				}
 				catch(Exception ex)
 				{
-					System.out.println("No se ha elegido fila");
+					JOptionPane.showMessageDialog(null, "No se ha elegido fila");
 				}
 			}
 
