@@ -1,6 +1,5 @@
 package ServidorLN;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,11 +24,12 @@ public class DAO implements IDAO {
 	private PersistenceManagerFactory persistentManagerFactory;
 	private PersistenceManager persistentManager;
 	private Transaction transaction;
-	
+
 	private static DAO instance = new DAO();
-	
+
 	/**
-	 * Constrcutor del DAO. Se ejecuta las conexiones de datanucleus abriendo el fichero datanculeus.properties
+	 * Constrcutor del DAO. Se ejecuta las conexiones de datanucleus abriendo el
+	 * fichero datanculeus.properties
 	 */
 	public DAO() {
 		super();
@@ -39,10 +39,11 @@ public class DAO implements IDAO {
 			System.err.println("* Exception: " + ex.getMessage());
 		}
 	}
-	public static DAO getInstance(){
+
+	public static DAO getInstance() {
 		return instance;
 	}
-	
+
 	public Usuario GetUsuarioEmail(String email) {
 		persistentManager = persistentManagerFactory.getPersistenceManager();
 		transaction = persistentManager.currentTransaction();
@@ -51,17 +52,16 @@ public class DAO implements IDAO {
 		try {
 			transaction.begin();
 			Query<Usuario> query = persistentManager.newQuery(Usuario.class);
-			query.setFilter("email == '"+ email+"'");
+			query.setFilter("email == '" + email + "'");
 			@SuppressWarnings("unchecked")
 			List<Usuario> accounts = (List<Usuario>) query.execute();
-			if (accounts.size() == 1)
-			{
+			if (accounts.size() == 1) {
 				user = accounts.get(0);
 				transaction.commit();
 				System.out.println(user);
 				return user;
 			}
-			
+
 		} catch (Exception ex) {
 			System.err.println("* Exception executing a query: " + ex.getMessage());
 			return null;
@@ -73,6 +73,7 @@ public class DAO implements IDAO {
 		}
 		return null;
 	}
+
 	public Usuario GetUsuarioSocio(int nsocio) {
 		persistentManager = persistentManagerFactory.getPersistenceManager();
 		transaction = persistentManager.currentTransaction();
@@ -83,8 +84,7 @@ public class DAO implements IDAO {
 			query.setFilter("nsocio == " + nsocio);
 			@SuppressWarnings("unchecked")
 			List<Usuario> accounts = (List<Usuario>) query.execute();
-			if (accounts.size() == 1)
-			{
+			if (accounts.size() == 1) {
 				user = accounts.get(0);
 				transaction.commit();
 				System.out.println(user);
@@ -102,7 +102,8 @@ public class DAO implements IDAO {
 		}
 		return null;
 	}
-	public List <Usuario> GetUsuariosList() {
+
+	public List<Usuario> GetUsuariosList() {
 		persistentManager = persistentManagerFactory.getPersistenceManager();
 		transaction = persistentManager.currentTransaction();
 
@@ -111,8 +112,7 @@ public class DAO implements IDAO {
 			Query<Usuario> query = persistentManager.newQuery(Usuario.class);
 			@SuppressWarnings("unchecked")
 			List<Usuario> usuarios = (List<Usuario>) query.execute();
-			if (usuarios.size() > 0)
-			{	
+			if (usuarios.size() > 0) {
 				transaction.commit();
 				System.out.println(usuarios);
 				return usuarios;
@@ -130,24 +130,24 @@ public class DAO implements IDAO {
 		}
 		return null;
 	}
-	public List <Reserva> GetReservasListUser(int numSocio) {
+
+	public List<Reserva> GetReservasListUser(int numSocio) {
 		persistentManager = persistentManagerFactory.getPersistenceManager();
 		transaction = persistentManager.currentTransaction();
-		//Usuario user = new Usuario();
-		//System.out.println(nsocio);
+		// Usuario user = new Usuario();
+		// System.out.println(nsocio);
 
 		try {
 			transaction.begin();
 			Query<Reserva> query = persistentManager.newQuery(Reserva.class);
 			query.setFilter("nsocio == '" + numSocio + "'");
-			//query.setFilter("nsocio == " + nsocio);
+			// query.setFilter("nsocio == " + nsocio);
 			@SuppressWarnings("unchecked")
 			List<Reserva> reservas = (List<Reserva>) query.execute();
-			if (reservas.size() > 0)
-			{	
+			if (reservas.size() > 0) {
 				System.out.println(reservas);
 				return reservas;
-			
+
 			}
 			transaction.commit();
 		} catch (Exception ex) {
@@ -165,8 +165,8 @@ public class DAO implements IDAO {
 		}
 		return null;
 	}
-	
-	public boolean GetReservasList(List <Reserva> res) {
+
+	public boolean GetReservasList(List<Reserva> res) {
 		persistentManager = persistentManagerFactory.getPersistenceManager();
 		transaction = persistentManager.currentTransaction();
 		try {
@@ -174,10 +174,8 @@ public class DAO implements IDAO {
 			Query<Reserva> query = persistentManager.newQuery(Reserva.class);
 			@SuppressWarnings("unchecked")
 			List<Reserva> reservas = (List<Reserva>) query.execute();
-			if (reservas.size() > 0)
-			{	
-				for(int i=0; i< reservas.size();i++)
-				{
+			if (reservas.size() > 0) {
+				for (int i = 0; i < reservas.size(); i++) {
 					res.add(reservas.get(i));
 				}
 			}
@@ -194,56 +192,61 @@ public class DAO implements IDAO {
 		}
 		return true;
 	}
+
 	public Reserva GetReservaUsuario(int numSocio) {
 		persistentManager = persistentManagerFactory.getPersistenceManager();
 		transaction = persistentManager.currentTransaction();
-			
+
 		try {
-		    transaction.begin();
-		    Query<Reserva> query = persistentManager.newQuery(Reserva.class);
+			transaction.begin();
+			Query<Reserva> query = persistentManager.newQuery(Reserva.class);
 			query.setFilter("nsocio == '" + numSocio + "'");
 
 			@SuppressWarnings("unchecked")
 			List<Reserva> accounts = (List<Reserva>) query.execute();
-			if(accounts.size()!=1) return accounts.get(0);
-		    transaction.commit();
-		} catch(Exception ex) {
+			if (accounts.size() != 1)
+				return accounts.get(0);
+			transaction.commit();
+		} catch (Exception ex) {
 			System.err.println("* Exception executing a query: " + ex.getMessage());
 			return null;
 		} finally {
 			if (transaction.isActive()) {
-		        transaction.rollback();
-		    }
+				transaction.rollback();
+			}
 
-		    persistentManager.close();
+			persistentManager.close();
 		}
 		return null;
 	}
+
 	public int GetLastReservas() {
 		persistentManager = persistentManagerFactory.getPersistenceManager();
 		transaction = persistentManager.currentTransaction();
-			
+
 		try {
-		    transaction.begin();
-		    Query<Reserva> query = persistentManager.newQuery(Reserva.class);
-			//query.setFilter("nsocio == '" + numSocio + "'");
+			transaction.begin();
+			Query<Reserva> query = persistentManager.newQuery(Reserva.class);
+			// query.setFilter("nsocio == '" + numSocio + "'");
 
 			@SuppressWarnings("unchecked")
 			List<Reserva> accounts = (List<Reserva>) query.execute();
-			if(accounts.size() > 0) return accounts.get(accounts.size()-1).getNumReserva();
-		    transaction.commit();
-		} catch(Exception ex) {
+			if (accounts.size() > 0)
+				return accounts.get(accounts.size() - 1).getNumReserva();
+			transaction.commit();
+		} catch (Exception ex) {
 			System.err.println("* Exception executing a query: " + ex.getMessage());
 			return 0;
 		} finally {
 			if (transaction.isActive()) {
-		        transaction.rollback();
-		    }
+				transaction.rollback();
+			}
 
-		    persistentManager.close();
+			persistentManager.close();
 		}
 		return 0;
 	}
+
 	public boolean GuardarMesas(List<Silla> sillas) {
 		try {
 			persistentManager = persistentManagerFactory.getPersistenceManager();
@@ -267,11 +270,14 @@ public class DAO implements IDAO {
 		}
 		return true;
 	}
+
 	/**
 	 * Metod del DAO de registro de usuario.
+	 * 
 	 * @param usuario
-	 * Se le pasa como parametro un objeto usuario y se inserta en la base de datos todos los atributos de ese usuario.
-	 *@return devuelve true si el registro se realiza correctamente
+	 *            Se le pasa como parametro un objeto usuario y se inserta en la
+	 *            base de datos todos los atributos de ese usuario.
+	 * @return devuelve true si el registro se realiza correctamente
 	 */
 	public boolean GuardarUsuario(Usuario usuario) {
 		try {
@@ -294,11 +300,15 @@ public class DAO implements IDAO {
 		}
 		return true;
 	}
+
 	/**
 	 * Metodo de inicio de sesion de un usuario
+	 * 
 	 * @param email
 	 * @param contrasenya
-	 * Se pasa como paramentro el email y contrasenya de un usuario concreto. Para comprobar el inicio de sesion, se crea una query y se filtra el email y la contrasenya.
+	 *            Se pasa como paramentro el email y contrasenya de un usuario
+	 *            concreto. Para comprobar el inicio de sesion, se crea una
+	 *            query y se filtra el email y la contrasenya.
 	 * @return devuelve true si el inicio de sesion se realiza correctamente
 	 */
 	public boolean ComprobarUsuario(String email, String contrasenya) {
@@ -308,12 +318,12 @@ public class DAO implements IDAO {
 		try {
 			transaction.begin();
 			Query<Usuario> query = persistentManager.newQuery(Usuario.class);
-			query.setFilter("email == '" + email + "' && contrasenya == '" + contrasenya+ "'");
+			query.setFilter("email == '" + email + "' && contrasenya == '" + contrasenya + "'");
 			@SuppressWarnings("unchecked")
 			List<Usuario> accounts = (List<Usuario>) query.execute();
-			//System.out.println(accounts.get(0));
+			// System.out.println(accounts.get(0));
 			if (accounts.size() != 1)
-				
+
 				throw new Exception();
 
 			transaction.commit();
@@ -329,12 +339,15 @@ public class DAO implements IDAO {
 		}
 		return true;
 	}
+
 	/**
 	 * Metodo de reserva
+	 * 
 	 * @param reserva
-	 * Se pasa como paramentro un objeto reserva y se inserta en la base de datos todos los atributos de esa reserva.
+	 *            Se pasa como paramentro un objeto reserva y se inserta en la
+	 *            base de datos todos los atributos de esa reserva.
 	 * @return devuelve true si la reserva se realiza correctamente
-	 */ 
+	 */
 	public boolean ReservarMesa(Reserva reserva) {
 		try {
 			persistentManager = persistentManagerFactory.getPersistenceManager();
@@ -356,6 +369,7 @@ public class DAO implements IDAO {
 		}
 		return true;
 	}
+
 	public boolean deleteReserva(int numReserva) {
 		try {
 			persistentManager = persistentManagerFactory.getPersistenceManager();
@@ -367,7 +381,7 @@ public class DAO implements IDAO {
 			persistentManager.deletePersistent(result.get(0));
 			transaction.commit();
 		} catch (Exception ex) {
-			System.err.println("* Exception inserting reservation data into db: " + ex.getMessage());
+			System.err.println("* Exception deleting reservation data from db: " + ex.getMessage());
 			return false;
 		} finally {
 			if (transaction.isActive()) {
@@ -377,110 +391,114 @@ public class DAO implements IDAO {
 		}
 		return true;
 	}
+
 	public Reserva GetReservaFecha(Date fecha) {
 		persistentManager = persistentManagerFactory.getPersistenceManager();
 		transaction = persistentManager.currentTransaction();
-			
+
 		try {
-		    transaction.begin();
-		    Query<Reserva> query = persistentManager.newQuery(Reserva.class);
+			transaction.begin();
+			Query<Reserva> query = persistentManager.newQuery(Reserva.class);
 			query.setFilter("fecha == '" + fecha + "'");
 
 			@SuppressWarnings("unchecked")
 			List<Reserva> accounts = (List<Reserva>) query.execute();
-			if(accounts.size()!=1) return accounts.get(0);
-		    transaction.commit();
-		} catch(Exception ex) {
+			if (accounts.size() != 1)
+				return accounts.get(0);
+			transaction.commit();
+		} catch (Exception ex) {
 			System.err.println("* Exception executing a query: " + ex.getMessage());
 			return null;
 		} finally {
 			if (transaction.isActive()) {
-		        transaction.rollback();
-		    }
+				transaction.rollback();
+			}
 
-		    persistentManager.close();
+			persistentManager.close();
 		}
 		return null;
 	}
+
 	public Reserva GetSillaFecha(Date fecha) {
 		persistentManager = persistentManagerFactory.getPersistenceManager();
 		transaction = persistentManager.currentTransaction();
-			
+
 		try {
-		    transaction.begin();
-		    Query<Reserva> query = persistentManager.newQuery(Reserva.class);
+			transaction.begin();
+			Query<Reserva> query = persistentManager.newQuery(Reserva.class);
 			query.setFilter("fecha == '" + fecha + "'");
 
 			@SuppressWarnings("unchecked")
 			List<Reserva> accounts = (List<Reserva>) query.execute();
-			if(accounts.size()!=1) return accounts.get(0);
-		    transaction.commit();
-		} catch(Exception ex) {
+			if (accounts.size() != 1)
+				return accounts.get(0);
+			transaction.commit();
+		} catch (Exception ex) {
 			System.err.println("* Exception executing a query: " + ex.getMessage());
 			return null;
 		} finally {
 			if (transaction.isActive()) {
-		        transaction.rollback();
-		    }
+				transaction.rollback();
+			}
 
-		    persistentManager.close();
+			persistentManager.close();
 		}
 		return null;
 	}
+
 	public boolean setAdmin(int nsocio) {
 		persistentManager = persistentManagerFactory.getPersistenceManager();
 		transaction = persistentManager.currentTransaction();
-			
+
 		try {
-		    transaction.begin();
-		    Query<Usuario> query = persistentManager.newQuery(Usuario.class);
+			transaction.begin();
+			Query<Usuario> query = persistentManager.newQuery(Usuario.class);
 			query.setFilter("nsocio == " + nsocio);
 			@SuppressWarnings("unchecked")
 			List<Usuario> usuarios = (List<Usuario>) query.execute();
 
-			if(usuarios.size()==1)
-			{			
+			if (usuarios.size() == 1) {
 				usuarios.get(0).setAdmin(!usuarios.get(0).isAdmin());
-			    transaction.commit();
+				transaction.commit();
 			}
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			System.err.println("* Exception executing a query: " + ex.getMessage());
 			return false;
 		} finally {
 			if (transaction.isActive()) {
-		        transaction.rollback();
-		    }
+				transaction.rollback();
+			}
 
-		    persistentManager.close();
+			persistentManager.close();
 		}
 		return true;
 	}
+
 	public boolean anadirCuenta(Reserva r, Cuenta c) {
 		persistentManager = persistentManagerFactory.getPersistenceManager();
 		transaction = persistentManager.currentTransaction();
-			
+
 		try {
-		    transaction.begin();
-		    Query<Reserva> query = persistentManager.newQuery(Reserva.class);
+			transaction.begin();
+			Query<Reserva> query = persistentManager.newQuery(Reserva.class);
 			query.setFilter("numReserva == " + r.getNumReserva());
 			@SuppressWarnings("unchecked")
 			List<Reserva> reservas = (List<Reserva>) query.execute();
 
-			if(reservas.size()==1)
-			{
+			if (reservas.size() == 1) {
 				r.setCuenta(c);
 				r.setBCuenta(true);
-			    transaction.commit();
+				transaction.commit();
 			}
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			System.err.println("* Exception executing a query: " + ex.getMessage());
 			return false;
 		} finally {
 			if (transaction.isActive()) {
-		        transaction.rollback();
-		    }
+				transaction.rollback();
+			}
 
-		    persistentManager.close();
+			persistentManager.close();
 		}
 		return true;
 	}

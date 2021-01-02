@@ -3,8 +3,10 @@ package Soldados.OngiEtorri;
 import ClienteLP.vtInicio;
 
 /**
- * Main de la ejecucion. Inicializa la ventana de iniciodani
- * @param parametros del main
+ * Main de la ejecucion. Inicializa la ventana de inicio
+ * 
+ * @param parametros
+ *            del main
  * @return no devuelve nada
  *
  */
