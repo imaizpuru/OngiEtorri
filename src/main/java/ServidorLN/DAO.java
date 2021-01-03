@@ -502,4 +502,14 @@ public class DAO implements IDAO {
 		}
 		return true;
 	}
+
+	public boolean crearProducto() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean editarProducto(int codigoP, int cantidad) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
