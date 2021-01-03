@@ -11,6 +11,7 @@ import ClienteLP.vtInicio;
  *
  */
 public class App {
+	
 	public static void main(String[] args) {
 		vtInicio a = new vtInicio();
 		a.setVisible(true);

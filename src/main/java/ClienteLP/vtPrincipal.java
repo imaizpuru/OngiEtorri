@@ -57,17 +57,21 @@ public class vtPrincipal extends JFrame {
 	private JPanel panel_1;
 	private JMenuItem misReservas;
 	private JMenuItem usuarios;
+	private JMenuItem inventario;	
 	private JMenuItem reserva;
 	private JMenuBar menuBar;
 	private JList listaReservas;
 	private JButton btnReservar;
 	private JButton btnPermiso;
+	private JButton btnPermiso2;
 	private JButton btnPago;
 	private JButton btnEliminar;
 	private JButton btnQuitarP;
+	private JButton btnQuitarP2;
 	private JLabel lblFecha;
 	private JTable list;
 	private JTable listaUsuarios;
+	private JTable listainventario;
 	private DefaultTableModel table_model;
 	private DefaultTableModel table_modelo;
 	private Usuario usuario;
@@ -78,6 +82,12 @@ public class vtPrincipal extends JFrame {
 	private JLabel lblNewLabell;
 	private JLabel lblNewLabell1;
 	private JLabel lblNewLabe;
+
+	private JLabel lblNewLabellI;
+	private JLabel lblNewLabell1I;
+	private JLabel lblNewLabeI;
+	private JLabel lblNewLabeII;
+	
 	private Date deleccion;
 	private Controller controller = new Controller();
 	private int contReserva;
@@ -132,6 +142,15 @@ public class vtPrincipal extends JFrame {
 		listaUsuarios.setVisible(false);
 		menuBar = new JMenuBar();
 
+		
+		listainventario = new JTable(table_modelo);
+		listainventario.setBackground(new Color(240, 248, 255));
+		listainventario.setFont(new Font("Serif", Font.PLAIN, 20));
+		listainventario.setRowHeight(25);
+		listainventario.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listainventario.setVisible(false);
+		
+		menuBar = new JMenuBar();
 		reserva = new JMenuItem("Reserva");
 		reserva.setFont(new Font("Serif", Font.BOLD, 20));
 		reserva.setSelected(true);
@@ -151,7 +170,9 @@ public class vtPrincipal extends JFrame {
 				btnEliminar.setVisible(false);
 				usuarios.setSelected(false);
 				btnPermiso.setVisible(false);
+				btnPermiso2.setVisible(false);
 				btnQuitarP.setVisible(false);
+				btnQuitarP2.setVisible(false);
 			}
 		});
 
@@ -175,13 +196,20 @@ public class vtPrincipal extends JFrame {
 				btnPago.setVisible(false);
 				btnEliminar.setVisible(false);
 				listaUsuarios.setVisible(true);
+				listainventario.setVisible(false);
 				lblNewLabel.setVisible(false);
 				lblNewLabel1.setVisible(false);
 				lblNewLabell.setVisible(true);
 				lblNewLabell1.setVisible(true);
 				lblNewLabe.setVisible(true);
+				lblNewLabellI.setVisible(false);
+				lblNewLabell1I.setVisible(false);
+				lblNewLabeI.setVisible(false);
+				lblNewLabeII.setVisible(false);
 				btnPermiso.setVisible(true);
+				btnPermiso2.setVisible(false);
 				btnQuitarP.setVisible(true);
+				btnQuitarP2.setVisible(false);
 
 				table_modelo.getDataVector().removeAllElements();
 
@@ -211,12 +239,78 @@ public class vtPrincipal extends JFrame {
 
 			}
 		});
+////////////////77
+		inventario = new JMenuItem("Gestion de Inventario");
+		inventario.setFont(new Font("Serif", Font.BOLD, 20));
+		inventario.addActionListener(new ActionListener() {
 
+			public void actionPerformed(ActionEvent e) {
+				panel_1.setVisible(true);
+				reserva.setSelected(false);
+				misReservas.setSelected(false);
+				usuarios.setSelected(false);
+				inventario.setSelected(true);
+				panel.setVisible(false);
+				calendario.setVisible(false);
+				btnReservar.setVisible(false);
+				lblFecha.setVisible(false);
+				// rojos();
+				btnPago.setVisible(false);
+				btnEliminar.setVisible(false);
+				listaUsuarios.setVisible(false);
+				listainventario.setVisible(true);
+				lblNewLabel.setVisible(false);
+				lblNewLabel1.setVisible(false);
+				lblNewLabell.setVisible(false);
+				lblNewLabell1.setVisible(false);
+				lblNewLabe.setVisible(false);
+				lblNewLabellI.setVisible(true);
+				lblNewLabell1I.setVisible(true);
+				lblNewLabeI.setVisible(true);
+				lblNewLabeII.setVisible(true);
+				btnPermiso.setVisible(false);
+				btnPermiso2.setVisible(true);
+				btnQuitarP.setVisible(false);
+				btnQuitarP2.setVisible(true);
+
+				table_modelo.getDataVector().removeAllElements();
+
+				DefaultTableCellRenderer modelocentrar = new DefaultTableCellRenderer();
+				modelocentrar.setHorizontalAlignment(SwingConstants.CENTER);
+				listainventario.getColumnModel().getColumn(0).setCellRenderer(modelocentrar);
+				listainventario.getColumnModel().getColumn(1).setCellRenderer(modelocentrar);
+				listainventario.getColumnModel().getColumn(2).setCellRenderer(modelocentrar);
+				listainventario.getColumnModel().getColumn(3).setCellRenderer(modelocentrar);
+				// Llenar mis reservas
+				for (Usuario r : controller.getUsuarios()) {
+
+					Object[] fila = new Object[4];
+					fila[0] = r.getNsocio();
+					fila[1] = r.getNombre();
+
+					if (r.isAdmin()) {
+						fila[2] = "Si";
+					} else {
+						fila[2] = "No";
+					}
+					table_modelo.addRow(fila);
+				}
+
+				list.setVisible(false);
+				listainventario.setBounds(2, 2, 540, 488);
+				listainventario.repaint();
+
+			}
+		});
+
+		
+////////////
 		menuBar.add(reserva);
 		menuBar.add(misReservas);
 
 		if (usuario.isAdmin()) {
 			menuBar.add(usuarios);
+			menuBar.add(inventario);
 		}
 
 		misReservas.addActionListener(new ActionListener() {
@@ -237,9 +331,15 @@ public class vtPrincipal extends JFrame {
 				lblNewLabell.setVisible(false);
 				lblNewLabell1.setVisible(false);
 				lblNewLabe.setVisible(false);
+				lblNewLabellI.setVisible(false);
+				lblNewLabell1I.setVisible(false);
+				lblNewLabeI.setVisible(false);
+				lblNewLabeII.setVisible(false);
 				usuarios.setSelected(false);
+				inventario.setSelected(false);
 				btnPermiso.setVisible(false);
 				btnQuitarP.setVisible(false);
+				btnQuitarP2.setVisible(false);
 				table_model.getDataVector().removeAllElements();
 
 				DefaultTableCellRenderer modelocentrar = new DefaultTableCellRenderer();
@@ -1358,13 +1458,37 @@ public class vtPrincipal extends JFrame {
 		lblNewLabell1.setFont(new Font("Serif", Font.BOLD, 25));
 		lblNewLabell1.setBounds(500, 10, 170, 20);
 		contentPane.add(lblNewLabell1);
+		////////////////////////////////////////////////////////////
+		lblNewLabellI = new JLabel("Cod. producto");
+		lblNewLabellI.setFont(new Font("Serif", Font.BOLD, 15));
+		lblNewLabellI.setBounds(155, 10, 170, 20);
+		contentPane.add(lblNewLabellI);
 
-		btnPermiso = new JButton("<html>" + "Dar" + "<br>" + "permiso" + "</html>");
+		lblNewLabeI = new JLabel("Nom. Producto");
+		lblNewLabeI.setFont(new Font("Serif", Font.BOLD, 15));
+		lblNewLabeI.setBounds(300, 10, 170, 20);
+		contentPane.add(lblNewLabeI);
+
+		lblNewLabell1I = new JLabel("Cantidad");
+		lblNewLabell1I.setFont(new Font("Serif", Font.BOLD, 15));
+		lblNewLabell1I.setBounds(460, 10, 170, 20);
+		contentPane.add(lblNewLabell1I);
+		
+		lblNewLabeII = new JLabel("Precio");
+		lblNewLabeII.setFont(new Font("Serif", Font.BOLD, 15));
+		lblNewLabeII.setBounds(580, 10, 170, 20);
+		contentPane.add(lblNewLabeII);
+
+		
+		btnPermiso = new JButton("<html>" + "Añadir" + "<br>" + "Permiso" + "</html>");
 		btnPermiso.setFont(new Font("Serif", Font.PLAIN, 16));
 		btnPermiso.setBounds(10, 139, 105, 60);
 		btnPermiso.setVisible(false);
 		btnPermiso.addActionListener(new ActionListener() {
-
+			
+		
+			
+//Aqui hay que poner la funcionalidad de añadir nuevo producto
 			public void actionPerformed(ActionEvent e) {
 				int r;
 				try {
@@ -1385,6 +1509,35 @@ public class vtPrincipal extends JFrame {
 		});
 		contentPane.add(btnPermiso);
 
+		btnPermiso2 = new JButton("<html>" + "Añadir" + "<br>" + "Productos" + "</html>");
+		btnPermiso2.setFont(new Font("Serif", Font.PLAIN, 16));
+		btnPermiso2.setBounds(10, 139, 105, 60);
+		btnPermiso2.setVisible(false);
+		btnPermiso2.addActionListener(new ActionListener() {
+			
+		
+			
+//Aqui hay que poner la funcionalidad de añadir nuevo producto
+			public void actionPerformed(ActionEvent e) {
+				int r;
+				try {
+					r = listaUsuarios.getSelectedRow();
+					if (listaUsuarios.getValueAt(r, 2).equals("No")) {
+						if (controller.setAdmin((Integer) listaUsuarios.getValueAt(r, 0)) == 0) {
+							llenarListaUsuarios();
+						} else {
+							JOptionPane.showMessageDialog(null, "No se ha podido dar el permiso");
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Este usuario ya es administrador");
+					}
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "No se ha elegido fila");
+				}
+			}
+		});
+		contentPane.add(btnPermiso2);
+		
 		btnReservar = new JButton("Reservar");
 		btnReservar.setFont(new Font("Serif", Font.PLAIN, 16));
 		btnReservar.setBounds(10, 139, 105, 29);
@@ -1451,7 +1604,35 @@ public class vtPrincipal extends JFrame {
 		});
 		btnQuitarP.setVisible(false);
 		contentPane.add(btnQuitarP);
+		
+		btnQuitarP2 = new JButton("<html>" + "Quitar" + "<br>" + "Productos" + "</html>");
+		btnQuitarP2.setFont(new Font("Serif", Font.PLAIN, 16));
+		btnQuitarP2.setBounds(677, 139, 105, 60);
+		btnQuitarP2.addActionListener(new ActionListener() {
+			
+			
+////////// cambiar esto para la funcionalidad del inventario
+			public void actionPerformed(ActionEvent e) {
+				int r;
+				try {
+					r = listaUsuarios.getSelectedRow();
+					if (listaUsuarios.getValueAt(r, 2).equals("Si")) {
+						if (controller.setAdmin((Integer) listaUsuarios.getValueAt(r, 0)) == 0) {
+							llenarListaUsuarios();
+						} else {
+							JOptionPane.showMessageDialog(null, "No se ha podido eliminar el producto.");
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Este usuario ya es administrador.");
+					}
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "No se ha elegido fila");
+				}
+			}
 
+		});
+		btnQuitarP2.setVisible(false);
+		contentPane.add(btnQuitarP2);
 	}
 
 	private void llenarListaUsuarios() {
