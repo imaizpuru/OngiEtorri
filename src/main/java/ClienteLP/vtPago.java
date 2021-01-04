@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,6 +20,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ClienteLN.Controller;
+import ServidorLD.Producto;
 import ServidorLD.Reserva;
 
 public class vtPago extends JFrame implements ActionListener {
@@ -83,17 +86,24 @@ public class vtPago extends JFrame implements ActionListener {
 	private JButton btnNewButton_2;
 	private ImageIcon imageIcon = new ImageIcon("src/img/logo.png");
 	private Reserva reserva;
-	private final int rrr;
+	private List<Producto> prods = new ArrayList<Producto>();
+	private List<Integer> cants = new ArrayList<Integer>();
+	private int rrr;
 
 	/**
 	 * Create the frame.
 	 */
-	public vtPago(Reserva r, int rr, final vtPrincipal vt) {
-		this.rrr = rr;
+	public vtPago(Reserva r, List<Producto> productos, int rr, final vtPrincipal vt) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(665, 200, 570, 600);
 		setTitle("Pago");
+		this.rrr=rr;
 		this.reserva = r;
+		this.prods = productos;
+		for(Producto p: this.prods)
+		{
+			cants.add(p.getCantidad());
+		}
 		this.setIconImage(imageIcon.getImage());
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -168,10 +178,20 @@ public class vtPago extends JFrame implements ActionListener {
 		spinner2.addChangeListener(new ChangeListener() {
 
 			public void stateChanged(ChangeEvent e) {
-				cer = (Double.valueOf((Integer) spinner2.getValue()) * 1.3);
-				ttlcerveza.setText(df.format(cer) + "€");
-				tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
-				label.setText(df.format(tot) + "€");
+				if(cants.get(2)>=(Integer) spinner2.getValue())
+				{
+					
+					prods.get(2).setCantidad(cants.get(2)-(Integer) spinner2.getValue());
+					cer = (Double.valueOf((Integer) spinner2.getValue()) * 1.3);
+					ttlcerveza.setText(df.format(cer) + "€");
+					tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
+					label.setText(df.format(tot) + "€");
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "No hay tanta catidad.");
+				}
+				
 			}
 
 		});
@@ -185,10 +205,18 @@ public class vtPago extends JFrame implements ActionListener {
 		spinner3.addChangeListener(new ChangeListener() {
 
 			public void stateChanged(ChangeEvent e) {
-				cham = (Double.valueOf((Integer) spinner3.getValue()) * 3.5);
-				ttlchampagne.setText(df.format(cham) + "€");
-				tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
-				label.setText(df.format(tot) + "€");
+				if(cants.get(3)>=(Integer) spinner3.getValue())
+				{
+					prods.get(3).setCantidad(cants.get(3)-(Integer) spinner3.getValue());
+					cham = (Double.valueOf((Integer) spinner3.getValue()) * 3.5);
+					ttlchampagne.setText(df.format(cham) + "€");
+					tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
+					label.setText(df.format(tot) + "€");
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "No hay tanta catidad.");
+				}
 			}
 
 		});
@@ -202,10 +230,18 @@ public class vtPago extends JFrame implements ActionListener {
 		spinner.addChangeListener(new ChangeListener() {
 
 			public void stateChanged(ChangeEvent e) {
-				ref = (Double.valueOf((Integer) spinner.getValue()) * 1.2);
-				ttlRefrescos.setText(df.format(ref) + "€");
-				tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
-				label.setText(df.format(tot) + "€");
+				if(cants.get(0)>=(Integer) spinner.getValue())
+				{
+					prods.get(0).setCantidad(cants.get(0)-(Integer) spinner.getValue());
+					ref = (Double.valueOf((Integer) spinner.getValue()) * 1.2);
+					ttlRefrescos.setText(df.format(ref) + "€");
+					tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
+					label.setText(df.format(tot) + "€");
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "No hay tanta catidad.");
+				}
 			}
 
 		});
@@ -219,11 +255,18 @@ public class vtPago extends JFrame implements ActionListener {
 		spinner_1.addChangeListener(new ChangeListener() {
 
 			public void stateChanged(ChangeEvent e) {
-				lic = (Double.valueOf((Integer) spinner_1.getValue()) * 1.8);
-				ttlLicores.setText(df.format(lic) + "€");
-				tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
-				label.setText(df.format(tot) + "€");
-
+				if(cants.get(1)>=(Integer) spinner_1.getValue())
+				{
+					prods.get(1).setCantidad(cants.get(1)-(Integer) spinner_1.getValue());
+					lic = (Double.valueOf((Integer) spinner_1.getValue()) * 1.8);
+					ttlLicores.setText(df.format(lic) + "€");
+					tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
+					label.setText(df.format(tot) + "€");
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "No hay tanta catidad.");
+				}
 			}
 
 		});
@@ -285,10 +328,18 @@ public class vtPago extends JFrame implements ActionListener {
 		spinner4.addChangeListener(new ChangeListener() {
 
 			public void stateChanged(ChangeEvent e) {
-				ace = (Double.valueOf((Integer) spinner4.getValue()) * 2);
-				ttlaceitunas.setText(df.format(ace) + "€");
-				tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
-				label.setText(df.format(tot) + "€");
+				if(cants.get(6)>=(Integer) spinner4.getValue())
+				{
+					prods.get(6).setCantidad(cants.get(6)-(Integer) spinner4.getValue());
+					ace = (Double.valueOf((Integer) spinner4.getValue()) * 2);
+					ttlaceitunas.setText(df.format(ace) + "€");
+					tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
+					label.setText(df.format(tot) + "€");
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "No hay tanta catidad.");
+				}
 			}
 
 		});
@@ -302,10 +353,18 @@ public class vtPago extends JFrame implements ActionListener {
 		spinner5.addChangeListener(new ChangeListener() {
 
 			public void stateChanged(ChangeEvent e) {
-				ajo = (Double.valueOf((Integer) spinner5.getValue()) * 0.8);
-				ttlajo.setText(df.format(ajo) + "€");
-				tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
-				label.setText(df.format(tot) + "€");
+				if(cants.get(7)>=(Integer) spinner5.getValue())
+				{
+					prods.get(7).setCantidad(cants.get(7)-(Integer) spinner5.getValue());
+					ajo = (Double.valueOf((Integer) spinner5.getValue()) * 0.8);
+					ttlajo.setText(df.format(ajo) + "€");
+					tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
+					label.setText(df.format(tot) + "€");
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "No hay tanta catidad.");
+				}
 			}
 
 		});
@@ -319,10 +378,18 @@ public class vtPago extends JFrame implements ActionListener {
 		spinner6.addChangeListener(new ChangeListener() {
 
 			public void stateChanged(ChangeEvent e) {
-				ceb = (Double.valueOf((Integer) spinner6.getValue()) * 1);
-				ttlcebolla.setText(df.format(ceb) + "€");
-				tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
-				label.setText(df.format(tot) + "€");
+				if(cants.get(4)>=(Integer) spinner6.getValue())
+				{
+					prods.get(4).setCantidad(cants.get(4)-(Integer) spinner6.getValue());
+					ceb = (Double.valueOf((Integer) spinner6.getValue()) * 1);
+					ttlcebolla.setText(df.format(ceb) + "€");
+					tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
+					label.setText(df.format(tot) + "€");
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "No hay tanta catidad.");
+				}
 			}
 
 		});
@@ -336,128 +403,18 @@ public class vtPago extends JFrame implements ActionListener {
 		spinner_7.addChangeListener(new ChangeListener() {
 
 			public void stateChanged(ChangeEvent e) {
-				pat = (Double.valueOf((Integer) spinner_7.getValue()) * 2);
-				ttlpatatas.setText(df.format(pat) + "€");
-				tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
-				label.setText(df.format(tot) + "€");
-
-			}
-
-		});
-
-		ttlcebolla = new JLabel();
-		ttlcebolla.setFont(new Font("Serif", Font.PLAIN, 18));
-		ttlcebolla.setBounds(372, 50, 91, 20);
-		contentPane.add(ttlcebolla);
-		ttlcebolla.setVisible(false);
-
-		ttlpatatas = new JLabel();
-		ttlpatatas.setFont(new Font("Serif", Font.PLAIN, 18));
-		ttlpatatas.setBounds(372, 86, 91, 20);
-		contentPane.add(ttlpatatas);
-		ttlpatatas.setVisible(false);
-
-		ttlaceitunas = new JLabel();
-		ttlaceitunas.setFont(new Font("Serif", Font.PLAIN, 18));
-		ttlaceitunas.setBounds(372, 124, 91, 20);
-		contentPane.add(ttlaceitunas);
-		ttlaceitunas.setVisible(false);
-
-		ttlajo = new JLabel();
-		ttlajo.setFont(new Font("Serif", Font.PLAIN, 18));
-		ttlajo.setBounds(372, 164, 91, 20);
-		contentPane.add(ttlajo);
-		ttlajo.setVisible(false);
-
-		lblcebolla = new JLabel("Cebolla:");
-		lblcebolla.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblcebolla.setBounds(86, 49, 83, 20);
-		contentPane.add(lblcebolla);
-		lblcebolla.setVisible(false);
-
-		lblpatatas = new JLabel("Patatas:");
-		lblpatatas.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblpatatas.setBounds(86, 85, 83, 20);
-		contentPane.add(lblpatatas);
-		lblpatatas.setVisible(false);
-
-		lblaceitunas = new JLabel("Aceitunas:");
-		lblaceitunas.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblaceitunas.setBounds(86, 125, 83, 20);
-		contentPane.add(lblaceitunas);
-		lblaceitunas.setVisible(false);
-
-		lblAjo = new JLabel("Ajo:");
-		lblAjo.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblAjo.setBounds(86, 166, 113, 20);
-		contentPane.add(lblAjo);
-		lblAjo.setVisible(false);
-
-		spinner4 = new JSpinner();
-		spinner4.setBounds(253, 115, 54, 29);
-		contentPane.add(spinner4);
-		spinner4.setVisible(false);
-		spinner4.getEditor().getComponent(0).setBackground(new Color(240, 248, 255));
-		spinner4.setFont(new Font("Serif", Font.PLAIN, 28));
-		spinner4.addChangeListener(new ChangeListener() {
-
-			public void stateChanged(ChangeEvent e) {
-				ace = (Double.valueOf((Integer) spinner4.getValue()) * 2);
-				ttlaceitunas.setText(df.format(ace) + "€");
-				tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
-				label.setText(df.format(tot) + "€");
-			}
-
-		});
-
-		spinner5 = new JSpinner();
-		spinner5.setBounds(253, 155, 54, 29);
-		contentPane.add(spinner5);
-		spinner5.setVisible(false);
-		spinner5.getEditor().getComponent(0).setBackground(new Color(240, 248, 255));
-		spinner5.setFont(new Font("Serif", Font.PLAIN, 28));
-		spinner5.addChangeListener(new ChangeListener() {
-
-			public void stateChanged(ChangeEvent e) {
-				ajo = (Double.valueOf((Integer) spinner5.getValue()) * 0.8);
-				ttlajo.setText(df.format(ajo) + "€");
-				tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
-				label.setText(df.format(tot) + "€");
-			}
-
-		});
-
-		spinner6 = new JSpinner();
-		spinner6.setBounds(253, 47, 54, 29);
-		contentPane.add(spinner6);
-		spinner6.setVisible(false);
-		spinner6.getEditor().getComponent(0).setBackground(new Color(240, 248, 255));
-		spinner6.setFont(new Font("Serif", Font.PLAIN, 28));
-		spinner6.addChangeListener(new ChangeListener() {
-
-			public void stateChanged(ChangeEvent e) {
-				ceb = (Double.valueOf((Integer) spinner6.getValue()) * 1);
-				ttlcebolla.setText(df.format(ceb) + "€");
-				tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
-				label.setText(df.format(tot) + "€");
-			}
-
-		});
-
-		spinner_7 = new JSpinner();
-		spinner_7.setBounds(253, 82, 54, 29);
-		contentPane.add(spinner_7);
-		spinner_7.getEditor().getComponent(0).setBackground(new Color(240, 248, 255));
-		spinner_7.setFont(new Font("Serif", Font.PLAIN, 28));
-		spinner_7.setVisible(false);
-		spinner_7.addChangeListener(new ChangeListener() {
-
-			public void stateChanged(ChangeEvent e) {
-				pat = (Double.valueOf((Integer) spinner_7.getValue()) * 2);
-				ttlpatatas.setText(df.format(pat) + "€");
-				tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
-				label.setText(df.format(tot) + "€");
-
+				if(cants.get(5)>=(Integer) spinner_7.getValue())
+				{
+					prods.get(5).setCantidad(cants.get(5)-(Integer) spinner_7.getValue());
+					pat = (Double.valueOf((Integer) spinner_7.getValue()) * 2);
+					ttlpatatas.setText(df.format(pat) + "€");
+					tot = ref + cer + cham + lic + ceb + pat + ace + ajo;
+					label.setText(df.format(tot) + "€");
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "No hay tanta catidad.");
+				}
 			}
 
 		});
@@ -513,10 +470,19 @@ public class vtPago extends JFrame implements ActionListener {
 		spinner8.addChangeListener(new ChangeListener() {
 
 			public void stateChanged(ChangeEvent e) {
-				vas = (Double.valueOf((Integer) spinner8.getValue()) * 0.5);
-				ttlvasos.setText(df.format(vas) + "€");
-				tot = ref + cer + cham + lic + ceb + pat + ace + ajo + vas + ser + prod;
-				label.setText(df.format(tot) + "€");
+				if(cants.get(9)>=(Integer) spinner8.getValue())
+				{
+					prods.get(9).setCantidad(cants.get(9)-(Integer) spinner8.getValue());
+					vas = (Double.valueOf((Integer) spinner8.getValue()) * 0.5);
+					ttlvasos.setText(df.format(vas) + "€");
+					tot = ref + cer + cham + lic + ceb + pat + ace + ajo + vas + ser + prod;
+					label.setText(df.format(tot) + "€");
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "No hay tanta catidad.");
+				}
+				
 			}
 
 		});
@@ -530,10 +496,18 @@ public class vtPago extends JFrame implements ActionListener {
 		spinner9.addChangeListener(new ChangeListener() {
 
 			public void stateChanged(ChangeEvent e) {
-				prod = (Double.valueOf((Integer) spinner9.getValue()) * 0.7);
-				ttlproductolimpieza.setText(df.format(prod) + "€");
-				tot = ref + cer + cham + lic + ceb + pat + ace + ajo + vas + ser + prod;
-				label.setText(df.format(tot) + "€");
+				if(cants.get(10)>=(Integer) spinner9.getValue())
+				{
+					prods.get(10).setCantidad(cants.get(10)-(Integer) spinner9.getValue());
+					prod = (Double.valueOf((Integer) spinner9.getValue()) * 0.7);
+					ttlproductolimpieza.setText(df.format(prod) + "€");
+					tot = ref + cer + cham + lic + ceb + pat + ace + ajo + vas + ser + prod;
+					label.setText(df.format(tot) + "€");
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "No hay tanta catidad.");
+				}
 			}
 
 		});
@@ -547,12 +521,19 @@ public class vtPago extends JFrame implements ActionListener {
 		spinner10.addChangeListener(new ChangeListener() {
 
 			public void stateChanged(ChangeEvent e) {
-				ser = (Double.valueOf((Integer) spinner10.getValue()) * 0.2);
-				ttlservilletas.setText(df.format(ser) + "€");
-				tot = ref + cer + cham + lic + ceb + pat + ace + ajo + vas + ser + prod;
-				label.setText(df.format(tot) + "€");
+				if(cants.get(8)>=(Integer) spinner10.getValue())
+				{
+					prods.get(8).setCantidad(cants.get(8)-(Integer) spinner10.getValue());
+					ser = (Double.valueOf((Integer) spinner10.getValue()) * 0.2);
+					ttlservilletas.setText(df.format(ser) + "€");
+					tot = ref + cer + cham + lic + ceb + pat + ace + ajo + vas + ser + prod;
+					label.setText(df.format(tot) + "€");
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "No hay tanta catidad.");
+				}
 			}
-
 		});
 
 		ttlservilletas = new JLabel();
@@ -612,14 +593,30 @@ public class vtPago extends JFrame implements ActionListener {
 						JOptionPane.YES_NO_OPTION);
 
 				if (n2 == JOptionPane.YES_OPTION) {
-					if (controller.anadirCuenta(reserva, tot) == 0) {
-						JOptionPane.showMessageDialog(null, "Pago realizado con exito. Muchas gracias");
-
-						vt.eliminarReserva(rrr);
-					} else {
-						JOptionPane.showMessageDialog(null, "Error al realizar la cuenta.");
+					if(tot>0)
+					{
+						int i=0;
+						for(Producto p:prods)
+						{
+							if(p.getCantidad()!=cants.get(i))
+							{
+								controller.anadirCantidad(p.getCodigoP(), p.getCantidad()-cants.get(i));
+							}
+							i++;
+						}
+						if (controller.anadirCuenta(reserva, tot) == 0) {
+							JOptionPane.showMessageDialog(null, "Pago realizado con exito. Muchas gracias");
+							vt.eliminarReserva(rrr);
+						} else {
+							JOptionPane.showMessageDialog(null, "Error al realizar la cuenta.");
+						}
+						dispose();
 					}
-					dispose();
+					else
+					{
+						JOptionPane.showMessageDialog(null, "No se ha seleccionado nada..");
+					}
+					
 				} else {
 					JOptionPane.showMessageDialog(null, "Se ha cancelado el pago");
 				}

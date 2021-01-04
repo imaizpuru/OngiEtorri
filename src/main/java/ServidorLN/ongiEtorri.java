@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import ServidorLD.Cuenta;
+import ServidorLD.Producto;
 import ServidorLD.Reserva;
 import ServidorLD.Silla;
 import ServidorLD.Usuario;
@@ -23,8 +24,6 @@ public class ongiEtorri {
 	private List<Reserva> reservas = new ArrayList<Reserva>();
 	private Usuario usuario = new Usuario();
 	private DAO dao;
-	//private static ongiEtorri
-	private Usuario u  = new Usuario();
 	private Usuario user1  = new Usuario();
 	private Usuario user2  = new Usuario();
 	
@@ -131,7 +130,7 @@ public class ongiEtorri {
 		
 		 anadir = dao.ReservarMesa(r);
 		
-		if(anadir = true)
+		if(anadir == true)
 		{
 			retorno = 0;
 		}
@@ -162,6 +161,37 @@ public class ongiEtorri {
 		contRes = dao.GetLastReservas() + 1;
 		
 		return contRes;
+	}
+	public int anadirProducto(int id, String nombre, double precio, int cantidad)
+	{
+		Producto p = new Producto(id, nombre, precio, cantidad);
+		if(dao.anadirProducto(p))
+		{
+			return 0;
+		}
+		return 1;	
+	}
+	public int anadirCantidad(int codigoP, int cantidad)
+	{
+		if(dao.anadirCantidad(codigoP, cantidad))
+		{
+			return 0;
+		}
+		return 1;	
+	}
+	public List<Producto> getProductos()
+	{
+		List<Producto> prods = new ArrayList<Producto>();
+		prods = dao.getProductos();
+		return prods;	
+	}
+	public int eliminarProducto(int codigoP)
+	{
+		if(dao.eliminarProducto(codigoP))
+		{
+			return 0;
+		}
+		return 1;
 	}
 	public int crearSillas(ArrayList <Silla> sillasGuardadas)
 	{

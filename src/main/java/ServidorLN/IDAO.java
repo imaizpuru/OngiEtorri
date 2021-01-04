@@ -3,6 +3,7 @@ package ServidorLN;
 import java.util.Date;
 import java.util.List;
 
+import ServidorLD.Producto;
 import ServidorLD.Reserva;
 import ServidorLD.Silla;
 import ServidorLD.Usuario;
@@ -29,7 +30,9 @@ public interface IDAO {
 
 	public boolean setAdmin(int nsocio);
 
-	public boolean crearProducto();
+	public boolean anadirProducto(Producto p);
+	
+	public List<Producto> getProductos();
 
-	public boolean editarProducto(int codigoP, int cantidad);
+	public boolean eliminarProducto(int codigoP);
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ServidorLD.Producto;
 import ServidorLD.Reserva;
 import ServidorLD.Silla;
 import ServidorLD.Usuario;
@@ -102,5 +103,21 @@ public class Controller {
 	}
 	public Usuario getUsuario(){
 		return stub.getUsuario();
+	}
+	public List<Producto> getProducto()
+	{
+		return stub.getProductos();
+	}
+	public int eliminarProducto(int codigoP)
+	{
+		return stub.eliminarProducto(codigoP);
+	}
+	public int crearProducto(int cod, String nombre, double precio, int cant)
+	{
+		return stub.anadirProducto(cod, nombre, precio, cant);
+	}
+	public int anadirCantidad(int cod, int cant)
+	{
+		return stub.anadirCantidad(cod, cant);
 	}
 }

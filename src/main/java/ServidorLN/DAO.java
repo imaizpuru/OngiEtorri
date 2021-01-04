@@ -10,6 +10,7 @@ import javax.jdo.Query;
 import javax.jdo.Transaction;
 
 import ServidorLD.Cuenta;
+import ServidorLD.Producto;
 import ServidorLD.Reserva;
 import ServidorLD.Silla;
 import ServidorLD.Usuario;
@@ -157,6 +158,7 @@ public class DAO implements IDAO {
 			if (transaction.isActive()) {
 				transaction.rollback();
 				Query<Reserva> query = persistentManager.newQuery(Reserva.class);
+				@SuppressWarnings("unchecked")
 				List<Reserva> reservas = (List<Reserva>) query.execute();
 				System.out.println(reservas);
 			}
@@ -503,13 +505,112 @@ public class DAO implements IDAO {
 		return true;
 	}
 
-	public boolean crearProducto() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean anadirProducto(Producto p) {
+		persistentManager = persistentManagerFactory.getPersistenceManager();
+		transaction = persistentManager.currentTransaction();
+
+		try {
+			transaction.begin();
+			Query<Producto> query = persistentManager.newQuery(Producto.class);
+			query.setFilter("codigoP == " + p.getCodigoP());
+			
+			@SuppressWarnings("unchecked")
+			List<Producto> producto = (List<Producto>) query.execute();
+			if (producto.size()==0)
+			{
+				persistentManager.makePersistent(p);
+				transaction.commit();
+			}
+			else if(producto.size() == 1) {
+				producto.get(0).setCantidad(producto.get(0).getCantidad()+p.getCantidad());
+				if(p.getPrecio()!=0)producto.get(0).setPrecio(p.getPrecio());
+				transaction.commit();
+			}
+		} catch (Exception ex) {
+			System.err.println("* Exception executing a query: " + ex.getMessage());
+			return false;
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+			persistentManager.close();
+		}
+		return true;
+	}
+	
+	public boolean anadirCantidad(int codigoP, int cantidad) {
+		persistentManager = persistentManagerFactory.getPersistenceManager();
+		transaction = persistentManager.currentTransaction();
+
+		try {
+			transaction.begin();
+			Query<Producto> query = persistentManager.newQuery(Producto.class);
+			query.setFilter("codigoP == " + codigoP);
+			@SuppressWarnings("unchecked")
+			List<Producto> producto = (List<Producto>) query.execute();
+			if(producto.size() == 1) {
+				producto.get(0).setCantidad(producto.get(0).getCantidad()+cantidad);
+				transaction.commit();
+			}
+		} catch (Exception ex) {
+			System.err.println("* Exception executing a query: " + ex.getMessage());
+			return false;
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+			persistentManager.close();
+		}
+		return true;
 	}
 
-	public boolean editarProducto(int codigoP, int cantidad) {
-		// TODO Auto-generated method stub
-		return false;
+	public List<Producto> getProductos() {
+		
+		persistentManager = persistentManagerFactory.getPersistenceManager();
+		transaction = persistentManager.currentTransaction();
+
+		try {
+			transaction.begin();
+			Query<Producto> query = persistentManager.newQuery(Producto.class);
+			@SuppressWarnings("unchecked")
+			List<Producto> productos = (List<Producto>) query.execute();
+			if (productos.size()>0)
+			{
+				transaction.commit();
+				System.out.println(productos);
+				return productos;
+			}
+		} catch (Exception ex) {
+			System.err.println("* Exception executing a query: " + ex.getMessage());
+			return null;
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+			persistentManager.close();
+		}
+		return null;
+	}
+	public boolean eliminarProducto(int codigoP) {
+		
+		try {
+			persistentManager = persistentManagerFactory.getPersistenceManager();
+			transaction = persistentManager.currentTransaction();
+			transaction.begin();
+			Query<Producto> query = persistentManager.newQuery(Producto.class, "codigoP ==" + codigoP);
+			@SuppressWarnings("unchecked")
+			List<Producto> result = (List<Producto>) query.execute();
+			persistentManager.deletePersistent(result.get(0));
+			transaction.commit();
+		} catch (Exception ex) {
+			System.err.println("* Exception deleting reservation data from db: " + ex.getMessage());
+			return false;
+		} finally {
+			if (transaction.isActive()) {
+				transaction.rollback();
+			}
+			persistentManager.close();
+		}
+		return true;
 	}
 }

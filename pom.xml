@@ -13,6 +13,7 @@
 
 	<properties>
 		<doxygen.config.file>${basedir}/src/main/resources/Doxyfile</doxygen.config.file>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<config.files.dir>src/main/resources</config.files.dir>
 		<encoding>UTF-8</encoding>
 	</properties>
@@ -128,6 +129,7 @@
 					<include>**/*.jdo</include>
 					<include>**/*.orm</include>
 					<include>**/*.properties</include>
+					<include>Doxyfile</include>
 				</includes>
 			</resource>
 		</resources>
@@ -157,7 +159,7 @@
 							<outputDirectory>${basedir}/docs</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${basedir}/${basedir}/target/doxygen/html</directory>
+									<directory>${config.files.dir}</directory>
 									<filtering>true</filtering>
 								</resource>
 							</resources>
@@ -293,9 +295,9 @@
 			</plugin>
 			
 			<plugin>
-					<groupId>com.googlecode.maven-overview-plugin</groupId>
-					<artifactId>maven-overview-plugin</artifactId>
-					<version>1.6</version>
+				<groupId>com.googlecode.maven-overview-plugin</groupId>
+				<artifactId>maven-overview-plugin</artifactId>
+				<version>1.6</version>
 			</plugin>
 			
 			<plugin>
