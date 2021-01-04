@@ -1,7 +1,6 @@
 package ClienteLP;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,7 +51,7 @@ public class vtPrincipal extends JFrame {
 	private JPanel panel_1;
 	private JMenuItem misReservas;
 	private JMenuItem usuarios;
-	private JMenuItem inventario;	
+	private JMenuItem inventario;
 	private JMenuItem reserva;
 	private JMenuBar menuBar;
 	private JButton btnReservar;
@@ -83,7 +82,7 @@ public class vtPrincipal extends JFrame {
 	private JLabel lblNewLabell1I;
 	private JLabel lblNewLabeI;
 	private JLabel lblNewLabeII;
-	
+
 	private Date deleccion;
 	private Controller controller = new Controller();
 	private int contReserva;
@@ -115,8 +114,7 @@ public class vtPrincipal extends JFrame {
 		this.usuario = user;
 		contReserva = controller.initContReserva();
 		productos = controller.getProducto();
-		if(productos == null)
-		{
+		if (productos == null) {
 			llenarProductos();
 		}
 		table_model = new DefaultTableModel();
@@ -143,14 +141,13 @@ public class vtPrincipal extends JFrame {
 		listaUsuarios.setVisible(false);
 		menuBar = new JMenuBar();
 
-		
 		listainventario = new JTable(table_modelo2);
 		listainventario.setBackground(new Color(240, 248, 255));
 		listainventario.setFont(new Font("Serif", Font.PLAIN, 20));
 		listainventario.setRowHeight(25);
 		listainventario.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listainventario.setVisible(false);
-		
+
 		menuBar = new JMenuBar();
 		reserva = new JMenuItem("Reserva");
 		reserva.setFont(new Font("Serif", Font.BOLD, 20));
@@ -218,7 +215,7 @@ public class vtPrincipal extends JFrame {
 				listaUsuarios.getColumnModel().getColumn(0).setCellRenderer(modelocentrar);
 				listaUsuarios.getColumnModel().getColumn(1).setCellRenderer(modelocentrar);
 				listaUsuarios.getColumnModel().getColumn(2).setCellRenderer(modelocentrar);
-				
+
 				// Llenar mis reservas
 				for (Usuario r : controller.getUsuarios()) {
 
@@ -341,8 +338,7 @@ public class vtPrincipal extends JFrame {
 				if (reservas != null) {
 					reservasUser.clear();
 					for (Reserva r : reservas) {
-						if (r.getNumSocio() == usuario.getNsocio())
-						{
+						if (r.getNumSocio() == usuario.getNsocio()) {
 							reservasUser.add(r);
 							Object[] fila = new Object[2];
 							fila[0] = r.getFecha().getDate() + " de " + mes(r.getFecha().getMonth() + 1);
@@ -1461,13 +1457,12 @@ public class vtPrincipal extends JFrame {
 		lblNewLabell1I.setFont(new Font("Serif", Font.BOLD, 15));
 		lblNewLabell1I.setBounds(460, 10, 170, 20);
 		contentPane.add(lblNewLabell1I);
-		
+
 		lblNewLabeII = new JLabel("Precio");
 		lblNewLabeII.setFont(new Font("Serif", Font.BOLD, 15));
 		lblNewLabeII.setBounds(580, 10, 170, 20);
 		contentPane.add(lblNewLabeII);
 
-		
 		btnPermiso = new JButton("<html>" + "Añadir" + "<br>" + "Permiso" + "</html>");
 		btnPermiso.setFont(new Font("Serif", Font.PLAIN, 16));
 		btnPermiso.setBounds(10, 139, 105, 60);
@@ -1498,13 +1493,13 @@ public class vtPrincipal extends JFrame {
 		btnPermiso2.setBounds(10, 139, 105, 60);
 		btnPermiso2.setVisible(false);
 		btnPermiso2.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
 				int r;
-				int cant =10;
+				int cant = 10;
 				try {
 					r = listainventario.getSelectedRow();
-					if ((Integer)listainventario.getValueAt(r, 2)+cant < 100) {
+					if ((Integer) listainventario.getValueAt(r, 2) + cant < 100) {
 						if (controller.anadirCantidad((Integer) listainventario.getValueAt(r, 0), cant) == 0) {
 							llenarListaProductos();
 						} else {
@@ -1519,7 +1514,7 @@ public class vtPrincipal extends JFrame {
 			}
 		});
 		contentPane.add(btnPermiso2);
-		
+
 		btnReservar = new JButton("Reservar");
 		btnReservar.setFont(new Font("Serif", Font.PLAIN, 16));
 		btnReservar.setBounds(10, 139, 105, 29);
@@ -1584,19 +1579,19 @@ public class vtPrincipal extends JFrame {
 		});
 		btnQuitarP.setVisible(false);
 		contentPane.add(btnQuitarP);
-		
+
 		btnQuitarP2 = new JButton("<html>" + "Quitar" + "<br>" + "Productos" + "</html>");
 		btnQuitarP2.setFont(new Font("Serif", Font.PLAIN, 16));
 		btnQuitarP2.setBounds(677, 139, 105, 60);
 		btnQuitarP2.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
 				int r;
-				int cant =-10;
+				int cant = -10;
 				try {
 					r = listainventario.getSelectedRow();
-					if ((Integer)listainventario.getValueAt(r, 2)+cant >= 0) {
-						if (controller.anadirCantidad((Integer)listainventario.getValueAt(r, 0), cant) == 0) {
+					if ((Integer) listainventario.getValueAt(r, 2) + cant >= 0) {
+						if (controller.anadirCantidad((Integer) listainventario.getValueAt(r, 0), cant) == 0) {
 							llenarListaProductos();
 						} else {
 							JOptionPane.showMessageDialog(null, "No se ha podido quitar la cantidad.");
@@ -1637,7 +1632,7 @@ public class vtPrincipal extends JFrame {
 		}
 		listaUsuarios.repaint();
 	}
-	
+
 	private void llenarListaProductos() {
 		table_modelo2.getDataVector().removeAllElements();
 		DefaultTableCellRenderer modelocentrar = new DefaultTableCellRenderer();
@@ -1657,9 +1652,8 @@ public class vtPrincipal extends JFrame {
 		}
 		listaUsuarios.repaint();
 	}
-	
-	private void llenarProductos() 
-	{
+
+	private void llenarProductos() {
 		controller.crearProducto(1, "Refrescos", 1.20, 10);
 		controller.crearProducto(2, "Licores", 1.80, 10);
 		controller.crearProducto(3, "Cerveza", 1.30, 10);
@@ -1741,9 +1735,11 @@ public class vtPrincipal extends JFrame {
 		reservas = controller.getReservas();
 		if (reservas != null) {
 			for (Reserva r : reservas) {
-				if (r.getFecha().getDate() == calendario.getDate().getDate()) {
-					for (Silla s : r.getSillas()) {
-						a.add(s.getCodigoSilla());
+				if (r != null) {
+					if (r.getFecha().getDate() == calendario.getDate().getDate()) {
+						for (Silla s : r.getSillas()) {
+							a.add(s.getCodigoSilla());
+						}
 					}
 				}
 			}

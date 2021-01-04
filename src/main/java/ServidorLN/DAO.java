@@ -59,7 +59,6 @@ public class DAO implements IDAO {
 			if (accounts.size() == 1) {
 				user = accounts.get(0);
 				transaction.commit();
-				System.out.println(user);
 				return user;
 			}
 
@@ -88,7 +87,6 @@ public class DAO implements IDAO {
 			if (accounts.size() == 1) {
 				user = accounts.get(0);
 				transaction.commit();
-				System.out.println(user);
 				return user;
 			}
 		} catch (Exception ex) {
@@ -146,7 +144,6 @@ public class DAO implements IDAO {
 			@SuppressWarnings("unchecked")
 			List<Reserva> reservas = (List<Reserva>) query.execute();
 			if (reservas.size() > 0) {
-				System.out.println(reservas);
 				return reservas;
 
 			}
@@ -160,7 +157,6 @@ public class DAO implements IDAO {
 				Query<Reserva> query = persistentManager.newQuery(Reserva.class);
 				@SuppressWarnings("unchecked")
 				List<Reserva> reservas = (List<Reserva>) query.execute();
-				System.out.println(reservas);
 			}
 
 			persistentManager.close();
@@ -189,7 +185,6 @@ public class DAO implements IDAO {
 			if (transaction.isActive()) {
 				transaction.rollback();
 			}
-			System.out.println(res);
 			persistentManager.close();
 		}
 		return true;
@@ -513,17 +508,16 @@ public class DAO implements IDAO {
 			transaction.begin();
 			Query<Producto> query = persistentManager.newQuery(Producto.class);
 			query.setFilter("codigoP == " + p.getCodigoP());
-			
+
 			@SuppressWarnings("unchecked")
 			List<Producto> producto = (List<Producto>) query.execute();
-			if (producto.size()==0)
-			{
+			if (producto.size() == 0) {
 				persistentManager.makePersistent(p);
 				transaction.commit();
-			}
-			else if(producto.size() == 1) {
-				producto.get(0).setCantidad(producto.get(0).getCantidad()+p.getCantidad());
-				if(p.getPrecio()!=0)producto.get(0).setPrecio(p.getPrecio());
+			} else if (producto.size() == 1) {
+				producto.get(0).setCantidad(producto.get(0).getCantidad() + p.getCantidad());
+				if (p.getPrecio() != 0)
+					producto.get(0).setPrecio(p.getPrecio());
 				transaction.commit();
 			}
 		} catch (Exception ex) {
@@ -537,7 +531,7 @@ public class DAO implements IDAO {
 		}
 		return true;
 	}
-	
+
 	public boolean anadirCantidad(int codigoP, int cantidad) {
 		persistentManager = persistentManagerFactory.getPersistenceManager();
 		transaction = persistentManager.currentTransaction();
@@ -548,8 +542,8 @@ public class DAO implements IDAO {
 			query.setFilter("codigoP == " + codigoP);
 			@SuppressWarnings("unchecked")
 			List<Producto> producto = (List<Producto>) query.execute();
-			if(producto.size() == 1) {
-				producto.get(0).setCantidad(producto.get(0).getCantidad()+cantidad);
+			if (producto.size() == 1) {
+				producto.get(0).setCantidad(producto.get(0).getCantidad() + cantidad);
 				transaction.commit();
 			}
 		} catch (Exception ex) {
@@ -565,7 +559,7 @@ public class DAO implements IDAO {
 	}
 
 	public List<Producto> getProductos() {
-		
+
 		persistentManager = persistentManagerFactory.getPersistenceManager();
 		transaction = persistentManager.currentTransaction();
 
@@ -574,8 +568,7 @@ public class DAO implements IDAO {
 			Query<Producto> query = persistentManager.newQuery(Producto.class);
 			@SuppressWarnings("unchecked")
 			List<Producto> productos = (List<Producto>) query.execute();
-			if (productos.size()>0)
-			{
+			if (productos.size() > 0) {
 				transaction.commit();
 				System.out.println(productos);
 				return productos;
@@ -591,8 +584,9 @@ public class DAO implements IDAO {
 		}
 		return null;
 	}
+
 	public boolean eliminarProducto(int codigoP) {
-		
+
 		try {
 			persistentManager = persistentManagerFactory.getPersistenceManager();
 			transaction = persistentManager.currentTransaction();
