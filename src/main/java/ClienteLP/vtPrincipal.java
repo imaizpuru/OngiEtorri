@@ -1,6 +1,7 @@
 package ClienteLP;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,10 +19,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -110,6 +114,7 @@ public class vtPrincipal extends JFrame {
 	public vtPrincipal(Usuario user, ArrayList<Integer> permiso) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(550, 200, 800, 600);
+		UIManager.put("OptionPane.minimumSize", new Dimension(400, 100));
 
 		this.usuario = user;
 		contReserva = controller.initContReserva();
@@ -1488,7 +1493,7 @@ public class vtPrincipal extends JFrame {
 		});
 		contentPane.add(btnPermiso);
 
-		btnPermiso2 = new JButton("<html>" + "Añadir" + "<br>" + "Producto" + "</html>");
+		btnPermiso2 = new JButton("<html>" + "Sumar" + "<br>" + "Cantidad" + "</html>");
 		btnPermiso2.setFont(new Font("Serif", Font.PLAIN, 16));
 		btnPermiso2.setBounds(10, 139, 105, 60);
 		btnPermiso2.setVisible(false);
@@ -1496,18 +1501,28 @@ public class vtPrincipal extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				int r;
-				int cant = 10;
 				try {
 					r = listainventario.getSelectedRow();
-					if ((Integer) listainventario.getValueAt(r, 2) + cant < 100) {
-						if (controller.anadirCantidad((Integer) listainventario.getValueAt(r, 0), cant) == 0) {
-							llenarListaProductos();
+					SpinnerNumberModel sModel = new SpinnerNumberModel(0, 0, 30, 1);
+					JSpinner spinner = new JSpinner(sModel);
+					int option = JOptionPane.showOptionDialog(null, spinner,
+							"¿Cuánt@s " + listainventario.getValueAt(r, 1) + "s quieres añadir?",
+							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+					if (option == JOptionPane.CANCEL_OPTION) {
+						// user hit cancel
+					} else if (option == JOptionPane.OK_OPTION) {
+						if ((Integer) listainventario.getValueAt(r, 2) + (Integer) spinner.getValue() < 100) {
+							if (controller.anadirCantidad((Integer) listainventario.getValueAt(r, 0),
+									(Integer) spinner.getValue()) == 0) {
+								llenarListaProductos();
+							} else {
+								JOptionPane.showMessageDialog(null, "No se ha podido anadir la cantidad.");
+							}
 						} else {
-							JOptionPane.showMessageDialog(null, "No se ha podido anadir la cantidad.");
+							JOptionPane.showMessageDialog(null, "Este producto ya tiene la cantidad maxima.");
 						}
-					} else {
-						JOptionPane.showMessageDialog(null, "Este producto ya tiene la cantidad maxima.");
 					}
+
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null, "No se ha elegido fila");
 				}
@@ -1580,25 +1595,35 @@ public class vtPrincipal extends JFrame {
 		btnQuitarP.setVisible(false);
 		contentPane.add(btnQuitarP);
 
-		btnQuitarP2 = new JButton("<html>" + "Quitar" + "<br>" + "Productos" + "</html>");
+		btnQuitarP2 = new JButton("<html>" + "Quitar" + "<br>" + "Cantidad" + "</html>");
 		btnQuitarP2.setFont(new Font("Serif", Font.PLAIN, 16));
 		btnQuitarP2.setBounds(677, 139, 105, 60);
 		btnQuitarP2.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				int r;
-				int cant = -10;
 				try {
 					r = listainventario.getSelectedRow();
-					if ((Integer) listainventario.getValueAt(r, 2) + cant >= 0) {
-						if (controller.anadirCantidad((Integer) listainventario.getValueAt(r, 0), cant) == 0) {
-							llenarListaProductos();
+					SpinnerNumberModel sModel = new SpinnerNumberModel(0, 0, 30, 1);
+					JSpinner spinner = new JSpinner(sModel);
+					int option = JOptionPane.showOptionDialog(null, spinner,
+							"¿Cuánt@s " + listainventario.getValueAt(r, 1) + "s quieres quitar?",
+							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+					if (option == JOptionPane.CANCEL_OPTION) {
+						// user hit cancel
+					} else if (option == JOptionPane.OK_OPTION) {
+						if ((Integer) listainventario.getValueAt(r, 2) - (Integer) spinner.getValue() > 0) {
+							if (controller.anadirCantidad((Integer) listainventario.getValueAt(r, 0),
+									-(Integer) spinner.getValue()) == 0) {
+								llenarListaProductos();
+							} else {
+								JOptionPane.showMessageDialog(null, "No se ha podido quitar la cantidad.");
+							}
 						} else {
-							JOptionPane.showMessageDialog(null, "No se ha podido quitar la cantidad.");
+							JOptionPane.showMessageDialog(null, "No hay tanta cantidad de este producto.");
 						}
-					} else {
-						JOptionPane.showMessageDialog(null, "No se pueden quitar tantos productos.");
 					}
+
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(null, "No se ha elegido fila");
 				}
