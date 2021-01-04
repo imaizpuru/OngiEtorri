@@ -59,6 +59,7 @@ public class DAO implements IDAO {
 			if (accounts.size() == 1) {
 				user = accounts.get(0);
 				transaction.commit();
+				System.out.println(user);
 				return user;
 			}
 
@@ -178,6 +179,7 @@ public class DAO implements IDAO {
 				}
 			}
 			transaction.commit();
+			System.out.println(reservas);
 		} catch (Exception ex) {
 			System.err.println("* Exception executing a query: " + ex.getMessage());
 			return false;
