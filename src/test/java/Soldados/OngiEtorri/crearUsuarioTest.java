@@ -28,13 +28,15 @@ public class crearUsuarioTest extends TestCase {
 		user.setApellido("Vallejo");
 		user.setEmail("danivallejo");
 		user.setContrasenya("qwerty");
+		user.setAdmin(false);
 		user.setNsocio(101);
 		
 		System.out.println(user.getNsocio());
 		System.out.println(user.getNombre());
 		System.out.println(user.getApellido());
 		System.out.println(user.getEmail());
-		System.out.println(user.getContrasenya());	
+		System.out.println(user.getContrasenya());
+		System.out.println(user.isAdmin());	
 	}
 
 	protected void tearDown() throws Exception {
@@ -52,11 +54,11 @@ public class crearUsuarioTest extends TestCase {
 		
 		if(usuario1 != null)
 		{
-			assertEquals(usuario2.getEmail(), user.getEmail());
+			assertEquals(usuario1.getEmail(), user.getEmail());
 		}
 		else if(usuario2 != null)
 		{
-			assertEquals(usuario1.getNsocio(), user.getNsocio());
+			assertEquals(usuario2.getNsocio(), user.getNsocio());
 		}
 		else
 		{

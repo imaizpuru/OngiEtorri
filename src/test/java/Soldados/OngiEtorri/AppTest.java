@@ -40,7 +40,7 @@ public class AppTest
     {
     	boolean retorno;
     	
-    	retorno = dao.ComprobarUsuario("a", "a");
+    	retorno = dao.ComprobarUsuario("admin", "admin");
     	System.out.println(retorno);
     	
         assertTrue(retorno);
